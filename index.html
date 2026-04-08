@@ -1,49 +1,95 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>일본어 한자 학습</title>
+  <title>바이브 칸지</title>
   <link href='/style.css' rel='stylesheet'>
 </head>
 <body>
-  <!-- Added a comment to force a new commit -->
-  <div class="container">
-    <header>
-      <h1>바이브 칸지</h1>
-    </header>
-    <nav id="level-selection">
-      <button class="level-button active" data-level="n5">N5</button>
-      <button class="level-button" data-level="n4">N4</button>
-      <button class="level-button" data-level="n3">N3</button>
-      <button class="level-button" data-level="n2">N2</button>
-      <button class="level-button" data-level="n1">N1</button>
-    </nav>
-    <main id="vocabulary-display">
-      <p class="placeholder">난이도를 선택하여 학습을 시작하세요.</p>
-    </main>
+  <div class="app-container">
+    
+    <section id="screen-home" class="screen active-screen glass-panel">
+      <h1 class="main-title">바이브 칸지 🏮</h1>
+      <p class="sub-title">어떤 학습을 시작할까요?</p>
+      <div class="home-menu">
+        <button class="menu-btn hover-effect glass-effect" onclick="switchScreen('screen-vocab')">
+          <span class="icon">📖</span>단어 학습장
+        </button>
+        <button class="menu-btn hover-effect glass-effect" onclick="switchScreen('screen-quiz-select')">
+          <span class="icon">🎯</span>실전 퀴즈
+        </button>
+      </div>
+    </section>
+
+    <section id="screen-vocab" class="screen">
+      <header class="screen-header">
+        <button class="back-btn hover-effect" onclick="switchScreen('screen-home')">← 홈으로</button>
+        <h2>단어장</h2>
+      </header>
+      
+      <nav id="level-selection">
+        <button class="level-button active hover-effect" data-level="n5">N5</button>
+        <button class="level-button hover-effect" data-level="n4">N4</button>
+        <button class="level-button hover-effect" data-level="n3">N3</button>
+        <button class="level-button hover-effect" data-level="n2">N2</button>
+        <button class="level-button hover-effect" data-level="n1">N1</button>
+      </nav>
+      
+      <main id="vocabulary-display"></main>
+    </section>
+
+    <section id="screen-quiz-select" class="screen glass-panel">
+      <header class="screen-header">
+        <button class="back-btn hover-effect" onclick="switchScreen('screen-home')">← 홈으로</button>
+        <h2>퀴즈 난이도 선택</h2>
+      </header>
+      <div class="quiz-level-container">
+        <button class="quiz-level-btn hover-effect glass-effect" onclick="startQuiz('n5')">N5 퀴즈 시작</button>
+        <button class="quiz-level-btn hover-effect glass-effect" onclick="startQuiz('n4')">N4 퀴즈 시작</button>
+        <button class="quiz-level-btn hover-effect glass-effect" onclick="startQuiz('n3')">N3 퀴즈 시작</button>
+      </div>
+    </section>
+
+    <section id="screen-quiz-active" class="screen glass-panel">
+      <header class="quiz-header">
+        <span id="quiz-progress">1 / 50</span>
+        <button class="quit-btn hover-effect" onclick="switchScreen('screen-quiz-select')">포기하기</button>
+      </header>
+      <div class="quiz-question-container">
+        <p class="quiz-question-label">이 한자의 뜻은?</p>
+        <div id="quiz-kanji" class="quiz-kanji">漢</div>
+      </div>
+      <div id="quiz-options" class="quiz-options">
+        </div>
+    </section>
+
+    <section id="screen-quiz-result" class="screen glass-panel">
+      <h2>테스트 완료! 🎉</h2>
+      <div class="score-display">
+        <span id="final-score">0</span> / <span id="total-score">50</span>
+      </div>
+      <button class="menu-btn hover-effect glass-effect" style="margin-top: 30px;" onclick="switchScreen('screen-home')">홈으로 돌아가기</button>
+    </section>
 
     <div id="vocabulary-modal" class="modal">
       <button id="nav-prev" class="nav-arrow prev">&#10094;</button>
-      
-      <div class="modal-content">
+      <div class="modal-content glass-effect">
         <span class="close-button">&times;</span>
-        
         <div class="toggle-container">
-          <button id="toggle-kanji" class="toggle-btn active-toggle">한자</button>
-          <button id="toggle-reading" class="toggle-btn active-toggle">히라가나</button>
-          <button id="toggle-meaning" class="toggle-btn active-toggle">뜻</button>
+          <button id="toggle-kanji" class="toggle-btn active-toggle hover-effect">한자</button>
+          <button id="toggle-reading" class="toggle-btn active-toggle hover-effect">히라가나</button>
+          <button id="toggle-meaning" class="toggle-btn active-toggle hover-effect">뜻</button>
         </div>
-
         <div class="modal-kanji"></div>
         <div class="modal-detail">
           <div class="modal-reading"></div>
           <div class="modal-meaning"></div>
         </div>
       </div>
-      
       <button id="nav-next" class="nav-arrow next">&#10095;</button>
     </div>
+
   </div>
   <script defer type="text/javascript" src="/main.js"></script>
 </body>
