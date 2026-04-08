@@ -1,7 +1,6 @@
-// 1. 데이터 정의 (N5 120개 + N4/N3 샘플)
+// 1. 데이터 정의 (120개 풀세트)
 const vocabulary = {
   n5: [
-      /* 1-30: 기본 명사 및 동사 */
       { kanji: "私", reading: "わたし", meaning: "나, 저" }, { kanji: "人", reading: "ひと", meaning: "사람" },
       { kanji: "日", reading: "ひ", meaning: "날, 해" }, { kanji: "本", reading: "ほん", meaning: "책, 근본" },
       { kanji: "学生", reading: "がくせい", meaning: "학생" }, { kanji: "先生", reading: "せんせい", meaning: "선생님" },
@@ -17,8 +16,6 @@ const vocabulary = {
       { kanji: "食べる", reading: "たべる", meaning: "먹다" }, { kanji: "飲む", reading: "のむ", meaning: "마시다" },
       { kanji: "見る", reading: "みる", meaning: "보다" }, { kanji: "聞く", reading: "きく", meaning: "듣다" },
       { kanji: "話す", reading: "はなす", meaning: "말하다" }, { kanji: "買う", reading: "かう", meaning: "사다" },
-
-      /* 31-60: 장소, 방향, 형용사 */
       { kanji: "部屋", reading: "へや", meaning: "방" }, { kanji: "家", reading: "いえ", meaning: "집" },
       { kanji: "店", reading: "みせ", meaning: "가게" }, { kanji: "銀行", reading: "ぎんこう", meaning: "은행" },
       { kanji: "病院", reading: "びょういん", meaning: "병원" }, { kanji: "駅", reading: "えき", meaning: "역" },
@@ -34,8 +31,6 @@ const vocabulary = {
       { kanji: "悪い", reading: "わるい", meaning: "나쁘다" }, { kanji: "暑い", reading: "あつい", meaning: "덥다" },
       { kanji: "寒い", reading: "さむい", meaning: "춥다" }, { kanji: "長い", reading: "ながい", meaning: "길다" },
       { kanji: "短い", reading: "みじかい", meaning: "짧다" }, { kanji: "忙しい", reading: "いそがしい", meaning: "바쁘다" },
-
-      /* 61-90: 요일, 숫자, 신체 */
       { kanji: "月曜日", reading: "げつようび", meaning: "월요일" }, { kanji: "火曜日", reading: "かようび", meaning: "화요일" },
       { kanji: "水曜日", reading: "すいようび", meaning: "수요일" }, { kanji: "木曜日", reading: "もくようび", meaning: "목요일" },
       { kanji: "金曜日", reading: "きんようび", meaning: "금요일" }, { kanji: "土曜日", reading: "どようび", meaning: "토요일" },
@@ -51,10 +46,8 @@ const vocabulary = {
       { kanji: "昨日", reading: "きのう", meaning: "어제" }, { kanji: "今日", reading: "きょう", meaning: "오늘" },
       { kanji: "明日", reading: "あした", meaning: "내일" }, { kanji: "毎週", reading: "まいしゅう", meaning: "매주" },
       { kanji: "毎年", reading: "まいとし", meaning: "매년" }, { kanji: "時間", reading: "じかん", meaning: "시간" },
-
-      /* 91-120: 동작 2탄 및 생활 */
       { kanji: "兄", reading: "あに", meaning: "형/오빠" }, { kanji: "姉", reading: "あね", meaning: "누나/언니" },
-      { kanji: "弟", reading: "おとうど", meaning: "남동생" }, { kanji: "妹", reading: "いもうと", meaning: "여동생" },
+      { kanji: "弟", reading: "おとうと", meaning: "남동생" }, { kanji: "妹", reading: "いもうと", meaning: "여동생" },
       { kanji: "起きる", reading: "おきる", meaning: "일어나다" }, { kanji: "寝る", reading: "ねる", meaning: "자다" },
       { kanji: "座る", reading: "すわる", meaning: "앉다" }, { kanji: "立つ", reading: "たつ", meaning: "서다" },
       { kanji: "入る", reading: "はいる", meaning: "들어가다" }, { kanji: "出る", reading: "でる", meaning: "나가다" },
@@ -69,19 +62,21 @@ const vocabulary = {
       { kanji: "果物", reading: "くだもの", meaning: "과일" }, { kanji: "切符", reading: "きっぷ", meaning: "표" },
       { kanji: "写真", reading: "しゃしん", meaning: "사진" }, { kanji: "手紙", reading: "てがみ", meaning: "편지" }
   ],
-  n4: [], n3: [], n2: [], n1: []
+  n4: [
+      { kanji: "日本", reading: "にほん", meaning: "일본" },
+      { kanji: "大学", reading: "だいがく", meaning: "대학" }
+  ], n3: [], n2: [], n1: []
 };
 
-// --- 이하 로직은 동일 (변수 중복 선언 주의!) ---
 const vocabularyDisplay = document.getElementById('vocabulary-display');
 const levelSelection = document.getElementById('level-selection');
-const currentLevelDisplay = document.getElementById('current-level');
 const vocabularyModal = document.getElementById('vocabulary-modal');
 const modalKanji = document.querySelector('.modal-kanji');
 const modalReading = document.querySelector('.modal-reading');
 const modalMeaning = document.querySelector('.modal-meaning');
 const closeButton = document.querySelector('.close-button');
-const toggleDetailButton = document.getElementById('toggle-detail-button');
+
+// 네비게이션 버튼
 const prevNavButton = document.getElementById('nav-prev');
 const nextNavButton = document.getElementById('nav-next');
 
@@ -100,7 +95,7 @@ function displayVocabulary(level) {
   if (!vocabularyDisplay) return;
   currentLevel = level;
   vocabularyDisplay.innerHTML = '';
-  if (currentLevelDisplay) currentLevelDisplay.textContent = level.toUpperCase();
+  
   const words = vocabulary[level];
   if (words && words.length > 0) {
       words.forEach((word, index) => {
@@ -116,36 +111,46 @@ function showModal(word, index) {
   modalKanji.textContent = word.kanji;
   modalReading.textContent = word.reading;
   modalMeaning.textContent = word.meaning;
-  modalReading.classList.remove('hidden-detail');
-  modalMeaning.classList.remove('hidden-detail');
-  if (toggleDetailButton) toggleDetailButton.textContent = '정보 숨기기';
+  
   if (vocabularyModal) vocabularyModal.style.display = 'flex';
   updateNavButtons();
 }
 
 function updateNavButtons() {
   const words = vocabulary[currentLevel];
-  if (prevNavButton) prevNavButton.style.display = currentWordIndex === 0 ? 'none' : 'block';
-  if (nextNavButton) nextNavButton.style.display = currentWordIndex === words.length - 1 ? 'none' : 'block';
+  if (prevNavButton) prevNavButton.disabled = currentWordIndex === 0;
+  if (nextNavButton) nextNavButton.disabled = currentWordIndex === words.length - 1;
 }
 
 function navigateWord(direction) {
   const words = vocabulary[currentLevel];
   if (direction === 'prev' && currentWordIndex > 0) currentWordIndex--;
   else if (direction === 'next' && currentWordIndex < words.length - 1) currentWordIndex++;
+  
   showModal(words[currentWordIndex], currentWordIndex);
 }
 
+// 3개의 개별 토글 버튼 로직 설정
+function setupToggle(btnId, targetElement) {
+  const btn = document.getElementById(btnId);
+  if (btn && targetElement) {
+      btn.addEventListener('click', () => {
+          btn.classList.toggle('active-toggle');
+          targetElement.classList.toggle('hidden-detail');
+      });
+  }
+}
+
+setupToggle('toggle-kanji', modalKanji);
+setupToggle('toggle-reading', modalReading);
+setupToggle('toggle-meaning', modalMeaning);
+
+
+// 이벤트 리스너
 if (closeButton) closeButton.onclick = () => vocabularyModal.style.display = 'none';
 if (prevNavButton) prevNavButton.onclick = () => navigateWord('prev');
 if (nextNavButton) nextNavButton.onclick = () => navigateWord('next');
-if (toggleDetailButton) {
-  toggleDetailButton.onclick = () => {
-      const isHidden = modalReading.classList.toggle('hidden-detail');
-      modalMeaning.classList.toggle('hidden-detail');
-      toggleDetailButton.textContent = isHidden ? '정보 보기' : '정보 숨기기';
-  };
-}
+
 if (levelSelection) {
   levelSelection.onclick = (e) => {
       const btn = e.target.closest('.level-button');
@@ -156,6 +161,8 @@ if (levelSelection) {
       }
   };
 }
+
 window.onclick = (e) => { if (e.target === vocabularyModal) vocabularyModal.style.display = 'none'; };
 
+// 초기 실행
 document.addEventListener('DOMContentLoaded', () => displayVocabulary('n5'));
