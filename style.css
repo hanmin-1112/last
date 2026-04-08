@@ -1,144 +1,110 @@
 :root {
-    /* 요청한 세련된 폰트 적용 */
     --primary-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple SD Gothic Neo", sans-serif;
     --text-main: #1d1d1f;
     --text-sub: #86868b;
     --accent-color: #007aff;
-    --accent-hover: #0056b3;
+    --stamp-red: #b22222; /* 인장 색상 추가 */
 }
 
 body {
     font-family: var(--primary-font);
     color: var(--text-main);
-    /* 유리창 효과가 돋보이도록 은은한 배경 그라데이션 추가 */
     background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    -webkit-font-smoothing: antialiased;
+    margin: 0; padding: 0; line-height: 1.6; min-height: 100vh;
+    display: flex; justify-content: center; -webkit-font-smoothing: antialiased;
 }
 
-.app-container {
-    width: 100%;
-    max-width: 900px;
-    padding: 30px 20px;
-}
-
-/* 화면 전환 로직 */
+.app-container { width: 100%; max-width: 1000px; padding: 30px 20px; }
 .screen { display: none; animation: fadeIn 0.4s ease; }
 .screen.active-screen { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* 🌟 핵심 1 & 2: 유리창 효과 및 부드러운 그림자 / 둥근 모서리 */
-.glass-effect, .glass-panel {
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
-    border-radius: 20px; /* 요청한 20px 적용 */
-    border: 1px solid rgba(255, 255, 255, 0.6);
+/* 🌟 붓글씨 전용 클래스 */
+.brush-font {
+    font-family: 'Nanum Brush Script', cursive;
+    font-weight: 400;
 }
-
-.glass-panel {
-    padding: 40px 30px;
-    text-align: center;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-/* 🌟 핵심 4: 마이크로 인터랙션 */
-.hover-effect {
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-.hover-effect:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-}
-
-/* 헤더 & 홈 메뉴 */
-.main-title { font-size: 2.5em; font-weight: 700; margin-bottom: 5px; }
+.main-title { font-size: 5.5em; margin-bottom: 5px; color: #1a1a1a; letter-spacing: 2px; }
 .sub-title { color: var(--text-sub); margin-bottom: 40px; font-size: 1.1em; }
+.home-menu .menu-btn { font-size: 2.2em; } /* 메뉴 버튼 글씨 더 크게 */
+
+.glass-effect, .glass-panel {
+    background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.6);
+}
+.glass-panel { padding: 40px 30px; text-align: center; margin: 0 auto; }
+
+.hover-effect { transition: all 0.3s ease; cursor: pointer; }
+.hover-effect:hover { transform: translateY(-5px); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08); }
+
 .home-menu { display: flex; flex-direction: column; gap: 20px; }
-.menu-btn {
-    padding: 25px; font-size: 1.3em; font-weight: 600; color: var(--text-main);
-    display: flex; align-items: center; justify-content: center; gap: 15px; border: none;
-}
-.icon { font-size: 1.5em; }
-
-/* 뒤로가기 헤더 */
+.menu-btn { padding: 25px; color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 15px; border: none; }
 .screen-header { display: flex; align-items: center; margin-bottom: 30px; position: relative; }
-.screen-header h2 { flex: 1; text-align: center; margin: 0; }
-.back-btn { 
-    position: absolute; left: 0; background: none; border: none; 
-    color: var(--accent-color); font-weight: 600; font-size: 1em; padding: 10px;
-}
+.screen-header h2 { flex: 1; text-align: center; margin: 0; color: #1a1a1a; }
+.back-btn { position: absolute; left: 0; background: none; border: none; color: var(--accent-color); font-weight: 600; font-size: 1em; padding: 10px; }
 
-/* 단어장 기존 UI 수정 반영 */
+/* 단어장 레이아웃 및 가독성 업그레이드 */
 nav#level-selection { display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; }
-.level-button {
-    background-color: rgba(255, 255, 255, 0.5); border: 1px solid #ddd;
-    padding: 10px 22px; border-radius: 20px; font-size: 1em; font-weight: 600;
-}
+.level-button { background-color: rgba(255, 255, 255, 0.5); border: 1px solid #ddd; padding: 10px 22px; border-radius: 20px; font-weight: 600; }
 .level-button.active { background-color: var(--accent-color); color: #fff; border-color: var(--accent-color); }
 
-main#vocabulary-display { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+/* 카드 크기 확 키우고 정보 추가 */
+main#vocabulary-display { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
 .vocabulary-card {
-    background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px);
-    border-radius: 20px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
-    padding: 30px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
+    border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    padding: 40px 30px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.8);
+    position: relative;
 }
-.vocabulary-card .kanji { font-size: 3.5em; font-weight: 700; color: var(--text-main); }
+.vocabulary-card .kanji { font-size: 4.5em; font-weight: 700; color: #1a1a1a; margin-bottom: 15px; }
+.vocabulary-card .reading { font-size: 1.3em; color: #666; margin-bottom: 5px; }
+.vocabulary-card .meaning { font-size: 1.5em; font-weight: 700; color: #333; }
+.vocabulary-card .level-stamp {
+    position: absolute; bottom: 15px; right: 15px; width: 35px; height: 35px;
+    border: 2px solid var(--stamp-red); color: var(--stamp-red); font-weight: 800;
+    display: flex; align-items: center; justify-content: center; font-size: 0.8rem; opacity: 0.7; border-radius: 5px;
+}
 
-/* 모달 디자인 (유리창 효과 적용) */
-.modal {
-    display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); justify-content: center; align-items: center;
-}
-.modal-content {
-    padding: 40px; width: 85%; max-width: 450px; position: relative;
-    display: flex; flex-direction: column; align-items: center; min-height: 350px;
-}
+/* 모달 디자인 */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); justify-content: center; align-items: center; }
+.modal-content { padding: 40px; width: 85%; max-width: 450px; position: relative; display: flex; flex-direction: column; align-items: center; min-height: 350px; }
 .close-button { position: absolute; top: 15px; right: 20px; font-size: 2em; color: #888; cursor: pointer; }
-
-/* 팝업 내 토글 버튼 */
 .toggle-container { display: flex; gap: 10px; margin: 15px 0 25px; }
-.toggle-btn {
-    background: transparent; color: var(--accent-color); border: 2px solid var(--accent-color);
-    padding: 6px 16px; border-radius: 20px; font-size: 0.9em; font-weight: 600;
-}
+.toggle-btn { background: transparent; color: var(--accent-color); border: 2px solid var(--accent-color); padding: 6px 16px; border-radius: 20px; font-size: 0.9em; font-weight: 600; }
 .toggle-btn.active-toggle { background-color: var(--accent-color); color: white; }
-
-.modal-kanji { font-size: 5em; font-weight: 700; color: var(--text-main); transition: opacity 0.2s; margin-bottom: 20px; }
+.modal-kanji { font-size: 6em; font-weight: 700; color: var(--text-main); transition: opacity 0.2s; margin-bottom: 20px; }
 .modal-detail { display: flex; justify-content: space-around; width: 100%; padding-top: 20px; border-top: 1px solid #ddd; }
-.modal-reading, .modal-meaning { font-size: 1.4em; color: var(--text-sub); font-weight: 500; transition: opacity 0.2s; }
+.modal-reading, .modal-meaning { font-size: 1.6em; color: #555; font-weight: 600; transition: opacity 0.2s; }
 .hidden-detail { opacity: 0; pointer-events: none; }
-
-/* 네비게이션 화살표 */
 .nav-arrow { position: absolute; background: none; border: none; color: white; font-size: 3em; cursor: pointer; padding: 20px; z-index: 1001; transition: transform 0.2s; }
-.nav-arrow.prev { left: 2%; }
-.nav-arrow.next { right: 2%; }
-.nav-arrow:hover { transform: scale(1.1); }
-.nav-arrow:disabled { opacity: 0.2; pointer-events: none; }
+.nav-arrow.prev { left: 2%; } .nav-arrow.next { right: 2%; }
+.nav-arrow:hover { transform: scale(1.1); } .nav-arrow:disabled { opacity: 0.2; pointer-events: none; }
 
-/* 퀴즈 UI */
-.quiz-level-container { display: flex; flex-direction: column; gap: 15px; }
-.quiz-level-btn { padding: 20px; font-size: 1.2em; font-weight: 600; border: none; color: var(--accent-color); }
+/* 퀴즈 설정 UI */
+.quiz-setup-group { text-align: left; margin-bottom: 25px; }
+.quiz-setup-group h3 { font-size: 1.1em; color: #555; margin-bottom: 10px; }
+.btn-group { display: flex; flex-wrap: wrap; gap: 10px; }
+.setup-btn { background: rgba(255,255,255,0.6); border: 1px solid #ccc; padding: 12px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; flex: 1; min-width: 80px; }
+.setup-btn:hover { background: #eee; }
+.setup-btn.active { background: var(--accent-color); color: white; border-color: var(--accent-color); box-shadow: 0 4px 10px rgba(0,122,255,0.3); }
+
+/* 퀴즈 진행 UI */
 .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 #quiz-progress { font-weight: 700; color: var(--text-sub); font-size: 1.1em; }
-.quit-btn { background: none; border: none; color: #ff3b30; font-weight: 600; }
-.quiz-question-label { color: var(--text-sub); font-size: 0.9em; margin-bottom: 10px; }
-.quiz-kanji { font-size: 6em; font-weight: 700; margin-bottom: 40px; color: var(--text-main); }
+.quit-btn { background: none; border: none; color: #ff3b30; font-weight: 600; cursor: pointer; }
+.quiz-question-label { color: var(--accent-color); font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+.quiz-kanji { font-size: 5em; font-weight: 700; margin-bottom: 40px; color: var(--text-main); }
 .quiz-options { display: flex; flex-direction: column; gap: 12px; }
-.quiz-option-btn {
-    background-color: rgba(255,255,255,0.8); border: 1px solid #ddd; padding: 18px; 
-    border-radius: 20px; font-size: 1.1em; font-weight: 600; text-align: center;
-}
+.quiz-option-btn { background-color: rgba(255,255,255,0.9); border: 2px solid #eee; padding: 18px; border-radius: 15px; font-size: 1.2em; font-weight: 600; text-align: center; }
 .quiz-option-btn.correct { background-color: #34c759; color: white; border-color: #34c759; }
 .quiz-option-btn.wrong { background-color: #ff3b30; color: white; border-color: #ff3b30; }
 
-/* 퀴즈 결과 */
-.score-display { font-size: 4em; font-weight: 700; color: var(--accent-color); margin: 20px 0; }
+/* 오답 노트 UI */
+.score-display { font-size: 4em; font-weight: 700; color: var(--accent-color); margin: 10px 0; }
+.incorrect-list { list-style: none; padding: 0; margin: 0; max-height: 300px; overflow-y: auto; }
+.incorrect-item { background: rgba(255,255,255,0.6); margin-bottom: 10px; padding: 15px; border-radius: 10px; border-left: 5px solid #ff3b30; display: flex; justify-content: space-between; align-items: center; }
+.inc-kanji { font-size: 2em; font-weight: bold; width: 60px; text-align: center; }
+.inc-details { flex: 1; padding-left: 15px; }
+.inc-reading { color: #666; font-size: 0.9em; margin-bottom: 3px; }
+.inc-meaning { font-weight: bold; font-size: 1.1em; color: #111; }

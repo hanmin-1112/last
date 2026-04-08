@@ -4,21 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>바이브 칸지</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
   <link href='/style.css' rel='stylesheet'>
 </head>
 <body>
   <div class="app-container">
     
     <section id="screen-home" class="screen active-screen glass-panel">
-      <h1 class="main-title">
-          <img src="blob:https://gemini.google.com/38490947-6928-4aab-958d-b31deb063a2c" alt="바이브 칸지 붓글씨" style="height: 80px;">
-      </h1>
+      <h1 class="main-title brush-font">바이브 칸지</h1>
       <p class="sub-title">어떤 학습을 시작할까요?</p>
       <div class="home-menu">
-        <button class="menu-btn hover-effect glass-effect" onclick="switchScreen('screen-vocab')">
+        <button class="menu-btn hover-effect glass-effect brush-font" onclick="switchScreen('screen-vocab')">
           <span class="icon">📖</span>단어 학습장
         </button>
-        <button class="menu-btn hover-effect glass-effect" onclick="switchScreen('screen-quiz-select')">
+        <button class="menu-btn hover-effect glass-effect brush-font" onclick="switchScreen('screen-quiz-setup')">
           <span class="icon">🎯</span>실전 퀴즈
         </button>
       </div>
@@ -27,7 +26,7 @@
     <section id="screen-vocab" class="screen">
       <header class="screen-header">
         <button class="back-btn hover-effect" onclick="switchScreen('screen-home')">← 홈으로</button>
-        <h2>단어장</h2>
+        <h2 class="brush-font" style="font-size: 2.5em; margin:0;">단어 학습장</h2>
       </header>
       
       <nav id="level-selection">
@@ -41,37 +40,70 @@
       <main id="vocabulary-display"></main>
     </section>
 
-    <section id="screen-quiz-select" class="screen glass-panel">
+    <section id="screen-quiz-setup" class="screen glass-panel" style="max-width: 600px;">
       <header class="screen-header">
-        <button class="back-btn hover-effect" onclick="switchScreen('screen-home')">← 홈으로</button>
-        <h2>퀴즈 난이도 선택</h2>
+        <button class="back-btn hover-effect" onclick="switchScreen('screen-home')">← 홈</button>
+        <h2 class="brush-font" style="font-size: 2.5em; margin:0;">실전 퀴즈 설정</h2>
       </header>
-      <div class="quiz-level-container">
-        <button class="quiz-level-btn hover-effect glass-effect" onclick="startQuiz('n5')">N5 퀴즈 시작</button>
-        <button class="quiz-level-btn hover-effect glass-effect" onclick="startQuiz('n4')">N4 퀴즈 시작</button>
-        <button class="quiz-level-btn hover-effect glass-effect" onclick="startQuiz('n3')">N3 퀴즈 시작</button>
+      
+      <div class="quiz-setup-group">
+        <h3>1. 학습 레벨</h3>
+        <div class="btn-group" id="setup-level">
+          <button class="setup-btn active" data-val="n5">N5</button>
+          <button class="setup-btn" data-val="n4">N4</button>
+          <button class="setup-btn" data-val="n3">N3</button>
+        </div>
       </div>
+
+      <div class="quiz-setup-group">
+        <h3>2. 문제 타입</h3>
+        <div class="btn-group" id="setup-type">
+          <button class="setup-btn active" data-val="meaning">뜻 맞추기</button>
+          <button class="setup-btn" data-val="reading">음 맞추기</button>
+          <button class="setup-btn" data-val="kanji">한자 맞추기</button>
+          <button class="setup-btn" data-val="random">랜덤 출제</button>
+        </div>
+      </div>
+
+      <div class="quiz-setup-group">
+        <h3>3. 문항 수</h3>
+        <div class="btn-group" id="setup-count">
+          <button class="setup-btn" data-val="10">10</button>
+          <button class="setup-btn active" data-val="20">20</button>
+          <button class="setup-btn" data-val="30">30</button>
+          <button class="setup-btn" data-val="40">40</button>
+          <button class="setup-btn" data-val="50">50</button>
+        </div>
+      </div>
+
+      <button class="menu-btn hover-effect glass-effect brush-font" style="margin-top: 30px; font-size: 2em;" onclick="startQuiz()">도전 시작!</button>
     </section>
 
-    <section id="screen-quiz-active" class="screen glass-panel">
+    <section id="screen-quiz-active" class="screen glass-panel" style="max-width: 600px;">
       <header class="quiz-header">
         <span id="quiz-progress">1 / 50</span>
-        <button class="quit-btn hover-effect" onclick="switchScreen('screen-quiz-select')">포기하기</button>
+        <button class="quit-btn hover-effect" onclick="switchScreen('screen-quiz-setup')">포기하기</button>
       </header>
       <div class="quiz-question-container">
-        <p class="quiz-question-label">이 한자의 뜻은?</p>
+        <p class="quiz-question-label" id="quiz-question-label">이 한자의 뜻은?</p>
         <div id="quiz-kanji" class="quiz-kanji">漢</div>
       </div>
       <div id="quiz-options" class="quiz-options">
         </div>
     </section>
 
-    <section id="screen-quiz-result" class="screen glass-panel">
-      <h2>테스트 완료! 🎉</h2>
+    <section id="screen-quiz-result" class="screen glass-panel" style="max-width: 600px;">
+      <h2 class="brush-font" style="font-size: 3em;">테스트 완료! 🎉</h2>
       <div class="score-display">
         <span id="final-score">0</span> / <span id="total-score">50</span>
       </div>
-      <button class="menu-btn hover-effect glass-effect" style="margin-top: 30px;" onclick="switchScreen('screen-home')">홈으로 돌아가기</button>
+      
+      <div id="incorrect-review-section" style="display: none; text-align: left; margin-top: 20px;">
+        <h3 style="color: #ff3b30; border-bottom: 2px solid #ff3b30; padding-bottom: 5px;">🔥 틀린 문제 복습</h3>
+        <ul id="incorrect-list" class="incorrect-list"></ul>
+      </div>
+
+      <button class="menu-btn hover-effect glass-effect brush-font" style="margin-top: 30px;" onclick="switchScreen('screen-home')">홈으로 돌아가기</button>
     </section>
 
     <div id="vocabulary-modal" class="modal">

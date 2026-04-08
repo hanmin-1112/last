@@ -1,4 +1,4 @@
-// 1. 단어 데이터 (유지)
+// 1. 단어 데이터 (N5 120개 풀세트 유지, N4 생략)
 const vocabulary = {
   n5: [
       { kanji: "私", reading: "わたし", meaning: "나, 저" }, { kanji: "人", reading: "ひと", meaning: "사람" },
@@ -62,26 +62,21 @@ const vocabulary = {
       { kanji: "果物", reading: "くだもの", meaning: "과일" }, { kanji: "切符", reading: "きっぷ", meaning: "표" },
       { kanji: "写真", reading: "しゃしん", meaning: "사진" }, { kanji: "手紙", reading: "てがみ", meaning: "편지" }
   ],
-  n4: [ { kanji: "日本", reading: "にほん", meaning: "일본" }, { kanji: "大学", reading: "だいがく", meaning: "대학" } ],
+  n4: [ { kanji: "日本", reading: "にほん", meaning: "일본" }, { kanji: "大学", reading: "だいがく", meaning: "대학" }, { kanji: "学生", reading: "がくせい", meaning: "학생" }, { kanji: "先生", reading: "せんせい", meaning: "선생님" } ],
   n3: [], n2: [], n1: []
 };
 
 // ----------------------------------------------------
-// 화면 전환(라우팅) 로직
+// 1. 화면 전환 라우팅
 // ----------------------------------------------------
 function switchScreen(screenId) {
-  document.querySelectorAll('.screen').forEach(screen => {
-    screen.classList.remove('active-screen');
-  });
+  document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active-screen'));
   document.getElementById(screenId).classList.add('active-screen');
-  
-  if(screenId === 'screen-vocab') {
-    displayVocabulary('n5'); // 단어장 진입 시 기본 n5
-  }
+  if(screenId === 'screen-vocab') displayVocabulary('n5');
 }
 
 // ----------------------------------------------------
-// 단어장 로직
+// 2. 단어장 가독성 개선 로직
 // ----------------------------------------------------
 const vocabularyDisplay = document.getElementById('vocabulary-display');
 const vocabularyModal = document.getElementById('vocabulary-modal');
@@ -90,14 +85,19 @@ const modalReading = document.querySelector('.modal-reading');
 const modalMeaning = document.querySelector('.modal-meaning');
 const prevNavButton = document.getElementById('nav-prev');
 const nextNavButton = document.getElementById('nav-next');
-
 let currentLevel = 'n5';
 let currentWordIndex = 0;
 
+// 카드 생성 시 읽기, 뜻, 인장 모두 포함
 function createVocabularyCard(word, index) {
   const card = document.createElement('div');
   card.className = 'vocabulary-card hover-effect glass-effect';
-  card.innerHTML = `<div class="kanji">${word.kanji}</div>`;
+  card.innerHTML = `
+    <div class="kanji">${word.kanji}</div>
+    <div class="reading">${word.reading}</div>
+    <div class="meaning">${word.meaning}</div>
+    <div class="level-stamp">${currentLevel.toUpperCase()}</div>
+  `;
   card.addEventListener('click', () => showModal(word, index));
   return card;
 }
@@ -106,11 +106,8 @@ function displayVocabulary(level) {
   currentLevel = level;
   vocabularyDisplay.innerHTML = '';
   const words = vocabulary[level];
-  
   if (words && words.length > 0) {
-      words.forEach((word, index) => {
-          vocabularyDisplay.appendChild(createVocabularyCard(word, index));
-      });
+      words.forEach((word, index) => vocabularyDisplay.appendChild(createVocabularyCard(word, index)));
   } else {
       vocabularyDisplay.innerHTML = `<p class="placeholder">단어가 준비되지 않았습니다.</p>`;
   }
@@ -138,127 +135,173 @@ function navigateWord(direction) {
   showModal(words[currentWordIndex], currentWordIndex);
 }
 
-// 개별 토글 버튼 설정
-function setupToggle(btnId, targetElement) {
-  const btn = document.getElementById(btnId);
-  if (btn && targetElement) {
-      btn.onclick = () => {
-          btn.classList.toggle('active-toggle');
-          targetElement.classList.toggle('hidden-detail');
-      };
-  }
-}
-setupToggle('toggle-kanji', modalKanji);
-setupToggle('toggle-reading', modalReading);
-setupToggle('toggle-meaning', modalMeaning);
-
+// 모달 토글 버튼 및 닫기
+['toggle-kanji', 'toggle-reading', 'toggle-meaning'].forEach((id, idx) => {
+  const target = [modalKanji, modalReading, modalMeaning][idx];
+  const btn = document.getElementById(id);
+  if (btn) btn.onclick = () => { btn.classList.toggle('active-toggle'); target.classList.toggle('hidden-detail'); };
+});
 document.querySelector('.close-button').onclick = () => vocabularyModal.style.display = 'none';
 prevNavButton.onclick = () => navigateWord('prev');
 nextNavButton.onclick = () => navigateWord('next');
 window.onclick = (e) => { if (e.target === vocabularyModal) vocabularyModal.style.display = 'none'; };
 
-// 단어장 레벨 탭 설정
 document.getElementById('level-selection').onclick = (e) => {
   const btn = e.target.closest('.level-button');
   if (btn) {
-      document.querySelectorAll('.level-button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#level-selection .level-button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       displayVocabulary(btn.dataset.level);
   }
 };
 
 // ----------------------------------------------------
-// 실전 퀴즈 로직 (50문제 랜덤)
+// 3. 디테일한 퀴즈 로직 (세팅, 오답노트)
 // ----------------------------------------------------
 let quizWords = [];
+let incorrectQuestions = []; // 오답 저장 배열
 let currentQuizIndex = 0;
 let score = 0;
-let maxQuestions = 50;
+let quizConfig = { level: 'n5', type: 'meaning', count: 20 };
+let currentCorrectAnswerStr = "";
+
+// 퀴즈 셋업 버튼 동작
+document.querySelectorAll('.quiz-setup-group .btn-group').forEach(group => {
+  group.onclick = (e) => {
+    const btn = e.target.closest('.setup-btn');
+    if (btn) {
+      group.querySelectorAll('.setup-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const type = group.id.replace('setup-', '');
+      quizConfig[type] = btn.dataset.val;
+    }
+  };
+});
 
 function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
+  let arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+      [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return array;
+  return arr;
 }
 
-function startQuiz(level) {
-  const words = vocabulary[level];
-  if (!words || words.length < 4) {
-      alert("퀴즈를 진행하기 위한 단어가 부족합니다. (최소 4개 필요)");
-      return;
-  }
+function startQuiz() {
+  const words = vocabulary[quizConfig.level];
+  if (!words || words.length < 4) return alert("단어가 부족합니다. (최소 4개)");
+
+  let shuffled = shuffleArray(words);
+  let maxCount = parseInt(quizConfig.count);
+  maxCount = Math.min(maxCount, shuffled.length); // 단어 개수가 설정보다 적을 경우 대비
   
-  // 랜덤하게 최대 50개 추출
-  let shuffled = shuffleArray([...words]);
-  maxQuestions = Math.min(50, shuffled.length);
-  quizWords = shuffled.slice(0, maxQuestions);
-  
+  quizWords = shuffled.slice(0, maxCount);
+  incorrectQuestions = []; // 초기화
   currentQuizIndex = 0;
   score = 0;
-  
+
   switchScreen('screen-quiz-active');
   loadQuizQuestion();
 }
 
 function loadQuizQuestion() {
   const currentWord = quizWords[currentQuizIndex];
-  document.getElementById('quiz-kanji').textContent = currentWord.kanji;
-  document.getElementById('quiz-progress').textContent = `${currentQuizIndex + 1} / ${maxQuestions}`;
+  document.getElementById('quiz-progress').textContent = `${currentQuizIndex + 1} / ${quizWords.length}`;
   
-  // 정답 1개 + 오답 3개 만들기
-  let options = [currentWord];
-  let allWords = vocabulary[currentLevel];
-  
-  while(options.length < 4) {
-      let randomWord = allWords[Math.floor(Math.random() * allWords.length)];
-      if(!options.some(opt => opt.kanji === randomWord.kanji)) {
-          options.push(randomWord);
-      }
+  // 랜덤 모드일 경우 매 문제마다 타입 결정
+  let activeType = quizConfig.type;
+  if (activeType === 'random') {
+    const types = ['meaning', 'reading', 'kanji'];
+    activeType = types[Math.floor(Math.random() * types.length)];
   }
-  options = shuffleArray(options);
+
+  const labelEl = document.getElementById('quiz-question-label');
+  const kanjiEl = document.getElementById('quiz-kanji');
+  
+  // 문제 타입에 따라 질문과 정답 세팅
+  if (activeType === 'meaning') {
+    labelEl.textContent = "이 한자의 뜻은?";
+    kanjiEl.textContent = currentWord.kanji;
+    currentCorrectAnswerStr = currentWord.meaning;
+  } else if (activeType === 'reading') {
+    labelEl.textContent = "이 한자의 히라가나 읽기는?";
+    kanjiEl.textContent = currentWord.kanji;
+    currentCorrectAnswerStr = currentWord.reading;
+  } else if (activeType === 'kanji') {
+    labelEl.textContent = "다음 뜻을 가진 한자는?";
+    kanjiEl.textContent = currentWord.meaning;
+    currentCorrectAnswerStr = currentWord.kanji;
+  }
+
+  // 보기(Options) 4개 만들기
+  let optionsStrArray = [currentCorrectAnswerStr];
+  let allWords = vocabulary[quizConfig.level];
+  
+  while(optionsStrArray.length < 4) {
+      let randomWord = allWords[Math.floor(Math.random() * allWords.length)];
+      let optionStr = (activeType === 'meaning') ? randomWord.meaning : (activeType === 'reading' ? randomWord.reading : randomWord.kanji);
+      
+      if(!optionsStrArray.includes(optionStr)) optionsStrArray.push(optionStr);
+  }
+  optionsStrArray = shuffleArray(optionsStrArray);
   
   const optionsContainer = document.getElementById('quiz-options');
   optionsContainer.innerHTML = '';
-  
-  options.forEach(opt => {
+  optionsStrArray.forEach(optStr => {
       const btn = document.createElement('button');
       btn.className = 'quiz-option-btn hover-effect glass-effect';
-      btn.textContent = opt.meaning; // 뜻을 맞추는 퀴즈
-      btn.onclick = () => handleQuizAnswer(btn, opt.kanji === currentWord.kanji);
+      btn.textContent = optStr;
+      btn.onclick = () => handleQuizAnswer(btn, optStr === currentCorrectAnswerStr, currentWord);
       optionsContainer.appendChild(btn);
   });
 }
 
-function handleQuizAnswer(clickedBtn, isCorrect) {
-  // 클릭 후 버튼 잠금
+function handleQuizAnswer(clickedBtn, isCorrect, currentWord) {
   const buttons = document.querySelectorAll('.quiz-option-btn');
   buttons.forEach(btn => btn.disabled = true);
   
-  if(isCorrect) {
+  if (isCorrect) {
       clickedBtn.classList.add('correct');
       score++;
   } else {
       clickedBtn.classList.add('wrong');
-      // 정답 표시해주기
-      buttons.forEach(btn => {
-          if(btn.textContent === quizWords[currentQuizIndex].meaning) btn.classList.add('correct');
-      });
+      incorrectQuestions.push(currentWord); // 틀린 문제 저장
+      buttons.forEach(btn => { if(btn.textContent === currentCorrectAnswerStr) btn.classList.add('correct'); });
   }
   
   setTimeout(() => {
       currentQuizIndex++;
-      if(currentQuizIndex < maxQuestions) {
-          loadQuizQuestion();
-      } else {
-          endQuiz();
-      }
-  }, 1000); // 1초 뒤 다음 문제
+      if(currentQuizIndex < quizWords.length) loadQuizQuestion();
+      else endQuiz();
+  }, 1000);
 }
 
 function endQuiz() {
   document.getElementById('final-score').textContent = score;
-  document.getElementById('total-score').textContent = maxQuestions;
+  document.getElementById('total-score').textContent = quizWords.length;
+  
+  // 오답 노트 렌더링
+  const reviewSection = document.getElementById('incorrect-review-section');
+  const reviewList = document.getElementById('incorrect-list');
+  reviewList.innerHTML = '';
+  
+  if (incorrectQuestions.length > 0) {
+    reviewSection.style.display = 'block';
+    incorrectQuestions.forEach(word => {
+      const li = document.createElement('li');
+      li.className = 'incorrect-item glass-effect';
+      li.innerHTML = `
+        <div class="inc-kanji">${word.kanji}</div>
+        <div class="inc-details">
+          <div class="inc-reading">${word.reading}</div>
+          <div class="inc-meaning">${word.meaning}</div>
+        </div>
+      `;
+      reviewList.appendChild(li);
+    });
+  } else {
+    reviewSection.style.display = 'none';
+  }
+
   switchScreen('screen-quiz-result');
 }
