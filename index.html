@@ -3,12 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
+  <title>일본어 한자 학습</title>
   <link href='/style.css' rel='stylesheet'>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
+  <div class="container">
+    <header>
+      <h1>일본어 한자 학습 사이트</h1>
+    </header>
+    <nav id="level-selection">
+      <button class="level-button active" data-level="n5">N5</button>
+      <button class="level-button" data-level="n4">N4</button>
+      <button class="level-button" data-level="n3">N3</button>
+      <button class="level-button" data-level="n2">N2</button>
+      <button class="level-button" data-level="n1">N1</button>
+    </nav>
+    <main id="vocabulary-display">
+      <!-- Vocabulary cards will be loaded here by JavaScript -->
+      <p class="placeholder">난이도를 선택하여 학습을 시작하세요.</p>
+    </main>
+  </div>
   <script defer type="text/javascript" src="/main.js"></script>
 </body>
 </html>
