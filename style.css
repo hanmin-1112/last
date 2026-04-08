@@ -102,3 +102,33 @@ main#vocabulary-display { display: grid; grid-template-columns: repeat(auto-fill
 .quiz-option-btn.correct { background-color: #34c759; color: white; border-color: #34c759; }
 .quiz-option-btn.wrong { background-color: #ff3b30; color: white; border-color: #ff3b30; }
 .score-display { font-size: 4em; font-weight: 700; color: var(--accent-color); margin: 10px 0; }
+/* 🌟 서술형 인풋박스 디자인 추가 */
+.short-input { 
+    font-family: var(--primary-font);
+    font-size: 1.5em; 
+    font-weight: 600;
+    padding: 18px 20px; 
+    border-radius: 15px; 
+    border: 2px solid #ddd; 
+    width: 85%; 
+    margin-bottom: 15px; 
+    outline: none; 
+    text-align: center; 
+    transition: 0.3s ease;
+    color: var(--text-main);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+}
+.short-input:focus { 
+    border-color: var(--accent-color); 
+    box-shadow: 0 0 0 4px rgba(0,122,255,0.2); 
+}
+.correct-input { 
+    background-color: #34c759 !important; 
+    color: white !important; 
+    border-color: #34c759 !important; 
+}
+.wrong-input { 
+    background-color: #ff3b30 !important; 
+    color: white !important; 
+    border-color: #ff3b30 !important; 
+}

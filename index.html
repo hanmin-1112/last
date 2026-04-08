@@ -74,7 +74,11 @@
           <button class="setup-btn" data-val="50">50</button>
         </div>
       </div>
-      <button class="menu-btn hover-effect glass-effect brush-font bold-brush" style="margin-top: 30px; font-size: 2em;" onclick="startQuiz()">도전 시작!</button>
+      
+      <div style="display: flex; gap: 15px; margin-top: 30px;">
+        <button class="menu-btn hover-effect glass-effect brush-font bold-brush" style="flex: 1; font-size: 2.2em; color: var(--accent-color);" onclick="startQuiz(null, 'multiple')">객관식</button>
+        <button class="menu-btn hover-effect glass-effect brush-font bold-brush" style="flex: 1; font-size: 2.2em; color: #ff9500;" onclick="startQuiz(null, 'short')">서술형</button>
+      </div>
     </section>
 
     <section id="screen-quiz-active" class="screen glass-panel" style="max-width: 600px;">
@@ -86,16 +90,23 @@
         <p class="quiz-question-label" id="quiz-question-label">이 한자의 뜻은?</p>
         <div id="quiz-kanji" class="quiz-kanji">漢</div>
       </div>
+      
       <div id="quiz-options" class="quiz-options"></div>
+      
+      <div id="quiz-short-answer-container" style="display:none; text-align:center;">
+        <input type="text" id="short-answer-input" class="short-input" placeholder="정답을 입력하세요" autocomplete="off">
+        <br>
+        <button id="short-answer-submit" class="setup-btn active hover-effect" style="font-size:1.3em; padding:12px 40px; margin-top:10px;">제출</button>
+      </div>
     </section>
 
     <section id="screen-quiz-result" class="screen glass-panel" style="max-width: 600px;">
-      <h2 class="brush-font bold-brush" style="font-size: 3em;">테스트 완료! 🎉</h2>
+      <h2 class="brush-font bold-brush" style="font-size: 3.5em;">테스트 완료! 🎉</h2>
       <div class="score-display"><span id="final-score">0</span> / <span id="total-score">50</span></div>
       
-      <div style="display:flex; justify-content:center; gap:20px; margin-top:30px;">
-        <button class="menu-btn hover-effect glass-effect brush-font bold-brush" onclick="switchScreen('screen-home')" style="font-size: 1.8em; padding: 15px 30px;">홈</button>
-        <button id="btn-review-incorrect" class="menu-btn hover-effect glass-effect brush-font bold-brush" onclick="startIncorrectReview()" style="font-size: 1.8em; padding: 15px 30px; color: #ff3b30; display:none;">틀린 문제</button>
+      <div style="display:flex; justify-content:center; gap:20px; margin-top:40px;">
+        <button class="menu-btn hover-effect glass-effect brush-font bold-brush" onclick="switchScreen('screen-home')" style="font-size: 2em; padding: 15px 40px;">홈</button>
+        <button id="btn-review-incorrect" class="menu-btn hover-effect glass-effect brush-font bold-brush" onclick="startIncorrectReview()" style="font-size: 2em; padding: 15px 40px; color: #ff3b30; display:none;">틀린 문제</button>
       </div>
     </section>
 
@@ -121,26 +132,26 @@
           <button id="rev-prev" class="setup-btn" style="flex:0.4;" onclick="navReview(-1)">이전</button>
           <button id="rev-next" class="setup-btn" style="flex:0.4;" onclick="navReview(1)">다음</button>
        </div>
+    </section>
 
-       <div id="review-complete-actions" style="display: none; margin-top: 30px; border-top: 2px dashed #ddd; padding-top: 20px;">
-          <h3 style="color: #34c759; margin-bottom: 20px;">모든 오답을 확인했습니다! ✨</h3>
-          <div style="display: flex; flex-direction: column; gap: 15px;">
-             <button class="menu-btn hover-effect glass-effect brush-font bold-brush" onclick="switchScreen('screen-home')" style="font-size: 1.5em; padding:15px;">끝내기</button>
-             <button class="menu-btn hover-effect glass-effect brush-font bold-brush" onclick="retakeIncorrectQuiz()" style="font-size: 1.5em; padding:15px; color: var(--accent-color);">틀린 단어로 다시 풀기</button>
-          </div>
-       </div>
+    <section id="screen-review-complete" class="screen glass-panel" style="max-width: 600px;">
+      <h2 class="brush-font bold-brush" style="font-size: 3.5em; color: #34c759; margin-bottom: 5px;">모든 오답 확인 완료! ✨</h2>
+      <p style="font-size: 1.2em; color: #666; margin-bottom: 40px;">수고하셨습니다. 이제 어떻게 할까요?</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+         <button class="menu-btn hover-effect glass-effect brush-font bold-brush" onclick="switchScreen('screen-home')" style="font-size: 2.5em; padding:20px;">홈으로 끝내기</button>
+         <button class="menu-btn hover-effect glass-effect brush-font bold-brush" onclick="retakeIncorrectQuiz()" style="font-size: 2.5em; padding:20px; color: var(--accent-color);">틀린 단어로 다시 풀기</button>
+      </div>
     </section>
 
     <div id="vocabulary-modal" class="modal">
       <button id="nav-prev" class="nav-arrow prev">&#10094;</button>
       <div class="modal-content solid-white">
         <span class="close-button">&times;</span>
-        
         <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:15px; padding-bottom:15px; border-bottom:1px solid #eee;">
            <button id="modal-mada-btn" class="setup-btn">まだまだ</button>
            <button id="modal-oboeru-btn" class="setup-btn">覚える</button>
         </div>
-
         <div class="toggle-container" style="margin-top: 0;">
           <button id="toggle-kanji" class="toggle-btn active-toggle hover-effect">한자</button>
           <button id="toggle-reading" class="toggle-btn active-toggle hover-effect">히라가나</button>

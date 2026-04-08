@@ -5,6 +5,7 @@ const vocabulary = {
   ],
   n4: [], n3: [], n2: [], n1: []
 };
+// (위쪽에 있는 const vocabulary = { ... } 는 그대로 둡니다!)
 
 // ----------------------------------------------------
 // 2. 단어장 상태 관리 (まだまだ / 覚える 삼중 분리)
@@ -22,15 +23,11 @@ function switchScreen(screenId) {
   if(screenId === 'screen-vocab') displayVocabulary('n5');
 }
 
-// 🌟 핵심: 단어 상태 토글 (아직 / 외움 / 기본)
 function toggleWordStatus(event, kanji, targetStatus) {
   if (event) event.stopPropagation();
-  
-  // 무조건 기존 목록에서 삭제 (초기화)
   madaWords = madaWords.filter(w => w !== kanji);
   oboeruWords = oboeruWords.filter(w => w !== kanji);
 
-  // 목표 상태가 기존과 다르면 새 목록에 추가 (토글 on/off 기능)
   const oldMada = JSON.parse(localStorage.getItem('madaWords')) || [];
   const oldOboeru = JSON.parse(localStorage.getItem('oboeruWords')) || [];
   let currentStatus = oldMada.includes(kanji) ? 'mada' : (oldOboeru.includes(kanji) ? 'oboeru' : 'n5');
@@ -52,7 +49,6 @@ function toggleWordStatus(event, kanji, targetStatus) {
 function createVocabularyCard(word, displayIndex) {
   const card = document.createElement('div');
   card.className = 'vocabulary-card hover-effect glass-effect';
-  
   const isMada = madaWords.includes(word.kanji);
   const isOboeru = oboeruWords.includes(word.kanji);
   
@@ -84,14 +80,9 @@ function displayVocabulary(level, searchTerm = '') {
   });
 
   let words = [];
-  // 🌟 핵심: 상태별 철저한 격리
-  if (level === 'mada') {
-      words = allWords.filter(w => madaWords.includes(w.kanji));
-  } else if (level === 'oboeru') {
-      words = allWords.filter(w => oboeruWords.includes(w.kanji));
-  } else {
-      words = (vocabulary[level] || []).filter(w => !madaWords.includes(w.kanji) && !oboeruWords.includes(w.kanji));
-  }
+  if (level === 'mada') words = allWords.filter(w => madaWords.includes(w.kanji));
+  else if (level === 'oboeru') words = allWords.filter(w => oboeruWords.includes(w.kanji));
+  else words = (vocabulary[level] || []).filter(w => !madaWords.includes(w.kanji) && !oboeruWords.includes(w.kanji));
 
   if (searchTerm.trim() !== '') {
       const term = searchTerm.toLowerCase();
@@ -99,16 +90,11 @@ function displayVocabulary(level, searchTerm = '') {
   }
 
   currentDisplayedWords = words;
-
-  if (words.length > 0) {
-      words.forEach((word, index) => vocabularyDisplay.appendChild(createVocabularyCard(word, index)));
-  } else {
-      vocabularyDisplay.innerHTML = `<p style="color:#888; font-size:1.2em; grid-column: 1/-1;">해당하는 단어가 없습니다.</p>`;
-  }
+  if (words.length > 0) words.forEach((word, index) => vocabularyDisplay.appendChild(createVocabularyCard(word, index)));
+  else vocabularyDisplay.innerHTML = `<p style="color:#888; font-size:1.2em; grid-column: 1/-1;">해당하는 단어가 없습니다.</p>`;
 }
 
 searchInput.addEventListener('input', (e) => displayVocabulary(currentLevel, e.target.value));
-
 document.getElementById('level-selection').onclick = (e) => {
   const btn = e.target.closest('.level-button');
   if (btn) {
@@ -120,7 +106,7 @@ document.getElementById('level-selection').onclick = (e) => {
 };
 
 // ----------------------------------------------------
-// 3. 모달 (큰 단어 카드) 및 내부 버튼 연동
+// 3. 모달 제어
 // ----------------------------------------------------
 const vocabularyModal = document.getElementById('vocabulary-modal');
 const modalKanji = document.querySelector('.modal-kanji');
@@ -145,8 +131,6 @@ function updateModalButtons(kanji) {
   const isOboeru = oboeruWords.includes(kanji);
   document.getElementById('modal-mada-btn').className = isMada ? 'setup-btn active mada-active' : 'setup-btn';
   document.getElementById('modal-oboeru-btn').className = isOboeru ? 'setup-btn active oboeru-active' : 'setup-btn';
-  
-  // 모달 버튼 클릭 이벤트 동적 바인딩
   document.getElementById('modal-mada-btn').onclick = () => toggleWordStatus(null, kanji, 'mada');
   document.getElementById('modal-oboeru-btn').onclick = () => toggleWordStatus(null, kanji, 'oboeru');
 }
@@ -167,15 +151,14 @@ document.getElementById('nav-prev').onclick = () => navigateWord('prev');
 document.getElementById('nav-next').onclick = () => navigateWord('next');
 window.onclick = (e) => { if (e.target === vocabularyModal) vocabularyModal.style.display = 'none'; };
 
-
 // ----------------------------------------------------
-// 4. 실전 퀴즈 로직 
+// 4. 실전 퀴즈 로직 (객관식 / 서술형 듀얼 지원)
 // ----------------------------------------------------
 let quizWords = [];
 let incorrectQuestions = []; 
 let currentQuizIndex = 0;
 let score = 0;
-let quizConfig = { level: 'n5', type: 'meaning', count: 20 };
+let quizConfig = { level: 'n5', type: 'meaning', count: 20, mode: 'multiple' }; // mode 추가
 let currentCorrectAnswerStr = "";
 
 document.querySelectorAll('.quiz-setup-group .btn-group').forEach(group => {
@@ -199,7 +182,9 @@ function shuffleArray(array) {
   return arr;
 }
 
-function startQuiz(overrideWords = null) {
+// overrideWords: 오답 다시풀기용 배열, mode: 객관식('multiple') or 서술형('short')
+function startQuiz(overrideWords = null, mode = 'multiple') {
+  quizConfig.mode = mode; 
   let words = overrideWords || vocabulary[quizConfig.level];
   if (!words || words.length < 4) return alert("단어가 부족합니다. (최소 4개)");
 
@@ -243,27 +228,55 @@ function loadQuizQuestion() {
     currentCorrectAnswerStr = currentWord.kanji;
   }
 
-  let optionsStrArray = [currentCorrectAnswerStr];
-  let allWords = vocabulary[quizConfig.level] || vocabulary['n5']; // 대비용
-  
-  while(optionsStrArray.length < 4) {
-      let randomWord = allWords[Math.floor(Math.random() * allWords.length)];
-      let optionStr = (activeType === 'meaning') ? randomWord.meaning : (activeType === 'reading' ? randomWord.reading : randomWord.kanji);
-      if(!optionsStrArray.includes(optionStr)) optionsStrArray.push(optionStr);
+  // 🌟 모드에 따른 화면 세팅 분기
+  if (quizConfig.mode === 'multiple') {
+      document.getElementById('quiz-options').style.display = 'flex';
+      document.getElementById('quiz-short-answer-container').style.display = 'none';
+      
+      let optionsStrArray = [currentCorrectAnswerStr];
+      let allWords = vocabulary[quizConfig.level] || vocabulary['n5']; 
+      
+      while(optionsStrArray.length < 4) {
+          let randomWord = allWords[Math.floor(Math.random() * allWords.length)];
+          let optionStr = (activeType === 'meaning') ? randomWord.meaning : (activeType === 'reading' ? randomWord.reading : randomWord.kanji);
+          if(!optionsStrArray.includes(optionStr)) optionsStrArray.push(optionStr);
+      }
+      optionsStrArray = shuffleArray(optionsStrArray);
+      
+      const optionsContainer = document.getElementById('quiz-options');
+      optionsContainer.innerHTML = '';
+      optionsStrArray.forEach(optStr => {
+          const btn = document.createElement('button');
+          btn.className = 'quiz-option-btn hover-effect glass-effect';
+          btn.textContent = optStr;
+          btn.onclick = () => handleQuizAnswer(btn, optStr === currentCorrectAnswerStr, currentWord);
+          optionsContainer.appendChild(btn);
+      });
+  } 
+  else {
+      // 서술형 렌더링
+      document.getElementById('quiz-options').style.display = 'none';
+      const shortContainer = document.getElementById('quiz-short-answer-container');
+      shortContainer.style.display = 'block';
+      
+      const inputEl = document.getElementById('short-answer-input');
+      const submitBtn = document.getElementById('short-answer-submit');
+      
+      inputEl.value = '';
+      inputEl.className = 'short-input'; // 색상 리셋
+      inputEl.disabled = false;
+      submitBtn.disabled = false;
+      inputEl.focus();
+
+      // 이벤트 중복 방지를 위해 덮어쓰기
+      submitBtn.onclick = () => handleShortAnswer(inputEl.value, currentWord);
+      inputEl.onkeypress = (e) => {
+          if(e.key === 'Enter') handleShortAnswer(inputEl.value, currentWord);
+      };
   }
-  optionsStrArray = shuffleArray(optionsStrArray);
-  
-  const optionsContainer = document.getElementById('quiz-options');
-  optionsContainer.innerHTML = '';
-  optionsStrArray.forEach(optStr => {
-      const btn = document.createElement('button');
-      btn.className = 'quiz-option-btn hover-effect glass-effect';
-      btn.textContent = optStr;
-      btn.onclick = () => handleQuizAnswer(btn, optStr === currentCorrectAnswerStr, currentWord);
-      optionsContainer.appendChild(btn);
-  });
 }
 
+// 객관식 정답 처리
 function handleQuizAnswer(clickedBtn, isCorrect, currentWord) {
   const buttons = document.querySelectorAll('.quiz-option-btn');
   buttons.forEach(btn => btn.disabled = true);
@@ -276,12 +289,39 @@ function handleQuizAnswer(clickedBtn, isCorrect, currentWord) {
       incorrectQuestions.push(currentWord); 
       buttons.forEach(btn => { if(btn.textContent === currentCorrectAnswerStr) btn.classList.add('correct'); });
   }
+  proceedNextQuestion(1000);
+}
+
+// 서술형 정답 처리
+function handleShortAnswer(userAnswer, currentWord) {
+  const inputEl = document.getElementById('short-answer-input');
+  const submitBtn = document.getElementById('short-answer-submit');
   
+  if(userAnswer.trim() === '') return; // 빈칸 무시
+  
+  inputEl.disabled = true;
+  submitBtn.disabled = true;
+
+  const isCorrect = userAnswer.trim() === currentCorrectAnswerStr;
+  
+  if (isCorrect) {
+      inputEl.classList.add('correct-input');
+      score++;
+  } else {
+      inputEl.classList.add('wrong-input');
+      inputEl.value = `${userAnswer} (정답: ${currentCorrectAnswerStr})`; // 틀리면 정답 보여주기
+      incorrectQuestions.push(currentWord);
+  }
+  
+  proceedNextQuestion(1500); // 텍스트 읽을 시간을 위해 1.5초 대기
+}
+
+function proceedNextQuestion(delay) {
   setTimeout(() => {
       currentQuizIndex++;
       if(currentQuizIndex < quizWords.length) loadQuizQuestion();
       else endQuiz();
-  }, 1000);
+  }, delay);
 }
 
 function endQuiz() {
@@ -289,18 +329,15 @@ function endQuiz() {
   document.getElementById('total-score').textContent = quizWords.length;
   
   const reviewBtn = document.getElementById('btn-review-incorrect');
-  if (incorrectQuestions.length > 0) {
-      reviewBtn.style.display = 'block';
-  } else {
-      reviewBtn.style.display = 'none';
-  }
+  if (incorrectQuestions.length > 0) reviewBtn.style.display = 'block';
+  else reviewBtn.style.display = 'none';
 
   switchScreen('screen-quiz-result');
 }
 
 
 // ----------------------------------------------------
-// 5. 1:1 오답 복습 모드 로직 (체크박스 및 다시 풀기)
+// 5. 1:1 오답 복습 모드 로직 
 // ----------------------------------------------------
 let reviewIndex = 0;
 let reviewCheckState = [];
@@ -329,6 +366,8 @@ function loadReviewWord() {
   
   document.getElementById('rev-prev').disabled = reviewIndex === 0;
   document.getElementById('rev-next').disabled = reviewIndex === incorrectQuestions.length - 1;
+  
+  // 넘어갈 때 혹시 다 체크되어 있으면 바로 반응
   checkReviewCompletion();
 }
 
@@ -337,17 +376,17 @@ function navReview(dir) {
   loadReviewWord();
 }
 
+// 🌟 핵심: 모든 체크박스 확인 시 0.4초 뒤 자동으로 '완료 선택 창'으로 넘어감!
 function checkReviewCompletion() {
   const allChecked = reviewCheckState.every(state => state === true);
-  const actionDiv = document.getElementById('review-complete-actions');
-  if(allChecked) {
-      actionDiv.style.display = 'block';
-  } else {
-      actionDiv.style.display = 'none';
+  if(allChecked && reviewCheckState.length > 0) {
+      setTimeout(() => {
+          switchScreen('screen-review-complete');
+      }, 400); // 체크 이펙트를 볼 수 있게 0.4초 지연 후 자동 화면 전환
   }
 }
 
 function retakeIncorrectQuiz() {
-  // 틀린 문제들로만 퀴즈를 시작하도록 override 전달
-  startQuiz([...incorrectQuestions]);
+  // 사용자가 방금 풀었던 모드(객관식/서술형) 그대로, 틀린 문제만 모아서 다시 시작
+  startQuiz([...incorrectQuestions], quizConfig.mode);
 }
