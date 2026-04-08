@@ -75,7 +75,7 @@ nav#level-selection {
 
 main#vocabulary-display {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Increased min-width */
     gap: 30px;
     padding-bottom: 50px;
 }
@@ -84,7 +84,7 @@ main#vocabulary-display {
     background-color: var(--card-background-color);
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    padding: 25px;
+    padding: 35px; /* Increased padding */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -99,20 +99,20 @@ main#vocabulary-display {
 }
 
 .vocabulary-card .kanji {
-    font-size: 3em;
+    font-size: 3.5em; /* Increased font size */
     font-weight: 700;
     margin-bottom: 10px;
     color: var(--text-color);
 }
 
 .vocabulary-card .reading {
-    font-size: 1.3em;
+    font-size: 1.5em; /* Increased font size */
     color: #888;
     margin-bottom: 15px;
 }
 
 .vocabulary-card .meaning {
-    font-size: 1.1em;
+    font-size: 1.3em; /* Increased font size */
     font-weight: 500;
     color: var(--text-color);
 }
@@ -145,16 +145,16 @@ main#vocabulary-display {
 .modal-content {
     background-color: var(--card-background-color);
     margin: auto;
-    padding: 40px;
+    padding: 50px; /* Increased padding */
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    width: 80%;
-    max-width: 500px;
+    width: 85%; /* Increased width */
+    max-width: 600px; /* Increased max-width */
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 300px; /* Ensure enough space for content */
+    min-height: 400px; /* Increased min-height */
     justify-content: space-between; /* Distribute content vertically */
 }
 
@@ -176,8 +176,27 @@ main#vocabulary-display {
     cursor: pointer;
 }
 
+/* Toggle Button Style */
+.toggle-button {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    left: 25px; /* Positioned to the top left */
+    transition: background-color 0.2s ease;
+}
+
+.toggle-button:hover {
+    background-color: var(--hover-color);
+}
+
 .modal-kanji {
-    font-size: 6em; /* Larger Kanji in modal */
+    font-size: 7em; /* Larger Kanji in modal */
     font-weight: 700;
     color: var(--text-color);
     flex-grow: 1; /* Allow Kanji to take central space */
@@ -199,18 +218,16 @@ main#vocabulary-display {
 
 .modal-reading,
 .modal-meaning {
-    font-size: 1.5em;
+    font-size: 1.7em; /* Increased font size */
     color: #666;
     font-weight: 500;
+    transition: opacity 0.3s ease; /* Smooth transition for toggling visibility */
 }
 
-.modal-reading {
-    text-align: left;
-}
-
-.modal-meaning {
-    text-align: right;
-    color: var(--accent-color); /* Highlight meaning */
+/* Class to hide reading/meaning */
+.hidden-detail {
+    opacity: 0;
+    pointer-events: none; /* Prevent interaction when hidden */
 }
 
 
@@ -245,6 +262,13 @@ main#vocabulary-display {
     .modal-reading,
     .modal-meaning {
         font-size: 1.2em;
+    }
+    
+    .toggle-button {
+        top: 10px;
+        left: 15px;
+        padding: 6px 12px;
+        font-size: 0.8em;
     }
 }
 
@@ -296,5 +320,12 @@ main#vocabulary-display {
     .modal-meaning {
         text-align: left;
         width: 100%;
+    }
+    
+    .toggle-button {
+        top: 10px;
+        left: 15px;
+        padding: 6px 12px;
+        font-size: 0.75em;
     }
 }
