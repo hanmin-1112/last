@@ -31,9 +31,20 @@ const vocabulary = {
 const vocabularyDisplay = document.getElementById('vocabulary-display');
 const levelSelection = document.getElementById('level-selection');
 
+// Modal elements
+const vocabularyModal = document.getElementById('vocabulary-modal');
+const modalKanji = vocabularyModal.querySelector('.modal-kanji');
+const modalReading = vocabularyModal.querySelector('.modal-reading');
+const modalMeaning = vocabularyModal.querySelector('.modal-meaning');
+const closeButton = vocabularyModal.querySelector('.close-button');
+
 function createVocabularyCard(word) {
   const card = document.createElement('div');
   card.classList.add('vocabulary-card');
+  // Store data attributes for easy access
+  card.dataset.kanji = word.kanji;
+  card.dataset.reading = word.reading;
+  card.dataset.meaning = word.meaning;
 
   const kanji = document.createElement('div');
   kanji.classList.add('kanji');
@@ -49,6 +60,11 @@ function createVocabularyCard(word) {
   meaning.classList.add('meaning');
   meaning.textContent = word.meaning;
   card.appendChild(meaning);
+
+  // Add click listener to open modal
+  card.addEventListener('click', () => {
+    showModal(word);
+  });
 
   return card;
 }
@@ -68,6 +84,30 @@ function displayVocabulary(level) {
     vocabularyDisplay.appendChild(placeholder);
   }
 }
+
+// Function to show the modal
+function showModal(word) {
+  modalKanji.textContent = word.kanji;
+  modalReading.textContent = `히라가나: ${word.reading}`;
+  modalMeaning.textContent = `의미: ${word.meaning}`;
+  vocabularyModal.style.display = 'flex'; // Use flex to center content
+}
+
+// Function to hide the modal
+function hideModal() {
+  vocabularyModal.style.display = 'none';
+}
+
+// Event listener for close button
+closeButton.addEventListener('click', hideModal);
+
+// Close modal if clicking outside the modal content
+window.addEventListener('click', (event) => {
+  if (event.target === vocabularyModal) {
+    hideModal();
+  }
+});
+
 
 // Event listener for level selection buttons
 levelSelection.addEventListener('click', (event) => {

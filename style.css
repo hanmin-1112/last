@@ -6,6 +6,7 @@
     --border-color: #eee;
     --accent-color: #007aff; /* Apple blue */
     --hover-color: #006aff;
+    --modal-backdrop-color: rgba(0, 0, 0, 0.4);
 }
 
 body {
@@ -89,6 +90,7 @@ main#vocabulary-display {
     justify-content: space-between;
     text-align: center;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer; /* Add cursor pointer to indicate clickability */
 }
 
 .vocabulary-card:hover {
@@ -123,6 +125,95 @@ main#vocabulary-display {
     padding: 50px 20px;
 }
 
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: var(--modal-backdrop-color); /* Black w/ opacity */
+    backdrop-filter: blur(5px); /* Optional: blur background */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--card-background-color);
+    margin: auto;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 300px; /* Ensure enough space for content */
+    justify-content: space-between; /* Distribute content vertically */
+}
+
+.close-button {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--text-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-kanji {
+    font-size: 6em; /* Larger Kanji in modal */
+    font-weight: 700;
+    color: var(--text-color);
+    flex-grow: 1; /* Allow Kanji to take central space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.modal-detail {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 20px;
+}
+
+.modal-reading,
+.modal-meaning {
+    font-size: 1.5em;
+    color: #666;
+    font-weight: 500;
+}
+
+.modal-reading {
+    text-align: left;
+}
+
+.modal-meaning {
+    text-align: right;
+    color: var(--accent-color); /* Highlight meaning */
+}
+
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     header h1 {
@@ -140,6 +231,20 @@ main#vocabulary-display {
 
     .vocabulary-card .kanji {
         font-size: 2.5em;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 30px;
+    }
+
+    .modal-kanji {
+        font-size: 4em;
+    }
+
+    .modal-reading,
+    .modal-meaning {
+        font-size: 1.2em;
     }
 }
 
@@ -165,5 +270,31 @@ main#vocabulary-display {
     .level-button {
         width: calc(50% - 15px); /* Two buttons per row with some gap */
         box-sizing: border-box;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+
+    .modal-kanji {
+        font-size: 3em;
+    }
+
+    .close-button {
+        font-size: 30px;
+        top: 10px;
+        right: 15px;
+    }
+
+    .modal-detail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .modal-reading,
+    .modal-meaning {
+        text-align: left;
+        width: 100%;
     }
 }
