@@ -31,7 +31,7 @@ const vocabulary = {
       { kanji: "小さい", reading: "ちいさい", meaning: "작다" }, { kanji: "高い", reading: "たかい", meaning: "비싸다/높다" },
       { kanji: "安い", reading: "やすい", meaning: "싸다" }, { kanji: "新しい", reading: "あたらしい", meaning: "새롭다" },
       { kanji: "古い", reading: "ふるい", meaning: "오래되다" }, { kanji: "良い", reading: "よい", meaning: "좋다" },
-      { kanji: "悪い", reading: "わるい", meaning: "나쁘다" }, { kanji: "暑이", reading: "あつい", meaning: "덥다" },
+      { kanji: "悪い", reading: "わるい", meaning: "나쁘다" }, { kanji: "暑い", reading: "あつい", meaning: "덥다" },
       { kanji: "寒い", reading: "さむい", meaning: "춥다" }, { kanji: "長い", reading: "ながい", meaning: "길다" },
       { kanji: "短い", reading: "みじかい", meaning: "짧다" }, { kanji: "忙しい", reading: "いそがしい", meaning: "바쁘다" },
 
@@ -54,7 +54,7 @@ const vocabulary = {
 
       /* 91-120: 동작 2탄 및 생활 */
       { kanji: "兄", reading: "あに", meaning: "형/오빠" }, { kanji: "姉", reading: "あね", meaning: "누나/언니" },
-      { kanji: "弟", reading: "おとう도", meaning: "남동생" }, { kanji: "妹", reading: "いもうと", meaning: "여동생" },
+      { kanji: "弟", reading: "おとうど", meaning: "남동생" }, { kanji: "妹", reading: "いもうと", meaning: "여동생" },
       { kanji: "起きる", reading: "おきる", meaning: "일어나다" }, { kanji: "寝る", reading: "ねる", meaning: "자다" },
       { kanji: "座る", reading: "すわる", meaning: "앉다" }, { kanji: "立つ", reading: "たつ", meaning: "서다" },
       { kanji: "入る", reading: "はいる", meaning: "들어가다" }, { kanji: "出る", reading: "でる", meaning: "나가다" },
