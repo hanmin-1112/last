@@ -196,19 +196,84 @@ nextNavButton.addEventListener('click', () => navigateWord('next'));
 
 // Event listener for level selection buttons
 levelSelection.addEventListener('click', (event) => {
-  if (event.target.classList.contains('level-button')) {
+  const targetButton = event.target.closest('.level-button'); // Use closest to handle clicks on child elements
+  if (targetButton) {
     // Remove active class from all buttons
     document.querySelectorAll('.level-button').forEach(button => {
       button.classList.remove('active');
     });
 
     // Add active class to the clicked button
-    event.target.classList.add('active');
+    targetButton.classList.add('active'); // Use targetButton
 
-    const selectedLevel = event.target.dataset.level;
+    const selectedLevel = targetButton.dataset.level; // Use targetButton
     displayVocabulary(selectedLevel);
   }
 });
+
+// --- Adding some sample data for N4 and N3 ---
+// N4 sample data (slightly modified from N5)
+vocabulary.n4 = [
+    { kanji: "日本", reading: "にほん", meaning: "일본" },
+    { kanji: "大学", reading: "だいがく", meaning: "대학" },
+    { kanji: "先生", reading: "せんせい", meaning: "선생님" },
+    { kanji: "友達", reading: "ともだち", meaning: "친구" },
+    { kanji: "家族", reading: "かぞく", meaning: "가족" },
+    { kanji: "会社", reading: "かいしゃ", meaning: "회사" },
+    { kanji: "店", reading: "みせ", meaning: "가게" },
+    { kanji: "駅", reading: "えき", meaning: "역" },
+    { kanji: "学校", reading: "がっこう", meaning: "학교" },
+    { kanji: "病院", reading: "びょういん", meaning: "병원" }
+];
+
+// N3 sample data (more advanced kanji)
+vocabulary.n3 = [
+    { kanji: "処理", reading: "しょり", meaning: "처리" },
+    { kanji: "提案", reading: "ていあん", meaning: "제안" },
+    { kanji: "開発", reading: "かいはつ", meaning: "개발" },
+    { kanji: "実現", reading: "じつげん", meaning: "실현" },
+    { kanji: "評価", reading: "ひょうか", meaning: "평가" },
+    { kanji: "管理", reading: "かんり", meaning: "관리" },
+    { kanji: "競争", reading: "きょうそう", meaning: "경쟁" },
+    { kanji: "協力", reading: "きょうりょく", meaning: "협력" },
+    { kanji: "貢献", reading: "こうけん", meaning: "공헌" },
+    { kanji: "理解", reading: "りかい", meaning: "이해" }
+];
+
+// --- Safe handling of navigation buttons ---
+// Navigation elements
+const prevNavButton = document.getElementById('nav-prev');
+const nextNavButton = document.getElementById('nav-next');
+
+// Function to update navigation button states, now safer
+function updateNavButtons() {
+  const wordsInLevel = vocabulary[currentLevel];
+  if (!wordsInLevel || wordsInLevel.length === 0) {
+    if (prevNavButton) prevNavButton.style.display = 'none';
+    if (nextNavButton) nextNavButton.style.display = 'none';
+    return;
+  }
+
+  if (currentWordIndex === 0) {
+    if (prevNavButton) prevNavButton.style.display = 'none'; // Hide previous button if it's the first word
+  } else {
+    if (prevNavButton) prevNavButton.style.display = 'block';
+  }
+
+  if (currentWordIndex === wordsInLevel.length - 1) {
+    if (nextNavButton) nextNavButton.style.display = 'none'; // Hide next button if it's the last word
+  } else {
+    if (nextNavButton) nextNavButton.style.display = 'block';
+  }
+}
+
+// Event listeners for navigation buttons (guarded)
+if (prevNavButton) {
+  prevNavButton.addEventListener('click', () => navigateWord('prev'));
+}
+if (nextNavButton) {
+  nextNavButton.addEventListener('click', () => navigateWord('next'));
+}
 
 // Initial display for N5 on page load
 document.addEventListener('DOMContentLoaded', () => {
