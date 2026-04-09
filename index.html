@@ -34,6 +34,8 @@
         <button class="level-button active" data-level="n5">N5</button>
         <button class="level-button" data-level="n4">N4</button>
         <button class="level-button" data-level="n3">N3</button>
+        <button class="level-button" data-level="n2">N2</button>
+        <button class="level-button" data-level="n1">N1</button>
         <button class="level-button oboeta-tab" data-level="oboeta">覚えた</button>
         <button class="level-button oboenakatta-tab" data-level="oboenakatta">覚えなかった</button>
       </nav>
@@ -51,9 +53,28 @@
             <h2 class="header-title" style="color:var(--accent-blue); font-weight:900;">TEST YOURSELF</h2>
         </header>
         <div class="modern-panel text-center">
-            <h3>Ready to test your knowledge?</h3>
-            <p>Select your level and start the quiz.</p>
-            <button class="menu-btn hover-effect" style="margin-top:20px;" onclick="startQuiz()">START QUIZ</button>
+            <div class="quiz-setup-list" style="margin-bottom: 30px;">
+                <div class="quiz-setup-item" style="margin-bottom: 20px;">
+                    <label style="font-weight:700; color:var(--accent-blue); display:block; margin-bottom:10px;">레벨 선택</label>
+                    <div class="btn-group" id="setup-level" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+                        <button class="level-button active" data-val="n5">N5</button>
+                        <button class="level-button" data-val="n4">N4</button>
+                        <button class="level-button" data-val="n3">N3</button>
+                        <button class="level-button" data-val="n2">N2</button>
+                        <button class="level-button" data-val="n1">N1</button>
+                    </div>
+                </div>
+                <div class="quiz-setup-item">
+                    <label style="font-weight:700; color:var(--accent-blue); display:block; margin-bottom:10px;">문제 타입</label>
+                    <div class="btn-group" id="setup-type" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+                        <button class="level-button active" data-val="meaning">뜻</button>
+                        <button class="level-button" data-val="reading">음</button>
+                        <button class="level-button" data-val="kanji">한자</button>
+                        <button class="level-button" data-val="random">랜덤</button>
+                    </div>
+                </div>
+            </div>
+            <button class="menu-btn hover-effect" onclick="startQuiz()">START QUIZ</button>
         </div>
     </section>
 
@@ -61,12 +82,8 @@
         <div class="modern-panel text-center">
             <h3 id="quiz-progress" style="color:#888;">1 / 20</h3>
             <h2 id="quiz-question-label">이 한자의 뜻은?</h2>
-            <div id="quiz-kanji" class="kanji-huge" style="font-size:6em;"></div>
+            <div id="quiz-kanji" class="kanji-huge" style="font-size:6em; cursor:default;"></div>
             <div id="quiz-options" class="quiz-options-list" style="display:flex; flex-direction:column; gap:10px;"></div>
-            <div id="quiz-short-answer-container" style="display:none; margin-top:20px;">
-                <input type="text" id="short-answer-input" placeholder="정답 입력" style="padding:15px; font-size:1.2em; border-radius:10px; border:2px solid var(--accent-blue);">
-                <button id="short-answer-submit" class="level-button active" style="padding:15px 30px; font-size:1.2em;">제출</button>
-            </div>
         </div>
     </section>
 
@@ -76,36 +93,35 @@
             <p style="font-size:2em;"><span id="final-score" style="color:var(--accent-blue); font-weight:bold;">0</span> / <span id="total-score">0</span></p>
             <div style="display:flex; gap:15px; justify-content:center; margin-top:30px;">
                 <button class="level-button active" onclick="switchScreen('screen-home')">Go Home</button>
-                <button id="btn-review-incorrect" class="level-button" style="background:var(--red); border-color:var(--red); color:white; display:none;" onclick="startIncorrectReview()">Review Errors</button>
+                <button id="btn-review-incorrect" class="level-button" style="background:var(--red); border-color:var(--red); color:white; display:none;" onclick="startIncorrectReview()">오답 노트 펴기</button>
             </div>
         </div>
     </section>
 
     <section id="screen-incorrect-review" class="screen review-screen">
-        <div class="modern-panel text-center">
-            <h3 id="review-progress-card" style="color:#888;">1 / 5</h3>
-            <div id="rev-kanji" class="kanji-huge" style="font-size:5em;"></div>
-            <div id="rev-reading" class="detail-box" style="margin-bottom:10px;"></div>
-            <div id="rev-meaning" class="detail-box"></div>
+        <div class="modal-card" style="margin: 0 auto; box-shadow: none; border: 3px solid var(--red);">
+            <div id="review-progress-card" class="modal-number" style="color: var(--red);">오답 1 / 5</div>
             
-            <label style="display:block; margin-top:30px; font-size:1.2em; font-weight:bold; cursor:pointer;">
-                <input type="checkbox" id="rev-checkbox" style="transform:scale(1.5); margin-right:10px;"> 覚えた (Got it!)
-            </label>
-
-            <div style="display:flex; gap:10px; justify-content:center; margin-top:30px;">
-                <button id="rev-prev" class="level-button" onclick="navReview(-1)">Prev</button>
-                <button id="rev-next" class="level-button" onclick="navReview(1)">Next</button>
+            <div id="rev-kanji" class="kanji-huge clickable-text"></div>
+            
+            <div class="detail-split" style="display:flex; gap:10px; margin-bottom:30px;">
+                <div id="rev-reading" class="detail-box clickable-text" style="flex:1; text-align:center;"></div>
+                <div id="rev-meaning" class="detail-box clickable-text" style="flex:1; text-align:center;"></div>
             </div>
+            
+            <p style="font-size:0.9em; color:#888; margin-bottom:20px;">* 글자를 클릭하면 뜻과 음을 가릴 수 있습니다.</p>
+
+            <button id="rev-memorized-btn" class="menu-btn" style="background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 15px rgba(220,53,69,0.4);" onclick="markAsMemorized()">암기 완료 (Next)</button>
         </div>
     </section>
 
     <section id="screen-review-complete" class="screen">
         <div class="modern-panel text-center">
-            <h2 style="color:var(--green); font-size:2.5em;">Great Job!</h2>
-            <p>모든 오답을 확인했습니다.</p>
+            <h2 style="color:var(--green); font-size:2.5em;">All Cleared!</h2>
+            <p>모든 틀린 문제를 복습했습니다.</p>
             <div style="display:flex; gap:15px; justify-content:center; margin-top:30px;">
-                <button class="level-button" onclick="retakeIncorrectQuiz()">오답만 다시 풀기</button>
                 <button class="level-button active" onclick="switchScreen('screen-home')">홈으로</button>
+                <button class="level-button" style="background:var(--accent-blue); color:white;" onclick="retakeIncorrectQuiz()">재시험</button>
             </div>
         </div>
     </section>
@@ -118,12 +134,14 @@
         <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')">&#10094;</button>
         <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')">&#10095;</button>
 
-        <div id="modal-kanji" class="kanji-huge" style="text-align:center;"></div>
+        <div id="modal-kanji" class="kanji-huge clickable-text"></div>
         
         <div class="detail-split" style="display:flex; gap:10px; margin-bottom:20px;">
-          <div id="modal-reading" class="detail-box" style="flex:1; text-align:center;"></div>
-          <div id="modal-meaning" class="detail-box" style="flex:1; text-align:center;"></div>
+          <div id="modal-reading" class="detail-box clickable-text" style="flex:1; text-align:center;"></div>
+          <div id="modal-meaning" class="detail-box clickable-text" style="flex:1; text-align:center;"></div>
         </div>
+
+        <p style="font-size:0.85em; color:#bbb; margin-bottom:20px; text-align:center;">* 글자를 클릭하면 가려집니다.</p>
 
         <div class="modal-status-btns" style="display:flex; gap:10px; justify-content:center;">
            <button id="modal-oboeta-btn" class="status-btn oboeta-btn">覚えた</button>
@@ -137,10 +155,10 @@
             <span class="close-btn" onclick="closeHelp()">&times;</span>
             <h2 style="color:var(--accent-blue); font-weight:900;">How to Use</h2>
             <ul style="text-align:left; line-height:1.8; margin-top:20px; color:#555; font-weight:600;">
-                <li><strong>Kanji:</strong> N5~N3 레벨별 한자를 학습할 수 있습니다.</li>
-                <li><strong>覚えた / 覚えなかった:</strong> 단어마다 학습 상태를 체크하여 모아볼 수 있습니다.</li>
-                <li><strong>Test:</strong> 학습한 한자를 바탕으로 퀴즈를 풀고 오답을 복습합니다.</li>
-                <li><strong>단어 카드 클릭:</strong> 더 큰 화면으로 뜻과 음을 자세히 볼 수 있습니다.</li>
+                <li><strong>Kanji:</strong> N5~N1 레벨별 한자를 학습할 수 있습니다.</li>
+                <li><strong>Test:</strong> 원하는 레벨과 문제 타입을 선택하여 시험을 봅니다.</li>
+                <li><strong>Review:</strong> 틀린 문제는 다시 카드로 보여주며, '암기 완료'를 눌러 다음으로 넘어갑니다.</li>
+                <li><strong>Interactive Card:</strong> 큰 단어 카드에서 한자, 음, 뜻을 클릭하면 글자가 가려집니다! 암기 확인에 활용하세요.</li>
             </ul>
         </div>
     </div>

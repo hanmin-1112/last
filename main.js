@@ -150,7 +150,6 @@ const vocabulary = {
     ],
   n2: [], n1: []
 };
-// 상태 관리 및 초기화
 let oboetaWords = JSON.parse(localStorage.getItem('oboetaWords')) || [];
 let oboenakattaWords = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
 let currentDisplayedWords = [];
@@ -161,26 +160,23 @@ let quizWords = [];
 let incorrectQuestions = [];
 let currentQuizIndex = 0;
 let score = 0;
-let quizConfig = { level: 'n5', type: 'meaning', count: 20, mode: 'multiple' };
+let quizConfig = { level: 'n5', type: 'meaning' };
 let currentCorrectAnswerStr = "";
 
 let reviewIndex = 0;
-let reviewCheckState = [];
 
 const vocabularyDisplay = document.getElementById('vocabulary-display');
 const searchInput = document.getElementById('word-search');
 const vocabularyModal = document.getElementById('vocabulary-modal');
 const helpModal = document.getElementById('help-modal');
 
-// 🌟 화면 전환 및 네비게이션 하이라이트 제어
+// 화면 전환
 function switchScreen(screenId) {
-  // 화면 변경
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
   const target = document.getElementById(screenId);
   if (target) target.classList.add('active-screen');
   window.scrollTo(0, 0);
 
-  // 상단 네비게이션 Active 상태 동기화
   document.querySelectorAll('.nav-item:not(.help-btn)').forEach(nav => nav.classList.remove('active'));
   if (screenId === 'screen-home') document.getElementById('nav-home').classList.add('active');
   if (screenId === 'screen-vocab') {
@@ -192,26 +188,23 @@ function switchScreen(screenId) {
   }
 }
 
-// 도움말 모달
 function openHelp() { helpModal.style.display = 'flex'; }
 function closeHelp() { helpModal.style.display = 'none'; }
 
-// 단어장 로직
+// 단어 리스트 표시
 function displayVocabulary(level, searchTerm = '') {
   currentLevel = level;
   vocabularyDisplay.innerHTML = '';
   
   let all = [];
-  ['n5', 'n4', 'n3'].forEach(lvl => {
+  ['n5', 'n4', 'n3', 'n2', 'n1'].forEach(lvl => {
       if (vocabulary[lvl]) vocabulary[lvl].forEach(w => all.push({...w, level: lvl}));
   });
 
   let words = [];
   if (level === 'oboeta') words = all.filter(w => oboetaWords.includes(w.kanji));
   else if (level === 'oboenakatta') words = all.filter(w => oboenakattaWords.includes(w.kanji));
-  else {
-      words = vocabulary[level] || [];
-  }
+  else words = vocabulary[level] || [];
 
   if (searchTerm) {
       const t = searchTerm.toLowerCase();
@@ -244,7 +237,6 @@ function displayVocabulary(level, searchTerm = '') {
   }
 }
 
-// 단어 상태 토글
 function toggleWordStatus(event, kanji, target) {
   if(event) event.stopPropagation();
 
@@ -253,7 +245,6 @@ function toggleWordStatus(event, kanji, target) {
   
   const oldOboeta = JSON.parse(localStorage.getItem('oboetaWords')) || [];
   const oldOboenakatta = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
-  
   let currentStatus = oldOboeta.includes(kanji) ? 'oboeta' : (oldOboenakatta.includes(kanji) ? 'oboenakatta' : 'none');
 
   if (currentStatus !== target) {
@@ -268,19 +259,26 @@ function toggleWordStatus(event, kanji, target) {
   if (vocabularyModal.style.display === 'flex') updateModalButtons(kanji);
 }
 
-// 큰 단어 카드 모달
+// 🌟 큰 단어 카드 모달 제어 (4글자 크기 조절 & 숨김 초기화 포함)
 function showModal(index) {
   currentWordIndex = index;
   const word = currentDisplayedWords[index];
   const k = document.getElementById('modal-kanji');
   const r = document.getElementById('modal-reading');
   const m = document.getElementById('modal-meaning');
-  const num = document.getElementById('modal-word-number');
   
-  num.textContent = `KANJI ${currentWordIndex + 1} / ${currentDisplayedWords.length}`;
+  document.getElementById('modal-word-number').textContent = `KANJI ${currentWordIndex + 1} / ${currentDisplayedWords.length}`;
+  
   k.textContent = word.kanji;
   r.textContent = word.reading;
   m.textContent = word.meaning;
+
+  // 4글자 이상일 때 폰트 축소
+  if (word.kanji.length >= 4) k.classList.add('kanji-long');
+  else k.classList.remove('kanji-long');
+
+  // 모달 띄울 때 숨김(투명화) 상태 초기화
+  [k, r, m].forEach(el => el.classList.remove('hidden-content'));
 
   updateModalButtons(word.kanji);
   vocabularyModal.style.display = 'flex';
@@ -298,24 +296,20 @@ function navigateWord(dir) {
 function closeModal() { vocabularyModal.style.display = 'none'; }
 
 function updateModalButtons(kanji) {
-  const isOboeta = oboetaWords.includes(kanji);
-  const isOboenakatta = oboenakattaWords.includes(kanji);
   const oboetaBtn = document.getElementById('modal-oboeta-btn');
   const oboenakattaBtn = document.getElementById('modal-oboenakatta-btn');
-  
-  oboetaBtn.className = `status-btn oboeta-btn ${isOboeta ? 'active' : ''}`;
-  oboenakattaBtn.className = `status-btn oboenakatta-btn ${isOboenakatta ? 'active' : ''}`;
-  
+  oboetaBtn.className = `status-btn oboeta-btn ${oboetaWords.includes(kanji) ? 'active' : ''}`;
+  oboenakattaBtn.className = `status-btn oboenakatta-btn ${oboenakattaWords.includes(kanji) ? 'active' : ''}`;
   oboetaBtn.onclick = (e) => toggleWordStatus(e, kanji, 'oboeta');
   oboenakattaBtn.onclick = (e) => toggleWordStatus(e, kanji, 'oboenakatta');
 }
 
-// 퀴즈 시스템
-function startQuiz(overrideWords = null, mode = 'multiple') {
-  let words = overrideWords || vocabulary[quizConfig.level] || vocabulary['n5'];
-  if (!words || words.length < 4) return alert("단어가 부족합니다.");
+// 🌟 퀴즈 시스템
+function startQuiz() {
+  let words = vocabulary[quizConfig.level];
+  if (!words || words.length < 4) return alert("해당 레벨의 단어가 4개 이상 필요합니다.");
 
-  quizWords = [...words].sort(() => Math.random() - 0.5).slice(0, quizConfig.count);
+  quizWords = [...words].sort(() => Math.random() - 0.5).slice(0, 20); // 기본 20문제
   incorrectQuestions = [];
   currentQuizIndex = 0;
   score = 0;
@@ -327,15 +321,35 @@ function startQuiz(overrideWords = null, mode = 'multiple') {
 function loadQuizQuestion() {
   const currentWord = quizWords[currentQuizIndex];
   document.getElementById('quiz-progress').textContent = `${currentQuizIndex + 1} / ${quizWords.length}`;
-  document.getElementById('quiz-question-label').textContent = "이 한자의 뜻은?";
-  document.getElementById('quiz-kanji').textContent = currentWord.kanji;
-  currentCorrectAnswerStr = currentWord.meaning;
+  
+  let type = quizConfig.type === 'random' ? ['meaning', 'reading', 'kanji'][Math.floor(Math.random() * 3)] : quizConfig.type;
+  const label = document.getElementById('quiz-question-label');
+  const kanjiEl = document.getElementById('quiz-kanji');
+  
+  // 4글자 퀴즈 화면 크기 조절
+  if (currentWord.kanji.length >= 4) kanjiEl.classList.add('kanji-long');
+  else kanjiEl.classList.remove('kanji-long');
+
+  if (type === 'meaning') {
+      label.textContent = "이 한자의 뜻은?";
+      kanjiEl.textContent = currentWord.kanji;
+      currentCorrectAnswerStr = currentWord.meaning;
+  } else if (type === 'reading') {
+      label.textContent = "이 한자의 읽기는?";
+      kanjiEl.textContent = currentWord.kanji;
+      currentCorrectAnswerStr = currentWord.reading;
+  } else {
+      label.textContent = "다음 뜻/음을 가진 한자는?";
+      kanjiEl.textContent = `${currentWord.meaning} (${currentWord.reading})`;
+      currentCorrectAnswerStr = currentWord.kanji;
+  }
 
   let opts = [currentCorrectAnswerStr];
-  let allPool = vocabulary['n5']; 
+  let allPool = vocabulary[quizConfig.level]; 
   while(opts.length < 4) {
-      let rand = allPool[Math.floor(Math.random() * allPool.length)].meaning;
-      if(!opts.includes(rand)) opts.push(rand);
+      let rand = allPool[Math.floor(Math.random() * allPool.length)];
+      let val = (type === 'meaning') ? rand.meaning : (type === 'reading' ? rand.reading : rand.kanji);
+      if(!opts.includes(val)) opts.push(val);
   }
   opts.sort(() => Math.random() - 0.5);
   
@@ -371,7 +385,7 @@ function endQuiz() {
   switchScreen('screen-quiz-result');
 }
 
-// 오답 복습
+// 🌟 오답 노트 (모달 형태 & 암기완료 진행)
 function startIncorrectReview() {
   reviewIndex = 0;
   switchScreen('screen-incorrect-review');
@@ -380,35 +394,85 @@ function startIncorrectReview() {
 
 function loadReviewWord() {
   const word = incorrectQuestions[reviewIndex];
-  document.getElementById('review-progress-card').textContent = `${reviewIndex + 1} / ${incorrectQuestions.length}`;
-  document.getElementById('rev-kanji').textContent = word.kanji;
-  document.getElementById('rev-reading').textContent = word.reading;
-  document.getElementById('rev-meaning').textContent = word.meaning;
+  document.getElementById('review-progress-card').textContent = `오답 ${reviewIndex + 1} / ${incorrectQuestions.length}`;
   
-  document.getElementById('rev-checkbox').checked = false; 
-  document.getElementById('rev-prev').disabled = (reviewIndex === 0);
-  document.getElementById('rev-next').disabled = (reviewIndex === incorrectQuestions.length - 1);
+  const k = document.getElementById('rev-kanji');
+  const r = document.getElementById('rev-reading');
+  const m = document.getElementById('rev-meaning');
+  
+  k.textContent = word.kanji;
+  r.textContent = word.reading;
+  m.textContent = word.meaning;
+
+  if (word.kanji.length >= 4) k.classList.add('kanji-long');
+  else k.classList.remove('kanji-long');
+
+  // 오답 카드 띄울 때 숨김 상태 초기화
+  [k, r, m].forEach(el => el.classList.remove('hidden-content'));
 }
 
-function navReview(dir) {
-  reviewIndex += dir;
-  loadReviewWord();
+function markAsMemorized() {
+    reviewIndex++;
+    if (reviewIndex < incorrectQuestions.length) {
+        loadReviewWord();
+    } else {
+        // 모든 오답 확인 완료 시
+        switchScreen('screen-review-complete');
+    }
 }
 
 function retakeIncorrectQuiz() {
-  startQuiz([...incorrectQuestions], 'multiple');
+  // 틀린 문제만 모아서 퀴즈 다시 시작
+  quizWords = [...incorrectQuestions].sort(() => Math.random() - 0.5);
+  incorrectQuestions = [];
+  currentQuizIndex = 0;
+  score = 0;
+  switchScreen('screen-quiz-active');
+  loadQuizQuestion();
 }
 
-// 초기화
+// 🌟 초기화 및 이벤트 리스너 세팅
+function setupClickToHide() {
+    // 모달 내 텍스트 클릭 이벤트
+    const modalTexts = ['modal-kanji', 'modal-reading', 'modal-meaning'];
+    modalTexts.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.onclick = () => el.classList.toggle('hidden-content');
+    });
+
+    // 오답 노트 내 텍스트 클릭 이벤트
+    const revTexts = ['rev-kanji', 'rev-reading', 'rev-meaning'];
+    revTexts.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.onclick = () => el.classList.toggle('hidden-content');
+    });
+}
+
 window.onload = () => {
+  setupClickToHide();
+  
   if (searchInput) searchInput.oninput = (e) => displayVocabulary(currentLevel, e.target.value);
   
+  // 레벨 탭 전환
   document.getElementById('level-selection').onclick = (e) => {
       const btn = e.target.closest('.level-button');
       if (btn) {
-          document.querySelectorAll('.level-button').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('#level-selection .level-button').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           displayVocabulary(btn.dataset.level);
       }
   };
+
+  // 퀴즈 설정 버튼 제어
+  document.querySelectorAll('.quiz-setup-list .btn-group').forEach(group => {
+        group.onclick = (e) => {
+            const btn = e.target.closest('.level-button');
+            if (btn) {
+                group.querySelectorAll('.level-button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                if (group.id === 'setup-level') quizConfig.level = btn.dataset.val;
+                if (group.id === 'setup-type') quizConfig.type = btn.dataset.val;
+            }
+        };
+    });
 };

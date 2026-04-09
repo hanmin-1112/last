@@ -10,25 +10,19 @@
 }
 
 body { 
-    font-family: var(--primary-font); 
-    color: var(--text-main); 
-    background-color: var(--bg-color); 
-    margin: 0; 
-    display: flex; 
-    justify-content: center;
-    background-image: radial-gradient(#d1d1d1 0.5px, transparent 0.5px);
-    background-size: 20px 20px;
+    font-family: var(--primary-font); color: var(--text-main); background-color: var(--bg-color); 
+    margin: 0; display: flex; justify-content: center;
+    background-image: radial-gradient(#d1d1d1 0.5px, transparent 0.5px); background-size: 20px 20px;
 }
 
 .app-container { width: 100%; max-width: 1100px; padding: 40px 20px; box-sizing: border-box; }
 
-/* 화면 전환 */
 .screen { display: none; animation: fadeIn 0.3s ease-out; }
 .active-screen { display: block; }
 .text-center { text-align: center; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-/* 상단 네비게이션 */
+/* 네비게이션 */
 .nav-row-minimal { display: flex; justify-content: flex-end; gap: 30px; margin-bottom: 20px; font-weight: 600; color: #555; align-items: center;}
 .nav-item { cursor: pointer; border-bottom: 2px solid transparent; transition:0.2s; padding-bottom: 3px; }
 .nav-item:hover { color: var(--accent-blue); }
@@ -41,40 +35,33 @@ body {
 }
 .help-btn:hover { background: var(--accent-blue); color: white; box-shadow: 0 0 10px var(--glow-blue); }
 
-/* 🌟 메인 로고 디자인 (화면 정중앙 배치) */
-.home-logo-container { 
-    margin-top: 25vh; /* 중앙으로 이동 */
-    text-align: center; 
-}
+/* 메인 로고 */
+.home-logo-container { margin-top: 25vh; text-align: center; }
 .main-title { 
-    font-size: 7em; /* 사이즈 약간 키움 */
-    font-weight: 900; color: var(--accent-blue); 
+    font-size: 7em; font-weight: 900; color: var(--accent-blue); 
     letter-spacing: -4px; text-transform: uppercase; margin: 0; line-height: 0.9;
 }
 .sub-logo-text { font-size: 1.5em; font-weight: 700; color: var(--accent-blue); margin-top: 15px; letter-spacing: 1px;}
 
-/* 🌟 버튼 디자인 */
+/* 공통 버튼 */
 .menu-btn { 
-    background: white; color: var(--accent-blue);
-    border: var(--border-width) solid var(--accent-blue);
+    background: white; color: var(--accent-blue); border: var(--border-width) solid var(--accent-blue);
     padding: 25px; font-size: 2em; font-weight: 800; text-transform: uppercase;
     border-radius: 12px; cursor: pointer; transition: 0.3s;
     box-shadow: 0 0 15px var(--glow-blue); margin-bottom: 15px; width:100%; max-width:400px;
 }
 .menu-btn:hover { transform: scale(1.02); box-shadow: 0 0 25px var(--glow-blue); background-color: var(--accent-blue); color: white; }
 
-/* 상단 뒤로가기 헤더 */
 .minimal-header { display:flex; align-items:center; gap:20px; margin-bottom: 30px;}
 .back-btn { background:transparent; border:none; font-size:1.2em; font-weight:700; color:#888; cursor:pointer;}
 .back-btn:hover { color: var(--accent-blue); }
 
-/* 레벨 탭 버튼 */
 .level-nav { display:flex; gap:10px; margin-bottom: 20px; flex-wrap: wrap;}
 .level-button { background: white; border: 1.5px solid #ddd; border-radius: 20px; padding: 10px 20px; font-weight: 700; cursor: pointer; transition: 0.2s;}
 .level-button:hover { border-color: var(--accent-blue); }
 .level-button.active { background: var(--accent-blue); color: white; border-color: var(--accent-blue); }
 
-/* 카드 디자인 */
+/* 단어 리스트 그리드 */
 .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top:20px;}
 .vocabulary-card { 
     background: white; border: var(--border-width) solid var(--accent-blue); 
@@ -85,8 +72,6 @@ body {
 .vocabulary-card .reading { font-weight:700; margin-top:10px; cursor:pointer;}
 .vocabulary-card .meaning { color:#666; margin-top:5px; cursor:pointer;}
 
-/* 단어 카드 내 [覚えた / 覚えなかった] 버튼 */
-.card-btn-group { display: flex; gap: 8px; justify-content: center; margin-top: 20px; }
 .status-btn { 
     background: white; border: 1.5px solid #ccc; border-radius: 15px; 
     padding: 6px 12px; font-size: 0.85em; font-weight: 700; cursor: pointer; transition: 0.2s;
@@ -96,20 +81,31 @@ body {
 .status-btn.oboeta-btn.active { background: var(--green); color: white; border-color: var(--green); box-shadow: 0 0 10px rgba(40, 167, 69, 0.4);}
 .status-btn.oboenakatta-btn.active { background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 10px rgba(220, 53, 69, 0.4);}
 
-/* 공통 패널 */
 .modern-panel { 
     background: white; border: var(--border-width) solid var(--accent-blue); 
     border-radius: 20px; padding: 40px; max-width: 600px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.05);
 }
 
-/* 모달 디자인 */
+/* 🌟 모달 & 큰 카드 스타일 */
 .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(5px);}
 .modal-card { 
     background: white; border: 3px solid var(--accent-blue); border-radius: 25px; 
-    padding: 50px; position: relative; box-shadow: 0 0 30px var(--glow-blue); width: 90%; max-width: 400px;
+    padding: 50px; position: relative; box-shadow: 0 0 30px var(--glow-blue); width: 90%; max-width: 450px;
 }
 .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2em; font-weight: bold; color: var(--accent-blue); cursor: pointer; }
 .inner-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: none; font-size: 2em; color: var(--accent-blue); cursor: pointer; }
 .inner-arrow.prev { left: 10px; }
 .inner-arrow.next { right: 10px; }
 .modal-number { position: absolute; top: 25px; left: 25px; font-weight: 700; color: #888; }
+
+/* 🌟 클릭 시 숨김 처리 및 4글자 폰트 조절 */
+.kanji-huge { font-size: 8em; font-weight: 800; color: var(--accent-blue); margin: 30px 0; text-align:center; transition: color 0.2s;}
+.kanji-long { font-size: 4em; } /* 4글자 이상일 때 줄어드는 클래스 */
+
+.detail-box { 
+    border: 1.5px solid var(--accent-blue); background: #f9f9ff; border-radius: 10px;
+    padding: 20px 15px; font-weight: 700; font-size: 1.3em; transition: color 0.2s;
+}
+
+.clickable-text { cursor: pointer; user-select: none; }
+.hidden-content { color: transparent !important; text-shadow: 0 0 15px rgba(42, 82, 190, 0.1); }
