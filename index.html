@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>바이브 漢 - Cleans Modern</title>
+  <title>바이브 漢</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link href='/style.css' rel='stylesheet'>
 </head>
@@ -25,7 +25,6 @@
         <button class="back-btn" onclick="switchScreen('screen-home')">←</button>
         <h2 class="header-title">단어 학습장</h2>
       </header>
-      
       <nav id="level-selection" class="level-nav">
         <button class="level-button active" data-level="n5">N5</button>
         <button class="level-button" data-level="n4">N4</button>
@@ -33,19 +32,17 @@
         <button class="level-button mada-tab" data-level="mada">まだまだ</button>
         <button class="level-button memo-tab" data-level="oboeru">覚える</button>
       </nav>
-
-      <div class="search-container minimal-search">
-        <input type="text" id="word-search" placeholder="검색...">
+      <div class="search-container">
+        <input type="text" id="word-search" placeholder="검색어를 입력하세요...">
       </div>
-      
       <main id="vocabulary-display" class="vocab-grid"></main>
     </section>
 
     <section id="screen-quiz-setup" class="screen modern-panel">
-      <h2 class="header-title" style="margin-bottom:30px;">퀴즈 설정</h2>
+      <h2 class="header-title-small">퀴즈 설정</h2>
       <div class="quiz-setup-list">
         <div class="quiz-setup-item">
-          <label>레벨 선택</label>
+          <label>레벨</label>
           <div class="btn-group" id="setup-level">
             <button class="setup-btn active" data-val="n5">N5</button>
             <button class="setup-btn" data-val="n4">N4</button>
@@ -61,102 +58,95 @@
           </div>
         </div>
       </div>
-      
       <div class="start-quiz-buttons">
-        <button class="start-btn primary-btn" onclick="startQuiz(null, 'multiple')">객관식</button>
-        <button class="start-btn secondary-btn" onclick="startQuiz(null, 'short')">서술형</button>
+        <button class="start-btn primary-btn small-btn rounded" onclick="startQuiz(null, 'multiple')">객관식</button>
+        <button class="start-btn secondary-btn small-btn rounded" onclick="startQuiz(null, 'short')">서술형</button>
       </div>
-      <button class="back-btn-bottom" onclick="switchScreen('screen-home')">홈으로</button>
+      <button class="back-link" onclick="switchScreen('screen-home')">홈으로 돌아가기</button>
     </section>
 
     <section id="screen-quiz-active" class="screen modern-panel">
       <header class="quiz-header">
         <button class="quit-btn" onclick="switchScreen('screen-quiz-setup')">중단하기</button>
-        <span id="quiz-progress" class="progress-label">1 / 20</span>
+        <span id="quiz-progress">1 / 20</span>
       </header>
-      <div class="quiz-content">
-        <p id="quiz-question-label" class="quiz-label">이 한자의 뜻은?</p>
-        <div id="quiz-kanji" class="quiz-kanji-big">漢</div>
+      <div class="quiz-question-area">
+        <p id="quiz-question-label">이 한자의 뜻은?</p>
+        <div id="quiz-kanji" class="quiz-kanji-display">漢</div>
       </div>
-      <div id="quiz-options" class="quiz-options-list"></div>
+      <div id="quiz-options" class="quiz-options-grid"></div>
       <div id="quiz-short-answer-container" style="display:none;">
-        <input type="text" id="short-answer-input" class="short-input-modern" placeholder="정답 입력">
+        <input type="text" id="short-answer-input" class="short-input" placeholder="정답 입력">
         <button id="short-answer-submit" class="primary-btn submit-btn">제출</button>
       </div>
     </section>
 
     <section id="screen-quiz-result" class="screen modern-panel">
-      <h2 class="header-title">결과</h2>
-      <div class="score-display-modern"><span id="final-score">0</span> / <span id="total-score">20</span></div>
+      <h2 class="header-title-small">결과</h2>
+      <div class="score-display"><span id="final-score">0</span> / <span id="total-score">20</span></div>
       <div class="result-actions">
-        <button class="menu-btn primary-btn small-btn" onclick="switchScreen('screen-home')">홈으로</button>
-        <button id="btn-review-incorrect" class="menu-btn secondary-btn small-btn" onclick="startIncorrectReview()" style="display:none;">틀린 문제</button>
+        <button class="menu-btn primary-btn small-btn rounded" onclick="switchScreen('screen-home')">홈으로</button>
+        <button id="btn-review-incorrect" class="menu-btn secondary-btn small-btn rounded" onclick="startIncorrectReview()" style="display:none;">틀린 문제</button>
       </div>
     </section>
 
-    <section id="screen-incorrect-review" class="screen modern-panel">
-       <header class="minimal-header">
+    <section id="screen-incorrect-review" class="screen modern-panel review-screen">
+       <header class="review-header">
           <button class="back-btn" onclick="switchScreen('screen-quiz-result')">←</button>
-          <h2 class="header-title">오답 노트</h2>
-          <label class="review-checkbox-label">
+          <h2 class="header-title-small">오답 노트</h2>
+          <label class="top-right-label">
             <input type="checkbox" id="rev-checkbox"> 암기 완료
           </label>
        </header>
-       
-       <div class="toggle-container-minimal">
-          <button id="rev-toggle-kanji" class="toggle-btn-minimal active-toggle">한자</button>
-          <button id="rev-toggle-reading" class="toggle-btn-minimal active-toggle">음</button>
-          <button id="rev-toggle-meaning" class="toggle-btn-minimal active-toggle">뜻</button>
+       <div class="toggle-row">
+          <button id="rev-toggle-kanji" class="toggle-mini active">한자</button>
+          <button id="rev-toggle-reading" class="toggle-mini active">음</button>
+          <button id="rev-toggle-meaning" class="toggle-mini active">뜻</button>
        </div>
-
-       <div class="review-card-minimal">
-          <div id="review-progress-card" class="rev-number"></div>
-          <div id="rev-kanji" class="quiz-kanji-big"></div>
-          <div class="modal-detail-minimal">
-            <div id="rev-reading" class="modal-detail-box"></div>
-            <div id="rev-meaning" class="modal-detail-box"></div>
+       <div class="review-card">
+          <div id="review-progress-card" class="corner-number"></div>
+          <div id="rev-kanji" class="kanji-big"></div>
+          <div class="detail-split">
+            <div id="rev-reading" class="detail-box"></div>
+            <div id="rev-meaning" class="detail-box"></div>
           </div>
        </div>
-
-       <div class="review-nav-minimal">
-          <button id="rev-prev" class="primary-btn nav-btn-mini" onclick="navReview(-1)">이전</button>
-          <button id="rev-next" class="primary-btn nav-btn-mini" onclick="navReview(1)">다음</button>
+       <div class="nav-row">
+          <button id="rev-prev" class="primary-btn nav-btn rounded" onclick="navReview(-1)">이전</button>
+          <button id="rev-next" class="primary-btn nav-btn rounded" onclick="navReview(1)">다음</button>
        </div>
     </section>
 
     <section id="screen-review-complete" class="screen modern-panel">
-      <h2 class="header-title">학습 완료!</h2>
-      <p style="margin-bottom:30px; color:var(--text-sub);">모든 오답을 확인했습니다.</p>
+      <h2 class="header-title-small">학습 완료!</h2>
+      <p class="sub-text">모든 오답을 확인했습니다.</p>
       <div class="result-actions">
-         <button class="primary-btn small-btn" onclick="switchScreen('screen-home')">홈으로</button>
-         <button class="secondary-btn small-btn" onclick="retakeIncorrectQuiz()">다시 풀기</button>
+         <button class="primary-btn small-btn rounded" onclick="switchScreen('screen-home')">홈으로</button>
+         <button class="secondary-btn small-btn rounded" onclick="retakeIncorrectQuiz()">다시 풀기</button>
       </div>
     </section>
 
     <div id="vocabulary-modal" class="modal">
-      <div class="minimalist-content">
-        <div class="modal-word-number" id="modal-word-number">단어 1 / 100</div>
-        <span class="close-button" onclick="closeModal()">&times;</span>
+      <div class="modal-card">
+        <div id="modal-word-number" class="modal-number"></div>
+        <span class="close-btn" onclick="closeModal()">&times;</span>
         
-        <button id="nav-prev" class="modal-nav-arrow prev" onclick="navigateWord('prev')">&#10094;</button>
-        <button id="nav-next" class="modal-nav-arrow next" onclick="navigateWord('next')">&#10095;</button>
+        <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')">&#10094;</button>
+        <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')">&#10095;</button>
 
-        <div class="modal-header-actions">
-           <button id="modal-mada-btn" class="setup-btn">まだまだ</button>
-           <button id="modal-oboeru-btn" class="setup-btn">覚える</button>
+        <div class="modal-status-btns">
+           <button id="modal-mada-btn" class="status-pill">まだまだ</button>
+           <button id="modal-oboeru-btn" class="status-pill">覚える</button>
         </div>
-        
-        <div class="toggle-container-minimal">
-          <button id="toggle-kanji" class="toggle-btn-minimal active-toggle">한자</button>
-          <button id="toggle-reading" class="toggle-btn-minimal active-toggle">음</button>
-          <button id="toggle-meaning" class="toggle-btn-minimal active-toggle">뜻</button>
+        <div class="modal-toggle-row">
+          <button id="toggle-kanji" class="toggle-mini active">한자</button>
+          <button id="toggle-reading" class="toggle-mini active">히라가나</button>
+          <button id="toggle-meaning" class="toggle-mini active">뜻</button>
         </div>
-        
-        <div id="modal-kanji" class="modal-kanji-minimal"></div>
-        
-        <div class="modal-detail-minimal">
-          <div id="modal-reading" class="modal-detail-box"></div>
-          <div id="modal-meaning" class="modal-detail-box"></div>
+        <div id="modal-kanji" class="kanji-huge"></div>
+        <div class="detail-split">
+          <div id="modal-reading" class="detail-box left"></div>
+          <div id="modal-meaning" class="detail-box right"></div>
         </div>
       </div>
     </div>

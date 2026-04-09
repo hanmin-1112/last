@@ -150,151 +150,142 @@ const vocabulary = {
     ],
   n2: [], n1: []
 };
-<!doctype html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>바이브 漢</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel='/style.css' rel='stylesheet'>
-</head>
-<body>
-  <div class="app-container">
+// 상태 데이터
+let madaWords = JSON.parse(localStorage.getItem('madaWords')) || [];
+let oboeruWords = JSON.parse(localStorage.getItem('oboeruWords')) || [];
+let currentDisplayedWords = [];
+let currentWordIndex = 0;
+let currentLevel = 'n5';
+
+// DOM 요소
+const vocabularyDisplay = document.getElementById('vocabulary-display');
+const searchInput = document.getElementById('word-search');
+const vocabularyModal = document.getElementById('vocabulary-modal');
+
+// 🌟 화면 전환 함수 (데이터 체크 로직 추가로 버그 방지)
+function switchScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
+    const target = document.getElementById(screenId);
+    if (target) {
+        target.classList.add('active-screen');
+    }
     
-    <section id="screen-home" class="screen active-screen">
-      <div class="home-logo-container">
-        <h1 class="main-title">바이브 漢</h1>
-      </div>
-      <div class="home-menu">
-        <button class="menu-btn primary-btn hover-effect" onclick="switchScreen('screen-vocab')">단어 학습장</button>
-        <button class="menu-btn primary-btn hover-effect" onclick="switchScreen('screen-quiz-setup')">실전 퀴즈</button>
-      </div>
-    </section>
+    if (screenId === 'screen-vocab') {
+        // vocabulary 객체가 있는지 확인 후 실행
+        if (typeof vocabulary !== 'undefined') {
+            displayVocabulary(currentLevel);
+        }
+    }
+}
 
-    <section id="screen-vocab" class="screen">
-      <header class="minimal-header">
-        <button class="back-btn" onclick="switchScreen('screen-home')">←</button>
-        <h2 class="header-title">단어 학습장</h2>
-      </header>
-      
-      <nav id="level-selection" class="level-nav">
-        <button class="level-button active" data-level="n5">N5</button>
-        <button class="level-button" data-level="n4">N4</button>
-        <button class="level-button" data-level="n3">N3</button>
-        <button class="level-button mada-tab" data-level="mada">まだまだ</button>
-        <button class="level-button memo-tab" data-level="oboeru">覚える</button>
-      </nav>
+// 🌟 단어 리스트 표시
+function displayVocabulary(level, searchTerm = '') {
+    currentLevel = level;
+    vocabularyDisplay.innerHTML = '';
+    
+    // 데이터 소스 통합
+    let all = [];
+    ['n5', 'n4', 'n3'].forEach(lvl => {
+        if (vocabulary[lvl]) vocabulary[lvl].forEach(w => all.push({...w, level: lvl}));
+    });
 
-      <div class="search-container minimal-search">
-        <input type="text" id="word-search" placeholder="검색...">
-      </div>
-      <main id="vocabulary-display" class="vocab-grid"></main>
-    </section>
+    let words = [];
+    if (level === 'mada') words = all.filter(w => madaWords.includes(w.kanji));
+    else if (level === 'oboeru') words = all.filter(w => oboeruWords.includes(w.kanji));
+    else {
+        words = (vocabulary[level] || []).filter(w => !madaWords.includes(w.kanji) && !oboeruWords.includes(w.kanji));
+    }
 
-    <section id="screen-quiz-setup" class="screen modern-panel">
-      <h2 class="header-title" style="margin-bottom:20px; font-size: 2em;">퀴즈 설정</h2>
-      <div class="quiz-setup-list">
-        <div class="quiz-setup-item">
-          <label>레벨</label>
-          <div class="btn-group" id="setup-level">
-            <button class="setup-btn active" data-val="n5">N5</button>
-            <button class="setup-btn" data-val="n4">N4</button>
-            <button class="setup-btn" data-val="n3">N3</button>
-          </div>
-        </div>
-        <div class="quiz-setup-item">
-          <label>타입</label>
-          <div class="btn-group" id="setup-type">
-            <button class="setup-btn active" data-val="meaning">뜻</button>
-            <button class="setup-btn" data-val="reading">음</button>
-            <button class="setup-btn" data-val="random">랜덤</button>
-          </div>
-        </div>
-      </div>
-      <div class="start-quiz-buttons">
-        <button class="start-btn primary-btn" onclick="startQuiz(null, 'multiple')">객관식</button>
-        <button class="start-btn secondary-btn" onclick="startQuiz(null, 'short')">서술형</button>
-      </div>
-      <button class="back-btn-bottom" onclick="switchScreen('screen-home')" style="margin-top:20px; background:none; border:none; color:gray; cursor:pointer;">홈으로 돌아가기</button>
-    </section>
+    if (searchTerm) {
+        const t = searchTerm.toLowerCase();
+        words = words.filter(w => w.kanji.includes(t) || w.meaning.includes(t) || w.reading.includes(t));
+    }
 
-    <section id="screen-quiz-active" class="screen modern-panel">
-      <header class="quiz-header" style="display:flex; justify-content:space-between; align-items:center;">
-        <button class="quit-btn" onclick="switchScreen('screen-quiz-setup')" style="color:red; background:none; border:none; cursor:pointer; font-weight:bold;">중단하기</button>
-        <span id="quiz-progress">1 / 20</span>
-      </header>
-      <p id="quiz-question-label" style="margin-top:30px; color:var(--accent-color); font-weight:bold;">이 한자의 뜻은?</p>
-      <div id="quiz-kanji" class="quiz-kanji-big" style="font-size: 5em; font-weight:800; margin: 30px 0;">漢</div>
-      <div id="quiz-options" class="quiz-options-list"></div>
-      <div id="quiz-short-answer-container" style="display:none;">
-        <input type="text" id="short-answer-input" class="short-input-modern" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ddd; text-align:center; font-size:1.5em; margin-bottom:15px;">
-        <button id="short-answer-submit" class="primary-btn" style="width:100%; padding:15px; border-radius:10px; border:none;">제출</button>
-      </div>
-    </section>
+    currentDisplayedWords = words;
+    words.forEach((w, i) => {
+        const card = document.createElement('div');
+        card.className = 'vocabulary-card';
+        card.innerHTML = `<div class="kanji">${w.kanji}</div><div class="reading">${w.reading}</div><div class="meaning">${w.meaning}</div>`;
+        card.onclick = () => showModal(w, i);
+        vocabularyDisplay.appendChild(card);
+    });
+}
 
-    <section id="screen-quiz-result" class="screen modern-panel">
-      <h2 class="header-title">결과</h2>
-      <div class="score-display-modern" style="font-size:4em; font-weight:800; color:var(--accent-color); margin:20px 0;"><span id="final-score">0</span> / <span id="total-score">20</span></div>
-      <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
-        <button class="primary-btn small-btn" onclick="switchScreen('screen-home')" style="padding:10px 30px;">홈으로</button>
-        <button id="btn-review-incorrect" class="secondary-btn small-btn" onclick="startIncorrectReview()" style="padding:10px 30px; display:none;">틀린 문제</button>
-      </div>
-    </section>
+// 🌟 모달 제어 (번호 업데이트 및 이동 버그 수정)
+function showModal(word, index) {
+    currentWordIndex = index;
+    const k = document.getElementById('modal-kanji');
+    const r = document.getElementById('modal-reading');
+    const m = document.getElementById('modal-meaning');
+    const num = document.getElementById('modal-word-number');
+    
+    // 실시간 번호
+    num.textContent = `단어 ${currentWordIndex + 1} / ${currentDisplayedWords.length}`;
+    
+    k.textContent = word.kanji;
+    r.textContent = word.reading;
+    m.textContent = word.meaning;
 
-    <section id="screen-incorrect-review" class="screen modern-panel" style="position:relative;">
-       <header class="minimal-header">
-          <button class="back-btn" onclick="switchScreen('screen-quiz-result')">←</button>
-          <h2 class="header-title" style="font-size:1.8em;">오답 노트</h2>
-          <label style="position:absolute; top:0; right:0; color:var(--accent-color); font-weight:bold; cursor:pointer;">
-            <input type="checkbox" id="rev-checkbox"> 암기 완료
-          </label>
-       </header>
-       <div class="toggle-container-minimal" style="margin:20px 0;">
-          <button id="rev-toggle-kanji" class="toggle-btn-minimal active-toggle">한자</button>
-          <button id="rev-toggle-reading" class="toggle-btn-minimal active-toggle">음</button>
-          <button id="rev-toggle-meaning" class="toggle-btn-minimal active-toggle">뜻</button>
-       </div>
-       <div class="review-card-minimal" style="border:1px solid #ddd; border-radius:20px; padding:40px 20px; position:relative;">
-          <div id="review-progress-card" style="position:absolute; top:10px; right:15px; color:#ccc; font-weight:bold;"></div>
-          <div id="rev-kanji" style="font-size:5em; font-weight:800;"></div>
-          <div class="modal-detail-minimal" style="display:flex; gap:10px; margin-top:20px; border-top:1px solid #eee; padding-top:20px;">
-            <div id="rev-reading" class="modal-detail-box" style="flex:1; background:#f5f5f7; padding:15px; border-radius:10px; font-weight:bold;"></div>
-            <div id="rev-meaning" class="modal-detail-box" style="flex:1; background:#f5f5f7; padding:15px; border-radius:10px; font-weight:bold;"></div>
-          </div>
-       </div>
-       <div style="display:flex; justify-content:center; gap:15px; margin-top:20px;">
-          <button id="rev-prev" class="primary-btn" onclick="navReview(-1)" style="padding:10px 25px; border-radius:10px;">이전</button>
-          <button id="rev-next" class="primary-btn" onclick="navReview(1)" style="padding:10px 25px; border-radius:10px;">다음</button>
-       </div>
-    </section>
+    // 초기화: 모두 보이기
+    [k, r, m].forEach(el => el.classList.remove('hidden-detail'));
+    document.querySelectorAll('#vocabulary-modal .toggle-mini').forEach(b => b.classList.add('active'));
 
-    <div id="vocabulary-modal" class="modal">
-      <div class="minimalist-content">
-        <div class="modal-word-number" id="modal-word-number" style="position:absolute; top:20px; left:25px; color:gray; font-weight:bold;"></div>
-        <span class="close-button" onclick="closeModal()" style="position:absolute; top:15px; right:20px; font-size:2em; cursor:pointer; color:#ccc;">&times;</span>
-        
-        <button id="nav-prev" class="modal-nav-arrow prev" onclick="navigateWord('prev')" style="position:absolute; left:10px; top:50%; font-size:3em; background:none; border:none; color:var(--accent-color); cursor:pointer;">&#10094;</button>
-        <button id="nav-next" class="modal-nav-arrow next" onclick="navigateWord('next')" style="position:absolute; right:10px; top:50%; font-size:3em; background:none; border:none; color:var(--accent-color); cursor:pointer;">&#10095;</button>
+    vocabularyModal.style.display = 'flex';
+    
+    // 화살표 상태
+    document.getElementById('nav-prev').style.visibility = (currentWordIndex === 0) ? 'hidden' : 'visible';
+    document.getElementById('nav-next').style.visibility = (currentWordIndex === currentDisplayedWords.length - 1) ? 'hidden' : 'visible';
+}
 
-        <div class="modal-header-actions" style="margin-bottom:20px;">
-           <button id="modal-mada-btn" class="setup-btn">まだまだ</button>
-           <button id="modal-oboeru-btn" class="setup-btn">覚える</button>
-        </div>
-        <div class="toggle-container-minimal" style="margin-bottom:20px;">
-          <button id="toggle-kanji" class="toggle-btn-minimal active-toggle">한자</button>
-          <button id="toggle-reading" class="toggle-btn-minimal active-toggle">히라가나</button>
-          <button id="toggle-meaning" class="toggle-btn-minimal active-toggle">뜻</button>
-        </div>
-        <div id="modal-kanji" style="font-size:6em; font-weight:800; margin-bottom:20px;"></div>
-        <div class="modal-detail-minimal" style="display:flex; gap:10px; border-top:1px solid #eee; padding-top:20px;">
-          <div id="modal-reading" class="modal-detail-box" style="flex:1; background:#f5f5f7; padding:15px; border-radius:10px; font-weight:bold; display:flex; justify-content:center; align-items:center;"></div>
-          <div id="modal-meaning" class="modal-detail-box" style="flex:1; background:#f5f5f7; padding:15px; border-radius:10px; font-weight:bold; display:flex; justify-content:center; align-items:center;"></div>
-        </div>
-      </div>
-    </div>
+function navigateWord(dir) {
+    if (dir === 'prev' && currentWordIndex > 0) currentWordIndex--;
+    else if (dir === 'next' && currentWordIndex < currentDisplayedWords.length - 1) currentWordIndex++;
+    showModal(currentDisplayedWords[currentWordIndex], currentWordIndex);
+}
 
-  </div>
-  <script defer type="text/javascript" src="/main.js"></script>
-</body>
-</html>
+function closeModal() { vocabularyModal.style.display = 'none'; }
+
+// 🌟 토글 기능 (아예 숨기기)
+function setupToggles() {
+    const modalIDs = ['toggle-kanji', 'toggle-reading', 'toggle-meaning'];
+    const modalTargets = ['modal-kanji', 'modal-reading', 'modal-meaning'];
+    
+    modalIDs.forEach((id, i) => {
+        const btn = document.getElementById(id);
+        const target = document.getElementById(modalTargets[i]);
+        btn.onclick = () => {
+            btn.classList.toggle('active');
+            target.classList.toggle('hidden-detail');
+        };
+    });
+
+    const revIDs = ['rev-toggle-kanji', 'rev-toggle-reading', 'rev-toggle-meaning'];
+    const revTargets = ['rev-kanji', 'rev-reading', 'rev-meaning'];
+    
+    revIDs.forEach((id, i) => {
+        const btn = document.getElementById(id);
+        const target = document.getElementById(revTargets[i]);
+        btn.onclick = () => {
+            btn.classList.toggle('active');
+            target.classList.toggle('hidden-detail');
+        };
+    });
+}
+
+// 초기 실행
+window.onload = () => {
+    setupToggles();
+    if (searchInput) {
+        searchInput.oninput = (e) => displayVocabulary(currentLevel, e.target.value);
+    }
+    
+    // 레벨 버튼 이벤트 바인딩
+    document.getElementById('level-selection').onclick = (e) => {
+        const btn = e.target.closest('.level-button');
+        if (btn) {
+            document.querySelectorAll('.level-button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            displayVocabulary(btn.dataset.level);
+        }
+    };
+};
