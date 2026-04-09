@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>바이브 漢 - STUDIO</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-  <link href='/style.css' rel='stylesheet'>
+  <link href='style.css' rel='stylesheet'>
 </head>
 <body>
   <div class="app-container">
@@ -14,6 +14,7 @@
       <div class="nav-item active" onclick="switchScreen('screen-home')">Home</div>
       <div class="nav-item" onclick="switchScreen('screen-vocab')">Kanji</div>
       <div class="nav-item" onclick="switchScreen('screen-quiz-setup')">Exercises</div>
+      <div class="nav-item help-btn" onclick="openHelp()">?</div>
     </div>
 
     <section id="screen-home" class="screen active-screen">
@@ -38,7 +39,8 @@
         <button class="level-button active" data-level="n5">N5</button>
         <button class="level-button" data-level="n4">N4</button>
         <button class="level-button" data-level="n3">N3</button>
-        <button class="level-button active" style="background:#ff9500; border-color:#ff9500;" data-level="mada">MADA</button>
+        <button class="level-button oboeta-tab" data-level="oboeta">覚えた</button>
+        <button class="level-button oboenakatta-tab" data-level="oboenakatta">覚えなかった</button>
       </nav>
 
       <div class="search-container">
@@ -46,6 +48,71 @@
       </div>
       
       <main id="vocabulary-display" class="vocab-grid"></main>
+    </section>
+
+    <section id="screen-quiz-setup" class="screen">
+        <header class="minimal-header">
+            <button class="back-btn" onclick="switchScreen('screen-home')">← Home</button>
+            <h2 class="header-title" style="color:var(--accent-blue); font-weight:900;">TEST YOURSELF</h2>
+        </header>
+        <div class="modern-panel text-center">
+            <h3>Ready to test your knowledge?</h3>
+            <p>Select your level and start the quiz.</p>
+            <button class="menu-btn hover-effect" style="margin-top:20px;" onclick="startQuiz()">START QUIZ</button>
+        </div>
+    </section>
+
+    <section id="screen-quiz-active" class="screen">
+        <div class="modern-panel text-center">
+            <h3 id="quiz-progress" style="color:#888;">1 / 20</h3>
+            <h2 id="quiz-question-label">이 한자의 뜻은?</h2>
+            <div id="quiz-kanji" class="kanji-huge" style="font-size:6em;"></div>
+            <div id="quiz-options" class="quiz-options-list" style="display:flex; flex-direction:column; gap:10px;"></div>
+            <div id="quiz-short-answer-container" style="display:none; margin-top:20px;">
+                <input type="text" id="short-answer-input" placeholder="정답 입력" style="padding:15px; font-size:1.2em; border-radius:10px; border:2px solid var(--accent-blue);">
+                <button id="short-answer-submit" class="level-button active" style="padding:15px 30px; font-size:1.2em;">제출</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="screen-quiz-result" class="screen">
+        <div class="modern-panel text-center">
+            <h2 style="color:var(--accent-blue); font-size:3em;">RESULT</h2>
+            <p style="font-size:2em;"><span id="final-score" style="color:var(--accent-blue); font-weight:bold;">0</span> / <span id="total-score">0</span></p>
+            <div style="display:flex; gap:15px; justify-content:center; margin-top:30px;">
+                <button class="level-button active" onclick="switchScreen('screen-home')">Go Home</button>
+                <button id="btn-review-incorrect" class="level-button" style="background:var(--red); border-color:var(--red); color:white; display:none;" onclick="startIncorrectReview()">Review Errors</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="screen-incorrect-review" class="screen review-screen">
+        <div class="modern-panel text-center">
+            <h3 id="review-progress-card" style="color:#888;">1 / 5</h3>
+            <div id="rev-kanji" class="kanji-huge" style="font-size:5em;"></div>
+            <div id="rev-reading" class="detail-box" style="margin-bottom:10px;"></div>
+            <div id="rev-meaning" class="detail-box"></div>
+            
+            <label style="display:block; margin-top:30px; font-size:1.2em; font-weight:bold; cursor:pointer;">
+                <input type="checkbox" id="rev-checkbox" style="transform:scale(1.5); margin-right:10px;"> 覚えた (Got it!)
+            </label>
+
+            <div style="display:flex; gap:10px; justify-content:center; margin-top:30px;">
+                <button id="rev-prev" class="level-button" onclick="navReview(-1)">Prev</button>
+                <button id="rev-next" class="level-button" onclick="navReview(1)">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="screen-review-complete" class="screen">
+        <div class="modern-panel text-center">
+            <h2 style="color:var(--green); font-size:2.5em;">Great Job!</h2>
+            <p>모든 오답을 확인했습니다.</p>
+            <div style="display:flex; gap:15px; justify-content:center; margin-top:30px;">
+                <button class="level-button" onclick="retakeIncorrectQuiz()">오답만 다시 풀기</button>
+                <button class="level-button active" onclick="switchScreen('screen-home')">홈으로</button>
+            </div>
+        </div>
     </section>
 
     <div id="vocabulary-modal" class="modal">
@@ -56,21 +123,34 @@
         <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')">&#10094;</button>
         <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')">&#10095;</button>
 
-        <div id="modal-kanji" class="kanji-huge"></div>
+        <div id="modal-kanji" class="kanji-huge" style="text-align:center;"></div>
         
-        <div class="detail-split">
-          <div id="modal-reading" class="detail-box"></div>
-          <div id="modal-meaning" class="detail-box"></div>
+        <div class="detail-split" style="display:flex; gap:10px; margin-bottom:20px;">
+          <div id="modal-reading" class="detail-box" style="flex:1; text-align:center;"></div>
+          <div id="modal-meaning" class="detail-box" style="flex:1; text-align:center;"></div>
         </div>
 
-        <div class="modal-status-btns" style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
-           <button id="modal-mada-btn" class="level-button">MADA</button>
-           <button id="modal-oboeru-btn" class="level-button active">LEARNED</button>
+        <div class="modal-status-btns" style="display:flex; gap:10px; justify-content:center;">
+           <button id="modal-oboeta-btn" class="status-btn oboeta-btn">覚えた</button>
+           <button id="modal-oboenakatta-btn" class="status-btn oboenakatta-btn">覚えなかった</button>
         </div>
       </div>
     </div>
 
+    <div id="help-modal" class="modal">
+        <div class="modal-card text-center" style="max-width: 500px;">
+            <span class="close-btn" onclick="closeHelp()">&times;</span>
+            <h2 style="color:var(--accent-blue); font-weight:900;">How to Use</h2>
+            <ul style="text-align:left; line-height:1.8; margin-top:20px; color:#555; font-weight:600;">
+                <li><strong>Study Kanji:</strong> N5~N3 레벨별 한자를 학습할 수 있습니다.</li>
+                <li><strong>覚えた / 覚えなかった:</strong> 단어마다 학습 상태를 체크하여 모아볼 수 있습니다.</li>
+                <li><strong>Test Yourself:</strong> 학습한 한자를 바탕으로 퀴즈를 풀고 오답을 복습합니다.</li>
+                <li><strong>단어 카드 클릭:</strong> 더 큰 화면으로 뜻과 음을 자세히 볼 수 있습니다.</li>
+            </ul>
+        </div>
+    </div>
+
   </div>
-  <script defer type="text/javascript" src="/main.js"></script>
+  <script defer type="text/javascript" src="main.js"></script>
 </body>
 </html>

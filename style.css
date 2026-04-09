@@ -1,11 +1,12 @@
 :root {
     --primary-font: 'Inter', sans-serif;
-    /* 이미지에서 추출한 컬러 팔레트 */
-    --bg-color: #F0F0F0;         /* 약간 회색빛 도는 오프화이트 */
-    --accent-blue: #2A52BE;      /* 강렬한 로얄 블루 */
-    --glow-blue: rgba(42, 82, 190, 0.35); /* 버튼 주변 네온 효과 */
+    --bg-color: #F0F0F0;         
+    --accent-blue: #2A52BE;      
+    --glow-blue: rgba(42, 82, 190, 0.35); 
     --text-main: #1D1D1F;
     --border-width: 2px;
+    --green: #28a745;
+    --red: #dc3545;
 }
 
 body { 
@@ -15,121 +16,96 @@ body {
     margin: 0; 
     display: flex; 
     justify-content: center;
-    /* 이미지의 질감을 위한 아주 미세한 패턴 */
     background-image: radial-gradient(#d1d1d1 0.5px, transparent 0.5px);
     background-size: 20px 20px;
 }
 
 .app-container { width: 100%; max-width: 1100px; padding: 40px 20px; box-sizing: border-box; }
 
-/* 🌟 메인 로고 디자인 (DOPPLE 스타일) */
+/* 공통 화면 숨김 처리 */
+.screen { display: none; }
+.active-screen { display: block; }
+.text-center { text-align: center; }
+
+/* 🌟 메인 로고 디자인 */
 .home-logo-container { margin-top: 10vh; margin-bottom: 5vh; text-align: left; }
 .main-title { 
-    font-size: 6em; 
-    font-weight: 900; 
-    color: var(--accent-blue); 
-    letter-spacing: -4px; 
-    text-transform: uppercase;
-    margin: 0;
-    line-height: 0.9;
+    font-size: 6em; font-weight: 900; color: var(--accent-blue); 
+    letter-spacing: -4px; text-transform: uppercase; margin: 0; line-height: 0.9;
 }
-.sub-logo-text {
-    font-size: 1.5em;
-    font-weight: 700;
-    color: var(--accent-blue);
-    margin-top: 10px;
-    letter-spacing: 1px;
-}
+.sub-logo-text { font-size: 1.5em; font-weight: 700; color: var(--accent-blue); margin-top: 10px; letter-spacing: 1px;}
 
-/* 🌟 이미지 속 버튼 디자인 (Outline + Glow) */
+/* 🌟 이미지 속 버튼 디자인 */
 .menu-btn { 
-    background: white;
-    color: var(--accent-blue);
+    background: white; color: var(--accent-blue);
     border: var(--border-width) solid var(--accent-blue);
-    padding: 25px;
-    font-size: 2em;
-    font-weight: 800;
-    text-transform: uppercase;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 0 15px var(--glow-blue); /* 블루 네온 효과 */
-    margin-bottom: 15px;
+    padding: 25px; font-size: 2em; font-weight: 800; text-transform: uppercase;
+    border-radius: 12px; cursor: pointer; transition: 0.3s;
+    box-shadow: 0 0 15px var(--glow-blue); margin-bottom: 15px; width:100%; max-width:400px;
 }
+.menu-btn:hover { transform: scale(1.02); box-shadow: 0 0 25px var(--glow-blue); background-color: var(--accent-blue); color: white; }
 
-.menu-btn:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 25px var(--glow-blue);
-    background-color: var(--accent-blue);
-    color: white;
-}
-
-/* 상단 네비게이션 스타일 (Home, Kanji, Exercises...) */
-.nav-row-minimal {
-    display: flex;
-    justify-content: flex-end;
-    gap: 30px;
-    margin-bottom: 40px;
-    font-weight: 600;
-    color: #555;
-}
-.nav-item { cursor: pointer; border-bottom: 2px solid transparent; }
+/* 상단 네비게이션 */
+.nav-row-minimal { display: flex; justify-content: flex-end; gap: 30px; margin-bottom: 40px; font-weight: 600; color: #555; align-items: center;}
+.nav-item { cursor: pointer; border-bottom: 2px solid transparent; transition:0.2s;}
+.nav-item:hover { color: var(--accent-blue); }
 .nav-item.active { border-bottom: 2px solid var(--accent-blue); color: var(--accent-blue); }
 
-/* 🌟 카드 디자인 (Journey Box 스타일) */
-.vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+/* 도움말 버튼 (?) */
+.help-btn {
+    background: white; border: 2px solid var(--accent-blue); color: var(--accent-blue);
+    border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center;
+    font-weight: 900; font-size: 1.2em; cursor: pointer;
+}
+.help-btn:hover { background: var(--accent-blue); color: white; box-shadow: 0 0 10px var(--glow-blue); }
+
+/* 상단 뒤로가기 헤더 */
+.minimal-header { display:flex; align-items:center; gap:20px; margin-bottom: 30px;}
+.back-btn { background:transparent; border:none; font-size:1.2em; font-weight:700; color:#888; cursor:pointer;}
+.back-btn:hover { color: var(--accent-blue); }
+
+/* 🌟 레벨 탭 버튼 */
+.level-nav { display:flex; gap:10px; margin-bottom: 20px; flex-wrap: wrap;}
+.level-button { background: white; border: 1.5px solid #ddd; border-radius: 20px; padding: 10px 20px; font-weight: 700; cursor: pointer; transition: 0.2s;}
+.level-button:hover { border-color: var(--accent-blue); }
+.level-button.active { background: var(--accent-blue); color: white; border-color: var(--accent-blue); }
+
+/* 🌟 카드 디자인 */
+.vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top:20px;}
 .vocabulary-card { 
-    background: white; 
-    border: var(--border-width) solid var(--accent-blue); 
-    border-radius: 15px; 
-    padding: 30px 20px;
-    text-align: center;
-    transition: 0.3s;
+    background: white; border: var(--border-width) solid var(--accent-blue); 
+    border-radius: 15px; padding: 30px 20px; text-align: center; transition: 0.3s;
 }
-.vocabulary-card:hover { box-shadow: 0 0 15px var(--glow-blue); }
-.vocabulary-card .kanji { font-size: 4em; font-weight: 800; color: var(--accent-blue); }
+.vocabulary-card:hover { box-shadow: 0 0 15px var(--glow-blue); transform:translateY(-5px);}
+.vocabulary-card .kanji { font-size: 4em; font-weight: 800; color: var(--accent-blue); cursor:pointer;}
+.vocabulary-card .reading { font-weight:700; margin-top:10px; cursor:pointer;}
+.vocabulary-card .meaning { color:#666; margin-top:5px; cursor:pointer;}
 
-/* 모달 및 오답노트 */
+/* 🌟 단어 카드 내 [覚えた / 覚えなかった] 버튼 그룹 */
+.card-btn-group { display: flex; gap: 8px; justify-content: center; margin-top: 20px; }
+.status-btn { 
+    background: white; border: 1.5px solid #ccc; border-radius: 15px; 
+    padding: 6px 12px; font-size: 0.85em; font-weight: 700; cursor: pointer; transition: 0.2s;
+}
+.status-btn.oboeta-btn:hover, .oboeta-tab.active { border-color: var(--green); color: var(--green); background: #f0fdf4;}
+.status-btn.oboenakatta-btn:hover, .oboenakatta-tab.active { border-color: var(--red); color: var(--red); background: #fef2f2;}
+.status-btn.oboeta-btn.active { background: var(--green); color: white; border-color: var(--green); box-shadow: 0 0 10px rgba(40, 167, 69, 0.4);}
+.status-btn.oboenakatta-btn.active { background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 10px rgba(220, 53, 69, 0.4);}
+
+/* 🌟 공통 패널 (퀴즈, 결과 화면) */
 .modern-panel { 
-    background: white; 
-    border: var(--border-width) solid var(--accent-blue); 
-    border-radius: 20px; 
-    padding: 40px;
-    max-width: 600px;
-    margin: 0 auto;
+    background: white; border: var(--border-width) solid var(--accent-blue); 
+    border-radius: 20px; padding: 40px; max-width: 600px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.05);
 }
 
-.hidden-detail { display: none !important; }
-
-/* 🌟 큰 단어 카드 (Kanji of the Day 스타일) */
+/* 🌟 모달 디자인 */
+.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(5px);}
 .modal-card { 
-    background: white; 
-    border: 3px solid var(--accent-blue); 
-    border-radius: 25px; 
-    padding: 50px;
-    position: relative;
-    box-shadow: 0 0 30px var(--glow-blue);
+    background: white; border: 3px solid var(--accent-blue); border-radius: 25px; 
+    padding: 50px; position: relative; box-shadow: 0 0 30px var(--glow-blue); width: 90%; max-width: 400px;
 }
-.kanji-huge { font-size: 8em; font-weight: 800; color: var(--accent-blue); margin: 30px 0; }
-.detail-box { 
-    border: 1.5px solid var(--accent-blue); 
-    background: #f9f9ff; 
-    border-radius: 10px;
-    padding: 15px;
-    font-weight: 700;
-}
-
-/* 탭 버튼 디자인 */
-.level-button {
-    background: white;
-    border: 1.5px solid #ddd;
-    border-radius: 20px;
-    padding: 8px 20px;
-    font-weight: 700;
-    cursor: pointer;
-}
-.level-button.active {
-    background: var(--accent-blue);
-    color: white;
-    border-color: var(--accent-blue);
-}
+.close-btn { position: absolute; top: 20px; right: 25px; font-size: 2em; font-weight: bold; color: var(--accent-blue); cursor: pointer; }
+.inner-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: none; font-size: 2em; color: var(--accent-blue); cursor: pointer; }
+.inner-arrow.prev { left: 10px; }
+.inner-arrow.next { right: 10px; }
+.modal-number { position: absolute; top: 25px; left: 25px; font-weight: 700; color: #888; }
