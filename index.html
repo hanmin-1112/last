@@ -64,15 +64,25 @@
                         <button class="level-button" data-val="n1">N1</button>
                     </div>
                 </div>
+                
                 <div class="quiz-setup-item" style="margin-bottom: 25px;">
-                    <label class="setup-label">문제 타입</label>
-                    <div class="btn-group" id="setup-type">
-                        <button class="level-button active" data-val="meaning">뜻</button>
-                        <button class="level-button" data-val="reading">음</button>
+                    <label class="setup-label">문제 타입 (질문)</label>
+                    <div class="btn-group" id="setup-qtype">
                         <button class="level-button" data-val="kanji">한자</button>
-                        <button class="level-button" data-val="random">랜덤</button>
+                        <button class="level-button" data-val="reading">음</button>
+                        <button class="level-button active" data-val="meaning">뜻</button>
                     </div>
                 </div>
+
+                <div class="quiz-setup-item" style="margin-bottom: 25px;">
+                    <label class="setup-label">보기 타입 (선택지)</label>
+                    <div class="btn-group" id="setup-atype">
+                        <button class="level-button active" data-val="kanji">한자</button>
+                        <button class="level-button" data-val="reading">음</button>
+                        <button class="level-button" data-val="meaning">뜻</button>
+                    </div>
+                </div>
+
                 <div class="quiz-setup-item">
                     <label class="setup-label">문항 수</label>
                     <div class="btn-group" id="setup-count">
@@ -94,6 +104,14 @@
             <h2 id="quiz-question-label">이 한자의 뜻은?</h2>
             <div id="quiz-kanji" class="kanji-huge" style="font-size:6em; cursor:default; border:none; margin: 30px auto;"></div>
             <div id="quiz-options" class="quiz-options-list"></div>
+
+            <div id="quiz-feedback-box" class="quiz-feedback-box" style="display: none;">
+                <p id="quiz-feedback-msg" style="font-size: 1.2em; margin-bottom: 15px;"></p>
+                <div style="display:flex; gap:15px; justify-content:center;">
+                    <button id="btn-quiz-add" class="status-btn" style="padding: 12px 25px; font-size: 1em;">단어장에 추가</button>
+                    <button class="menu-btn" style="padding: 12px 25px; font-size: 1em; margin: 0; max-width: 150px;" onclick="proceedQuiz()">다음 문제</button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -111,11 +129,9 @@
     <section id="screen-incorrect-review" class="screen review-screen">
         <div class="modal-card" style="margin: 0 auto; box-shadow: none; border: 3px solid var(--red);">
             <div id="review-progress-card" class="modal-number" style="color: var(--red);">오답 1 / 5</div>
-            
             <div class="detail-box clickable-box" id="rev-kanji-box" style="margin-top: 30px; margin-bottom:20px; min-height: 150px; border-color:var(--red);">
                 <div id="rev-kanji" class="kanji-huge" style="color:var(--red); margin:0;"></div>
             </div>
-            
             <div class="detail-split" style="display:flex; gap:10px; margin-bottom:30px; border:none; padding:0;">
                 <div class="detail-box clickable-box" id="rev-reading-box" style="border-color:var(--red);">
                     <div id="rev-reading"></div>
@@ -124,9 +140,7 @@
                     <div id="rev-meaning"></div>
                 </div>
             </div>
-            
             <p style="font-size:0.85em; color:#888; margin-bottom:20px;">* 빈 박스를 클릭하면 글자가 가려집니다.</p>
-
             <button class="menu-btn" style="background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 15px rgba(220,53,69,0.4); margin: 0 auto; display: block;" onclick="markAsMemorized()">암기 완료 (Next)</button>
         </div>
     </section>
@@ -163,24 +177,24 @@
           </div>
         </div>
 
-        <p style="font-size:0.85em; color:#bbb; margin-bottom:20px; text-align:center;">* 박스를 클릭하면 글자가 가려진 채로 유지됩니다.</p>
+        <p style="font-size:0.85em; color:#bbb; margin-bottom:25px; text-align:center;">* 박스를 클릭하면 글자가 가려진 채로 유지됩니다.</p>
 
-        <div class="modal-status-btns" style="display:flex; gap:10px; justify-content:center;">
-           <button id="modal-oboeta-btn" class="status-btn oboeta-btn">覚えた</button>
-           <button id="modal-oboenakatta-btn" class="status-btn oboenakatta-btn">覚えなかった</button>
+        <div class="modal-action-btns" style="display:flex; gap:20px; justify-content:center;">
+           <button id="modal-oboeta-btn" class="status-btn oboeta-btn modal-action-btn">覚えた</button>
+           <button id="modal-oboenakatta-btn" class="status-btn oboenakatta-btn modal-action-btn">覚えなかった</button>
         </div>
       </div>
     </div>
 
     <div id="help-modal" class="modal">
-        <div class="modal-card text-center" style="max-width: 500px;">
+        <div class="modal-card text-center" style="max-width: 550px;">
             <span class="close-btn" onclick="closeHelp()">&times;</span>
-            <h2 style="color:var(--accent-blue); font-weight:900;">How to Use</h2>
-            <ul style="text-align:left; line-height:1.8; margin-top:20px; color:#555; font-weight:600;">
-                <li><strong>Kanji:</strong> N5~N1 레벨별 한자를 학습할 수 있습니다.</li>
-                <li><strong>Test:</strong> 원하는 레벨과 문제 타입, 문항 수를 선택하여 시험을 봅니다.</li>
-                <li><strong>Review:</strong> 틀린 문제는 다시 카드로 보여주며, '암기 완료'를 눌러 다음으로 넘어갑니다.</li>
-                <li><strong>Interactive Card:</strong> 박스를 클릭하면 글자가 아예 가려집니다! 다른 단어로 넘어가도 숨김 상태가 유지되어 테스트하기 좋습니다.</li>
+            <h2 style="color:var(--accent-blue); font-weight:900; margin-bottom: 20px;">사용 방법 안내</h2>
+            <ul style="text-align:left; line-height:1.8; color:#555; font-weight:600; font-size: 1.05em;">
+                <li style="margin-bottom:10px;"><strong>Kanji 단어장:</strong> N5~N1 레벨의 한자를 학습합니다. 외운 단어는 목록에서 즉시 분류되며, 상단의 [覚えた] / [覚えなかった] 탭에서 따로 모아볼 수 있습니다.</li>
+                <li style="margin-bottom:10px;"><strong>단어 카드 (셀프 테스트):</strong> 큰 카드 모달에서 <strong>한자, 뜻, 음을 클릭하면 글자가 투명해집니다.</strong> 다른 단어로 넘어가도 숨김 상태가 유지되므로 셀프 암기 테스트에 유용합니다.</li>
+                <li style="margin-bottom:10px;"><strong>다양한 Test 모드:</strong> 질문(문제)과 선택지(보기)를 다르게 설정할 수 있습니다. <em>(예: 문제=한자, 보기=음)</em> 문항 수도 조절 가능합니다.</li>
+                <li><strong>퀴즈 피드백:</strong> 퀴즈를 풀고 난 직후, 정답 여부에 따라 곧바로 '覚えた'나 '覚えなかった' 단어장에 추가할 수 있는 버튼이 나타납니다.</li>
             </ul>
         </div>
     </div>

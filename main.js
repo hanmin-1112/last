@@ -150,6 +150,7 @@ const vocabulary = {
     ],
   n2: [], n1: []
 };
+
 let oboetaWords = JSON.parse(localStorage.getItem('oboetaWords')) || [];
 let oboenakattaWords = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
 let currentDisplayedWords = [];
@@ -160,12 +161,13 @@ let quizWords = [];
 let incorrectQuestions = [];
 let currentQuizIndex = 0;
 let score = 0;
-let quizConfig = { level: 'n5', type: 'meaning', count: 20 }; 
+
+// 🌟 퀴즈 설정 (문제 타입과 보기 타입 분리)
+let quizConfig = { level: 'n5', qType: 'meaning', aType: 'kanji', count: 20 }; 
 let currentCorrectAnswerStr = "";
 
 let reviewIndex = 0;
 
-// 🌟 글로벌 숨김 상태 변수 (단어를 넘겨도 클릭된 박스는 계속 비어있음)
 let hideState = { kanji: false, reading: false, meaning: false };
 let revHideState = { kanji: false, reading: false, meaning: false };
 
@@ -174,7 +176,6 @@ const searchInput = document.getElementById('word-search');
 const vocabularyModal = document.getElementById('vocabulary-modal');
 const helpModal = document.getElementById('help-modal');
 
-// 화면 전환
 function switchScreen(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
   const target = document.getElementById(screenId);
@@ -195,7 +196,6 @@ function switchScreen(screenId) {
 function openHelp() { helpModal.style.display = 'flex'; }
 function closeHelp() { helpModal.style.display = 'none'; }
 
-// 🌟 단어 리스트 표시 (상태 설정 시 목록에서 즉시 사라짐 로직 포함)
 function displayVocabulary(level, searchTerm = '') {
   currentLevel = level;
   vocabularyDisplay.innerHTML = '';
@@ -210,7 +210,6 @@ function displayVocabulary(level, searchTerm = '') {
   else if (level === 'oboenakatta') words = all.filter(w => oboenakattaWords.includes(w.kanji));
   else {
       let levelWords = vocabulary[level] || [];
-      // 현재 레벨 탭에서는 이미 oboeta/oboenakatta로 지정된 단어를 아예 리스트에서 제외
       words = levelWords.filter(w => !oboetaWords.includes(w.kanji) && !oboenakattaWords.includes(w.kanji));
   }
 
@@ -228,8 +227,6 @@ function displayVocabulary(level, searchTerm = '') {
           
           const isOboeta = oboetaWords.includes(w.kanji) ? 'active' : '';
           const isOboenakatta = oboenakattaWords.includes(w.kanji) ? 'active' : '';
-
-          // 🌟 4글자 이상 한 줄 처리용 클래스
           const kanjiClass = w.kanji.length >= 4 ? 'kanji kanji-small-long' : 'kanji';
 
           card.innerHTML = `
@@ -271,7 +268,27 @@ function toggleWordStatus(event, kanji, target) {
   if (vocabularyModal.style.display === 'flex') updateModalButtons(kanji);
 }
 
-// 🌟 큰 단어 카드 모달 제어
+// 🌟 큰 단어 카드 모달 내 버튼 자동 넘김 추가
+function updateModalButtons(kanji) {
+  const oboetaBtn = document.getElementById('modal-oboeta-btn');
+  const oboenakattaBtn = document.getElementById('modal-oboenakatta-btn');
+  
+  oboetaBtn.className = `status-btn oboeta-btn modal-action-btn ${oboetaWords.includes(kanji) ? 'active' : ''}`;
+  oboenakattaBtn.className = `status-btn oboenakatta-btn modal-action-btn ${oboenakattaWords.includes(kanji) ? 'active' : ''}`;
+  
+  // 버튼 누르면 상태 토글 후 자동으로 다음 단어로 넘어가게 변경
+  oboetaBtn.onclick = (e) => { 
+      toggleWordStatus(e, kanji, 'oboeta'); 
+      if (currentWordIndex < currentDisplayedWords.length - 1) navigateWord('next');
+      else closeModal();
+  };
+  oboenakattaBtn.onclick = (e) => { 
+      toggleWordStatus(e, kanji, 'oboenakatta'); 
+      if (currentWordIndex < currentDisplayedWords.length - 1) navigateWord('next');
+      else closeModal();
+  };
+}
+
 function showModal(index) {
   currentWordIndex = index;
   const word = currentDisplayedWords[index];
@@ -288,9 +305,7 @@ function showModal(index) {
   if (word.kanji.length >= 4) k.classList.add('kanji-modal-long');
   else k.classList.remove('kanji-modal-long');
 
-  // "글로벌 숨김 상태"를 적용하여 다음 단어에서도 빈칸 유지
   applyHideStates();
-
   updateModalButtons(word.kanji);
   vocabularyModal.style.display = 'flex';
   
@@ -306,19 +321,15 @@ function navigateWord(dir) {
 
 function closeModal() { vocabularyModal.style.display = 'none'; }
 
-function updateModalButtons(kanji) {
-  const oboetaBtn = document.getElementById('modal-oboeta-btn');
-  const oboenakattaBtn = document.getElementById('modal-oboenakatta-btn');
-  oboetaBtn.className = `status-btn oboeta-btn ${oboetaWords.includes(kanji) ? 'active' : ''}`;
-  oboenakattaBtn.className = `status-btn oboenakatta-btn ${oboenakattaWords.includes(kanji) ? 'active' : ''}`;
-  oboetaBtn.onclick = (e) => toggleWordStatus(e, kanji, 'oboeta');
-  oboenakattaBtn.onclick = (e) => toggleWordStatus(e, kanji, 'oboenakatta');
-}
 
-// 🌟 퀴즈 시스템
+// 🌟 퀴즈 시스템 (Q타입 / A타입 로직)
 function startQuiz() {
+  if (quizConfig.qType === quizConfig.aType) {
+      return alert("문제 타입과 보기 타입을 다르게 설정해주세요! (예: 한자 -> 뜻)");
+  }
+
   let words = vocabulary[quizConfig.level];
-  if (!words || words.length < 4) return alert("해당 레벨의 단어가 4개 이상 필요합니다.");
+  if (!words || words.length < 4) return alert("해당 레벨의 단어가 부족합니다.");
 
   let count = parseInt(quizConfig.count);
   quizWords = [...words].sort(() => Math.random() - 0.5).slice(0, count); 
@@ -327,39 +338,47 @@ function startQuiz() {
   score = 0;
 
   switchScreen('screen-quiz-active');
+  document.getElementById('quiz-feedback-box').style.display = 'none'; // 초기 숨김
   loadQuizQuestion();
 }
 
 function loadQuizQuestion() {
+  // 문제 넘어갈 때 피드백 끄기
+  document.getElementById('quiz-feedback-box').style.display = 'none';
+  document.getElementById('quiz-options').style.display = 'flex';
+
   const currentWord = quizWords[currentQuizIndex];
   document.getElementById('quiz-progress').textContent = `${currentQuizIndex + 1} / ${quizWords.length}`;
   
-  let type = quizConfig.type === 'random' ? ['meaning', 'reading', 'kanji'][Math.floor(Math.random() * 3)] : quizConfig.type;
   const label = document.getElementById('quiz-question-label');
   const kanjiEl = document.getElementById('quiz-kanji');
   
-  if (currentWord.kanji.length >= 4) kanjiEl.classList.add('kanji-modal-long');
-  else kanjiEl.classList.remove('kanji-modal-long');
-
-  if (type === 'meaning') {
-      label.textContent = "이 한자의 뜻은?";
+  // 질문(문제) 세팅
+  if (quizConfig.qType === 'kanji') {
+      label.textContent = "다음 한자의 알맞은 것을 고르세요.";
       kanjiEl.textContent = currentWord.kanji;
-      currentCorrectAnswerStr = currentWord.meaning;
-  } else if (type === 'reading') {
-      label.textContent = "이 한자의 읽기는?";
-      kanjiEl.textContent = currentWord.kanji;
-      currentCorrectAnswerStr = currentWord.reading;
+  } else if (quizConfig.qType === 'reading') {
+      label.textContent = "이 음(읽기)에 해당하는 한자나 뜻은?";
+      kanjiEl.textContent = currentWord.reading;
   } else {
-      label.textContent = "다음 뜻/음을 가진 한자는?";
-      kanjiEl.textContent = `${currentWord.meaning} (${currentWord.reading})`;
-      currentCorrectAnswerStr = currentWord.kanji;
+      label.textContent = "이 뜻에 해당하는 한자나 음은?";
+      kanjiEl.textContent = currentWord.meaning;
   }
 
+  if (kanjiEl.textContent.length >= 4) kanjiEl.classList.add('kanji-modal-long');
+  else kanjiEl.classList.remove('kanji-modal-long');
+
+  // 정답 세팅 (보기 타입에 따라)
+  if (quizConfig.aType === 'kanji') currentCorrectAnswerStr = currentWord.kanji;
+  else if (quizConfig.aType === 'reading') currentCorrectAnswerStr = currentWord.reading;
+  else currentCorrectAnswerStr = currentWord.meaning;
+
+  // 오답 보기 생성
   let opts = [currentCorrectAnswerStr];
   let allPool = vocabulary[quizConfig.level]; 
   while(opts.length < 4) {
       let rand = allPool[Math.floor(Math.random() * allPool.length)];
-      let val = (type === 'meaning') ? rand.meaning : (type === 'reading' ? rand.reading : rand.kanji);
+      let val = (quizConfig.aType === 'kanji') ? rand.kanji : (quizConfig.aType === 'reading' ? rand.reading : rand.meaning);
       if(!opts.includes(val)) opts.push(val);
   }
   opts.sort(() => Math.random() - 0.5);
@@ -377,25 +396,45 @@ function loadQuizQuestion() {
   });
 }
 
-// 🌟 퀴즈 정답 피드백 처리 (초록색, 빨간색 테두리)
+// 🌟 피드백 및 단어장 바로 추가 로직
 function handleQuizAnswer(btn, isCorrect, word) {
-  // 중복 클릭 방지
   document.querySelectorAll('.quiz-options-list .menu-btn').forEach(b => b.disabled = true);
+  
+  const feedbackBox = document.getElementById('quiz-feedback-box');
+  const feedbackMsg = document.getElementById('quiz-feedback-msg');
+  const addBtn = document.getElementById('btn-quiz-add');
+
+  feedbackBox.style.display = 'block';
 
   if (isCorrect) { 
       btn.classList.add('quiz-correct'); 
       score++; 
+      
+      feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">정답입니다!</span> <br> '覚えた' 단어장에 추가할까요?`;
+      addBtn.className = 'status-btn oboeta-btn';
+      addBtn.textContent = '覚えた 추가';
+      addBtn.onclick = () => { internalToggleList(word.kanji, 'oboeta'); proceedQuiz(); };
   } else { 
       btn.classList.add('quiz-wrong'); 
       incorrectQuestions.push(word); 
-      // 정답도 같이 초록색으로 표시해주면 더 좋습니다
+      
       document.querySelectorAll('.quiz-options-list .menu-btn').forEach(b => {
           if(b.textContent === currentCorrectAnswerStr) b.classList.add('quiz-correct');
       });
+
+      feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">오답입니다.</span> <br> '覚えなかった' 단어장에 추가할까요?`;
+      addBtn.className = 'status-btn oboenakatta-btn';
+      addBtn.textContent = '覚えなかった 추가';
+      addBtn.onclick = () => { internalToggleList(word.kanji, 'oboenakatta'); proceedQuiz(); };
   }
-  
-  // 피드백을 확인할 수 있도록 지연 시간을 1.2초로 늘림
-  setTimeout(() => { proceedQuiz(); }, 1200);
+}
+
+// UI 갱신 없이 내부 배열과 스토리지에만 바로 꽂아주는 함수 (퀴즈 피드백용)
+function internalToggleList(kanji, target) {
+    if (target === 'oboeta' && !oboetaWords.includes(kanji)) oboetaWords.push(kanji);
+    if (target === 'oboenakatta' && !oboenakattaWords.includes(kanji)) oboenakattaWords.push(kanji);
+    localStorage.setItem('oboetaWords', JSON.stringify(oboetaWords));
+    localStorage.setItem('oboenakattaWords', JSON.stringify(oboenakattaWords));
 }
 
 function proceedQuiz() {
@@ -411,7 +450,7 @@ function endQuiz() {
   switchScreen('screen-quiz-result');
 }
 
-// 🌟 오답 노트
+// 오답 노트
 function startIncorrectReview() {
   reviewIndex = 0;
   switchScreen('screen-incorrect-review');
@@ -454,14 +493,11 @@ function retakeIncorrectQuiz() {
   loadQuizQuestion();
 }
 
-// 🌟 박스(테두리) 클릭 시 내부 글자만 투명하게 숨기는 로직
 function setupClickToHide() {
-    // 단어장 모달
     document.getElementById('modal-kanji-box').onclick = () => { hideState.kanji = !hideState.kanji; applyHideStates(); };
     document.getElementById('modal-reading-box').onclick = () => { hideState.reading = !hideState.reading; applyHideStates(); };
     document.getElementById('modal-meaning-box').onclick = () => { hideState.meaning = !hideState.meaning; applyHideStates(); };
 
-    // 오답 노트
     document.getElementById('rev-kanji-box').onclick = () => { revHideState.kanji = !revHideState.kanji; applyRevHideStates(); };
     document.getElementById('rev-reading-box').onclick = () => { revHideState.reading = !revHideState.reading; applyRevHideStates(); };
     document.getElementById('rev-meaning-box').onclick = () => { revHideState.meaning = !revHideState.meaning; applyRevHideStates(); };
@@ -493,14 +529,17 @@ window.onload = () => {
       }
   };
 
+  // 🌟 퀴즈 설정 버튼 제어
   document.querySelectorAll('.quiz-setup-list .btn-group').forEach(group => {
         group.onclick = (e) => {
             const btn = e.target.closest('.level-button');
             if (btn) {
                 group.querySelectorAll('.level-button').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
+                
                 if (group.id === 'setup-level') quizConfig.level = btn.dataset.val;
-                if (group.id === 'setup-type') quizConfig.type = btn.dataset.val;
+                if (group.id === 'setup-qtype') quizConfig.qType = btn.dataset.val;
+                if (group.id === 'setup-atype') quizConfig.aType = btn.dataset.val;
                 if (group.id === 'setup-count') quizConfig.count = btn.dataset.val;
             }
         };
