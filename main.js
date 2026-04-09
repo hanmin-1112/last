@@ -160,10 +160,14 @@ let quizWords = [];
 let incorrectQuestions = [];
 let currentQuizIndex = 0;
 let score = 0;
-let quizConfig = { level: 'n5', type: 'meaning' };
+let quizConfig = { level: 'n5', type: 'meaning', count: 20 }; // count 기본값 20
 let currentCorrectAnswerStr = "";
 
 let reviewIndex = 0;
+
+// 🌟 글로벌 숨김 상태 변수 (단어를 넘겨도 상태가 유지됨)
+let hideState = { kanji: false, reading: false, meaning: false };
+let revHideState = { kanji: false, reading: false, meaning: false };
 
 const vocabularyDisplay = document.getElementById('vocabulary-display');
 const searchInput = document.getElementById('word-search');
@@ -259,7 +263,7 @@ function toggleWordStatus(event, kanji, target) {
   if (vocabularyModal.style.display === 'flex') updateModalButtons(kanji);
 }
 
-// 🌟 큰 단어 카드 모달 제어 (4글자 크기 조절 & 숨김 초기화 포함)
+// 🌟 큰 단어 카드 모달 제어
 function showModal(index) {
   currentWordIndex = index;
   const word = currentDisplayedWords[index];
@@ -273,12 +277,12 @@ function showModal(index) {
   r.textContent = word.reading;
   m.textContent = word.meaning;
 
-  // 4글자 이상일 때 폰트 축소
+  // 4글자 이상일 때 폰트 축소 (클래스 토글)
   if (word.kanji.length >= 4) k.classList.add('kanji-long');
   else k.classList.remove('kanji-long');
 
-  // 모달 띄울 때 숨김(투명화) 상태 초기화
-  [k, r, m].forEach(el => el.classList.remove('hidden-content'));
+  // 모달 띄울 때 "글로벌 숨김 상태"를 적용 (초기화하지 않음)
+  applyHideStates();
 
   updateModalButtons(word.kanji);
   vocabularyModal.style.display = 'flex';
@@ -309,7 +313,9 @@ function startQuiz() {
   let words = vocabulary[quizConfig.level];
   if (!words || words.length < 4) return alert("해당 레벨의 단어가 4개 이상 필요합니다.");
 
-  quizWords = [...words].sort(() => Math.random() - 0.5).slice(0, 20); // 기본 20문제
+  // 문항 수 적용
+  let count = parseInt(quizConfig.count);
+  quizWords = [...words].sort(() => Math.random() - 0.5).slice(0, count); 
   incorrectQuestions = [];
   currentQuizIndex = 0;
   score = 0;
@@ -326,7 +332,6 @@ function loadQuizQuestion() {
   const label = document.getElementById('quiz-question-label');
   const kanjiEl = document.getElementById('quiz-kanji');
   
-  // 4글자 퀴즈 화면 크기 조절
   if (currentWord.kanji.length >= 4) kanjiEl.classList.add('kanji-long');
   else kanjiEl.classList.remove('kanji-long');
 
@@ -385,7 +390,7 @@ function endQuiz() {
   switchScreen('screen-quiz-result');
 }
 
-// 🌟 오답 노트 (모달 형태 & 암기완료 진행)
+// 🌟 오답 노트
 function startIncorrectReview() {
   reviewIndex = 0;
   switchScreen('screen-incorrect-review');
@@ -407,8 +412,8 @@ function loadReviewWord() {
   if (word.kanji.length >= 4) k.classList.add('kanji-long');
   else k.classList.remove('kanji-long');
 
-  // 오답 카드 띄울 때 숨김 상태 초기화
-  [k, r, m].forEach(el => el.classList.remove('hidden-content'));
+  // 오답 카드 띄울 때 "글로벌 오답 숨김 상태" 적용
+  applyRevHideStates();
 }
 
 function markAsMemorized() {
@@ -416,13 +421,11 @@ function markAsMemorized() {
     if (reviewIndex < incorrectQuestions.length) {
         loadReviewWord();
     } else {
-        // 모든 오답 확인 완료 시
         switchScreen('screen-review-complete');
     }
 }
 
 function retakeIncorrectQuiz() {
-  // 틀린 문제만 모아서 퀴즈 다시 시작
   quizWords = [...incorrectQuestions].sort(() => Math.random() - 0.5);
   incorrectQuestions = [];
   currentQuizIndex = 0;
@@ -431,29 +434,36 @@ function retakeIncorrectQuiz() {
   loadQuizQuestion();
 }
 
-// 🌟 초기화 및 이벤트 리스너 세팅
+// 🌟 숨김/보임 클릭 이벤트 제어 로직 (글로벌 상태 적용)
 function setupClickToHide() {
-    // 모달 내 텍스트 클릭 이벤트
-    const modalTexts = ['modal-kanji', 'modal-reading', 'modal-meaning'];
-    modalTexts.forEach(id => {
-        const el = document.getElementById(id);
-        if(el) el.onclick = () => el.classList.toggle('hidden-content');
-    });
+    // 단어장 모달
+    document.getElementById('modal-kanji').onclick = () => { hideState.kanji = !hideState.kanji; applyHideStates(); };
+    document.getElementById('modal-reading').onclick = () => { hideState.reading = !hideState.reading; applyHideStates(); };
+    document.getElementById('modal-meaning').onclick = () => { hideState.meaning = !hideState.meaning; applyHideStates(); };
 
-    // 오답 노트 내 텍스트 클릭 이벤트
-    const revTexts = ['rev-kanji', 'rev-reading', 'rev-meaning'];
-    revTexts.forEach(id => {
-        const el = document.getElementById(id);
-        if(el) el.onclick = () => el.classList.toggle('hidden-content');
-    });
+    // 오답 노트
+    document.getElementById('rev-kanji').onclick = () => { revHideState.kanji = !revHideState.kanji; applyRevHideStates(); };
+    document.getElementById('rev-reading').onclick = () => { revHideState.reading = !revHideState.reading; applyRevHideStates(); };
+    document.getElementById('rev-meaning').onclick = () => { revHideState.meaning = !revHideState.meaning; applyRevHideStates(); };
+}
+
+function applyHideStates() {
+    document.getElementById('modal-kanji').classList.toggle('hidden-content', hideState.kanji);
+    document.getElementById('modal-reading').classList.toggle('hidden-content', hideState.reading);
+    document.getElementById('modal-meaning').classList.toggle('hidden-content', hideState.meaning);
+}
+
+function applyRevHideStates() {
+    document.getElementById('rev-kanji').classList.toggle('hidden-content', revHideState.kanji);
+    document.getElementById('rev-reading').classList.toggle('hidden-content', revHideState.reading);
+    document.getElementById('rev-meaning').classList.toggle('hidden-content', revHideState.meaning);
 }
 
 window.onload = () => {
-  setupClickToHide();
+  setupClickToHide(); // 클릭 숨김 셋업
   
   if (searchInput) searchInput.oninput = (e) => displayVocabulary(currentLevel, e.target.value);
   
-  // 레벨 탭 전환
   document.getElementById('level-selection').onclick = (e) => {
       const btn = e.target.closest('.level-button');
       if (btn) {
@@ -463,7 +473,7 @@ window.onload = () => {
       }
   };
 
-  // 퀴즈 설정 버튼 제어
+  // 🌟 퀴즈 설정 버튼 제어 (문항 수 포함)
   document.querySelectorAll('.quiz-setup-list .btn-group').forEach(group => {
         group.onclick = (e) => {
             const btn = e.target.closest('.level-button');
@@ -472,6 +482,7 @@ window.onload = () => {
                 btn.classList.add('active');
                 if (group.id === 'setup-level') quizConfig.level = btn.dataset.val;
                 if (group.id === 'setup-type') quizConfig.type = btn.dataset.val;
+                if (group.id === 'setup-count') quizConfig.count = btn.dataset.val; // 문항 수 업데이트
             }
         };
     });
