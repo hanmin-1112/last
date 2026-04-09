@@ -14,7 +14,7 @@
       <div class="nav-item active" id="nav-home" onclick="switchScreen('screen-home')">Home</div>
       <div class="nav-item" id="nav-vocab" onclick="switchScreen('screen-vocab')">Kanji</div>
       <div class="nav-item" id="nav-test" onclick="switchScreen('screen-quiz-setup')">Test</div>
-      <div class="nav-item help-btn" onclick="openHelp()">?</div>
+      <div class="help-btn" onclick="openHelp()">?</div>
     </div>
 
     <section id="screen-home" class="screen active-screen">
@@ -55,8 +55,8 @@
         <div class="modern-panel text-center">
             <div class="quiz-setup-list" style="margin-bottom: 30px;">
                 <div class="quiz-setup-item" style="margin-bottom: 25px;">
-                    <label style="font-weight:700; color:var(--accent-blue); display:block; margin-bottom:10px;">레벨 선택</label>
-                    <div class="btn-group" id="setup-level" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+                    <label class="setup-label">레벨 선택</label>
+                    <div class="btn-group" id="setup-level">
                         <button class="level-button active" data-val="n5">N5</button>
                         <button class="level-button" data-val="n4">N4</button>
                         <button class="level-button" data-val="n3">N3</button>
@@ -65,8 +65,8 @@
                     </div>
                 </div>
                 <div class="quiz-setup-item" style="margin-bottom: 25px;">
-                    <label style="font-weight:700; color:var(--accent-blue); display:block; margin-bottom:10px;">문제 타입</label>
-                    <div class="btn-group" id="setup-type" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+                    <label class="setup-label">문제 타입</label>
+                    <div class="btn-group" id="setup-type">
                         <button class="level-button active" data-val="meaning">뜻</button>
                         <button class="level-button" data-val="reading">음</button>
                         <button class="level-button" data-val="kanji">한자</button>
@@ -74,8 +74,8 @@
                     </div>
                 </div>
                 <div class="quiz-setup-item">
-                    <label style="font-weight:700; color:var(--accent-blue); display:block; margin-bottom:10px;">문항 수</label>
-                    <div class="btn-group" id="setup-count" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+                    <label class="setup-label">문항 수</label>
+                    <div class="btn-group" id="setup-count">
                         <button class="level-button" data-val="10">10</button>
                         <button class="level-button active" data-val="20">20</button>
                         <button class="level-button" data-val="30">30</button>
@@ -92,7 +92,7 @@
         <div class="modern-panel text-center">
             <h3 id="quiz-progress" style="color:#888;">1 / 20</h3>
             <h2 id="quiz-question-label">이 한자의 뜻은?</h2>
-            <div id="quiz-kanji" class="kanji-huge" style="font-size:6em; cursor:default;"></div>
+            <div id="quiz-kanji" class="kanji-huge" style="font-size:6em; cursor:default; border:none; margin: 30px auto;"></div>
             <div id="quiz-options" class="quiz-options-list"></div>
         </div>
     </section>
@@ -112,16 +112,22 @@
         <div class="modal-card" style="margin: 0 auto; box-shadow: none; border: 3px solid var(--red);">
             <div id="review-progress-card" class="modal-number" style="color: var(--red);">오답 1 / 5</div>
             
-            <div id="rev-kanji" class="kanji-huge clickable-text"></div>
-            
-            <div class="detail-split" style="display:flex; gap:10px; margin-bottom:30px;">
-                <div id="rev-reading" class="detail-box clickable-text" style="flex:1; text-align:center;"></div>
-                <div id="rev-meaning" class="detail-box clickable-text" style="flex:1; text-align:center;"></div>
+            <div class="detail-box clickable-box" id="rev-kanji-box" style="margin-top: 30px; margin-bottom:20px; min-height: 150px; border-color:var(--red);">
+                <div id="rev-kanji" class="kanji-huge" style="color:var(--red); margin:0;"></div>
             </div>
             
-            <p style="font-size:0.9em; color:#888; margin-bottom:20px;">* 글자를 클릭하면 뜻과 음을 가릴 수 있습니다.</p>
+            <div class="detail-split" style="display:flex; gap:10px; margin-bottom:30px; border:none; padding:0;">
+                <div class="detail-box clickable-box" id="rev-reading-box" style="border-color:var(--red);">
+                    <div id="rev-reading"></div>
+                </div>
+                <div class="detail-box clickable-box" id="rev-meaning-box" style="border-color:var(--red);">
+                    <div id="rev-meaning"></div>
+                </div>
+            </div>
+            
+            <p style="font-size:0.85em; color:#888; margin-bottom:20px;">* 빈 박스를 클릭하면 글자가 가려집니다.</p>
 
-            <button id="rev-memorized-btn" class="menu-btn" style="background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 15px rgba(220,53,69,0.4); margin: 0 auto; display: block;" onclick="markAsMemorized()">암기 완료 (Next)</button>
+            <button class="menu-btn" style="background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 15px rgba(220,53,69,0.4); margin: 0 auto; display: block;" onclick="markAsMemorized()">암기 완료 (Next)</button>
         </div>
     </section>
 
@@ -137,20 +143,27 @@
     </section>
 
     <div id="vocabulary-modal" class="modal">
-      <div class="modal-card" style="max-width: 500px;"> <div id="modal-word-number" class="modal-number"></div>
+      <div class="modal-card" style="max-width: 500px;">
+        <div id="modal-word-number" class="modal-number"></div>
         <span class="close-btn" onclick="closeModal()">&times;</span>
         
         <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')">&#10094;</button>
         <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')">&#10095;</button>
 
-        <div id="modal-kanji" class="kanji-huge clickable-text"></div>
+        <div class="detail-box clickable-box" id="modal-kanji-box" style="margin-top: 30px; margin-bottom:20px; min-height: 180px;">
+            <div id="modal-kanji" class="kanji-huge" style="margin:0;"></div>
+        </div>
         
-        <div class="detail-split" style="display:flex; gap:10px; margin-bottom:20px;">
-          <div id="modal-reading" class="detail-box clickable-text" style="flex:1; text-align:center;"></div>
-          <div id="modal-meaning" class="detail-box clickable-text" style="flex:1; text-align:center;"></div>
+        <div class="detail-split" style="display:flex; gap:10px; margin-bottom:20px; border-top:none; padding-top:0;">
+          <div class="detail-box clickable-box" id="modal-reading-box">
+              <div id="modal-reading"></div>
+          </div>
+          <div class="detail-box clickable-box" id="modal-meaning-box">
+              <div id="modal-meaning"></div>
+          </div>
         </div>
 
-        <p style="font-size:0.85em; color:#bbb; margin-bottom:20px; text-align:center;">* 글자를 클릭하면 아예 가려집니다.</p>
+        <p style="font-size:0.85em; color:#bbb; margin-bottom:20px; text-align:center;">* 박스를 클릭하면 글자가 가려진 채로 유지됩니다.</p>
 
         <div class="modal-status-btns" style="display:flex; gap:10px; justify-content:center;">
            <button id="modal-oboeta-btn" class="status-btn oboeta-btn">覚えた</button>
@@ -167,7 +180,7 @@
                 <li><strong>Kanji:</strong> N5~N1 레벨별 한자를 학습할 수 있습니다.</li>
                 <li><strong>Test:</strong> 원하는 레벨과 문제 타입, 문항 수를 선택하여 시험을 봅니다.</li>
                 <li><strong>Review:</strong> 틀린 문제는 다시 카드로 보여주며, '암기 완료'를 눌러 다음으로 넘어갑니다.</li>
-                <li><strong>Interactive Card:</strong> 큰 단어 카드에서 텍스트를 클릭하면 아예 가려집니다! 다른 단어로 넘어가도 숨김 상태가 유지됩니다.</li>
+                <li><strong>Interactive Card:</strong> 박스를 클릭하면 글자가 아예 가려집니다! 다른 단어로 넘어가도 숨김 상태가 유지되어 테스트하기 좋습니다.</li>
             </ul>
         </div>
     </div>
