@@ -11,9 +11,9 @@
   <div class="app-container">
     
     <div class="nav-row-minimal">
-      <div class="nav-item active" onclick="switchScreen('screen-home')">Home</div>
-      <div class="nav-item" onclick="switchScreen('screen-vocab')">Kanji</div>
-      <div class="nav-item" onclick="switchScreen('screen-quiz-setup')">Exercises</div>
+      <div class="nav-item active" id="nav-home" onclick="switchScreen('screen-home')">Home</div>
+      <div class="nav-item" id="nav-vocab" onclick="switchScreen('screen-vocab')">Kanji</div>
+      <div class="nav-item" id="nav-test" onclick="switchScreen('screen-quiz-setup')">Test</div>
       <div class="nav-item help-btn" onclick="openHelp()">?</div>
     </div>
 
@@ -21,11 +21,6 @@
       <div class="home-logo-container">
         <h1 class="main-title">바이브 漢</h1>
         <div class="sub-logo-text">CREATIVE KANJI STUDIO</div>
-      </div>
-      
-      <div class="home-menu">
-        <button class="menu-btn hover-effect" onclick="switchScreen('screen-vocab')">Study <small style="display:block; font-size:0.4em;">Kanji</small></button>
-        <button class="menu-btn hover-effect" onclick="switchScreen('screen-quiz-setup')">Test <small style="display:block; font-size:0.4em;">Yourself</small></button>
       </div>
     </section>
 
@@ -142,9 +137,9 @@
             <span class="close-btn" onclick="closeHelp()">&times;</span>
             <h2 style="color:var(--accent-blue); font-weight:900;">How to Use</h2>
             <ul style="text-align:left; line-height:1.8; margin-top:20px; color:#555; font-weight:600;">
-                <li><strong>Study Kanji:</strong> N5~N3 레벨별 한자를 학습할 수 있습니다.</li>
+                <li><strong>Kanji:</strong> N5~N3 레벨별 한자를 학습할 수 있습니다.</li>
                 <li><strong>覚えた / 覚えなかった:</strong> 단어마다 학습 상태를 체크하여 모아볼 수 있습니다.</li>
-                <li><strong>Test Yourself:</strong> 학습한 한자를 바탕으로 퀴즈를 풀고 오답을 복습합니다.</li>
+                <li><strong>Test:</strong> 학습한 한자를 바탕으로 퀴즈를 풀고 오답을 복습합니다.</li>
                 <li><strong>단어 카드 클릭:</strong> 더 큰 화면으로 뜻과 음을 자세히 볼 수 있습니다.</li>
             </ul>
         </div>

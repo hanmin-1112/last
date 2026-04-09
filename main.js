@@ -150,34 +150,13 @@ const vocabulary = {
     ],
   n2: [], n1: []
 };
-// 더미 데이터 (실제 데이터 파일이 있다면 이 부분을 지우고 연동하세요)
-const vocabulary = {
-  n5: [
-      {kanji: '日', reading: 'にち, ひ', meaning: '날, 해'},
-      {kanji: '月', reading: 'げつ, つき', meaning: '달, 월'},
-      {kanji: '火', reading: 'か, ひ', meaning: '불, 화'},
-      {kanji: '水', reading: 'すい, みず', meaning: '물, 수'}
-  ],
-  n4: [
-      {kanji: '海', reading: 'うみ', meaning: '바다'},
-      {kanji: '空', reading: 'そら', meaning: '하늘'}
-  ],
-  n3: [
-      {kanji: '感情', reading: 'かんじょう', meaning: '감정'},
-      {kanji: '解決', reading: 'かいけつ', meaning: '해결'}
-  ]
-};
-
-// ----------------------------------------------------
-// 1. 상태 관리 및 초기화
-// ----------------------------------------------------
+// 상태 관리 및 초기화
 let oboetaWords = JSON.parse(localStorage.getItem('oboetaWords')) || [];
 let oboenakattaWords = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
 let currentDisplayedWords = [];
 let currentWordIndex = 0;
 let currentLevel = 'n5';
 
-// 퀴즈 관련 변수
 let quizWords = [];
 let incorrectQuestions = [];
 let currentQuizIndex = 0;
@@ -185,7 +164,6 @@ let score = 0;
 let quizConfig = { level: 'n5', type: 'meaning', count: 20, mode: 'multiple' };
 let currentCorrectAnswerStr = "";
 
-// 리뷰 관련 변수
 let reviewIndex = 0;
 let reviewCheckState = [];
 
@@ -194,27 +172,31 @@ const searchInput = document.getElementById('word-search');
 const vocabularyModal = document.getElementById('vocabulary-modal');
 const helpModal = document.getElementById('help-modal');
 
-// ----------------------------------------------------
-// 2. 화면 전환
-// ----------------------------------------------------
+// 🌟 화면 전환 및 네비게이션 하이라이트 제어
 function switchScreen(screenId) {
+  // 화면 변경
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
   const target = document.getElementById(screenId);
   if (target) target.classList.add('active-screen');
   window.scrollTo(0, 0);
 
-  if (screenId === 'screen-vocab') displayVocabulary(currentLevel);
+  // 상단 네비게이션 Active 상태 동기화
+  document.querySelectorAll('.nav-item:not(.help-btn)').forEach(nav => nav.classList.remove('active'));
+  if (screenId === 'screen-home') document.getElementById('nav-home').classList.add('active');
+  if (screenId === 'screen-vocab') {
+      document.getElementById('nav-vocab').classList.add('active');
+      displayVocabulary(currentLevel);
+  }
+  if (screenId.includes('quiz') || screenId.includes('review')) {
+      document.getElementById('nav-test').classList.add('active');
+  }
 }
 
-// ----------------------------------------------------
-// 3. 도움말 모달
-// ----------------------------------------------------
+// 도움말 모달
 function openHelp() { helpModal.style.display = 'flex'; }
 function closeHelp() { helpModal.style.display = 'none'; }
 
-// ----------------------------------------------------
-// 4. 단어장 로직 (覚えた / 覚えなかった 반영)
-// ----------------------------------------------------
+// 단어장 로직
 function displayVocabulary(level, searchTerm = '') {
   currentLevel = level;
   vocabularyDisplay.innerHTML = '';
@@ -228,7 +210,6 @@ function displayVocabulary(level, searchTerm = '') {
   if (level === 'oboeta') words = all.filter(w => oboetaWords.includes(w.kanji));
   else if (level === 'oboenakatta') words = all.filter(w => oboenakattaWords.includes(w.kanji));
   else {
-      // 특정 레벨의 단어 전체를 보여줌 (상태와 무관하게 표시하되 버튼 색상으로 상태 구분)
       words = vocabulary[level] || [];
   }
 
@@ -244,7 +225,6 @@ function displayVocabulary(level, searchTerm = '') {
           const card = document.createElement('div');
           card.className = 'vocabulary-card hover-effect';
           
-          // 각 카드에 상태에 따른 클래스 부여
           const isOboeta = oboetaWords.includes(w.kanji) ? 'active' : '';
           const isOboenakatta = oboenakattaWords.includes(w.kanji) ? 'active' : '';
 
@@ -264,11 +244,10 @@ function displayVocabulary(level, searchTerm = '') {
   }
 }
 
-// 단어 상태 토글 (이벤트 버블링 방지 처리)
+// 단어 상태 토글
 function toggleWordStatus(event, kanji, target) {
-  if(event) event.stopPropagation(); // 카드 클릭 시 모달이 뜨는 현상 방지
+  if(event) event.stopPropagation();
 
-  // 두 리스트에서 일단 모두 제거 (중복 방지)
   oboetaWords = oboetaWords.filter(w => w !== kanji);
   oboenakattaWords = oboenakattaWords.filter(w => w !== kanji);
   
@@ -277,7 +256,6 @@ function toggleWordStatus(event, kanji, target) {
   
   let currentStatus = oldOboeta.includes(kanji) ? 'oboeta' : (oldOboenakatta.includes(kanji) ? 'oboenakatta' : 'none');
 
-  // 클릭한 버튼의 상태가 기존 상태와 다르면 추가 (같으면 토글 취소된 것이므로 추가안함)
   if (currentStatus !== target) {
       if (target === 'oboeta') oboetaWords.push(kanji);
       else if (target === 'oboenakatta') oboenakattaWords.push(kanji);
@@ -290,9 +268,7 @@ function toggleWordStatus(event, kanji, target) {
   if (vocabularyModal.style.display === 'flex') updateModalButtons(kanji);
 }
 
-// ----------------------------------------------------
-// 5. 큰 단어 카드 모달
-// ----------------------------------------------------
+// 큰 단어 카드 모달
 function showModal(index) {
   currentWordIndex = index;
   const word = currentDisplayedWords[index];
@@ -302,7 +278,6 @@ function showModal(index) {
   const num = document.getElementById('modal-word-number');
   
   num.textContent = `KANJI ${currentWordIndex + 1} / ${currentDisplayedWords.length}`;
-  
   k.textContent = word.kanji;
   r.textContent = word.reading;
   m.textContent = word.meaning;
@@ -335,9 +310,7 @@ function updateModalButtons(kanji) {
   oboenakattaBtn.onclick = (e) => toggleWordStatus(e, kanji, 'oboenakatta');
 }
 
-// ----------------------------------------------------
-// 6. 퀴즈 시스템 (간단한 버전)
-// ----------------------------------------------------
+// 퀴즈 시스템
 function startQuiz(overrideWords = null, mode = 'multiple') {
   let words = overrideWords || vocabulary[quizConfig.level] || vocabulary['n5'];
   if (!words || words.length < 4) return alert("단어가 부족합니다.");
@@ -398,9 +371,35 @@ function endQuiz() {
   switchScreen('screen-quiz-result');
 }
 
-// ----------------------------------------------------
-// 7. 이벤트 리스너
-// ----------------------------------------------------
+// 오답 복습
+function startIncorrectReview() {
+  reviewIndex = 0;
+  switchScreen('screen-incorrect-review');
+  loadReviewWord();
+}
+
+function loadReviewWord() {
+  const word = incorrectQuestions[reviewIndex];
+  document.getElementById('review-progress-card').textContent = `${reviewIndex + 1} / ${incorrectQuestions.length}`;
+  document.getElementById('rev-kanji').textContent = word.kanji;
+  document.getElementById('rev-reading').textContent = word.reading;
+  document.getElementById('rev-meaning').textContent = word.meaning;
+  
+  document.getElementById('rev-checkbox').checked = false; 
+  document.getElementById('rev-prev').disabled = (reviewIndex === 0);
+  document.getElementById('rev-next').disabled = (reviewIndex === incorrectQuestions.length - 1);
+}
+
+function navReview(dir) {
+  reviewIndex += dir;
+  loadReviewWord();
+}
+
+function retakeIncorrectQuiz() {
+  startQuiz([...incorrectQuestions], 'multiple');
+}
+
+// 초기화
 window.onload = () => {
   if (searchInput) searchInput.oninput = (e) => displayVocabulary(currentLevel, e.target.value);
   
