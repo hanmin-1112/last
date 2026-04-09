@@ -1,58 +1,135 @@
 :root {
     --primary-font: 'Inter', sans-serif;
-    --bg-color: #F5F5F7;
-    --card-color: #FFFFFF;
-    --border-color: #E8E8ED;
+    /* 이미지에서 추출한 컬러 팔레트 */
+    --bg-color: #F0F0F0;         /* 약간 회색빛 도는 오프화이트 */
+    --accent-blue: #2A52BE;      /* 강렬한 로얄 블루 */
+    --glow-blue: rgba(42, 82, 190, 0.35); /* 버튼 주변 네온 효과 */
     --text-main: #1D1D1F;
-    --text-sub: #86868B;
-    --accent: #6C5CE7;
-    --red: #FF3B30;
-    --green: #34C759;
+    --border-width: 2px;
 }
 
-body { font-family: var(--primary-font); color: var(--text-main); background-color: var(--bg-color); margin: 0; display: flex; justify-content: center; }
-.app-container { width: 100%; max-width: 1100px; padding: 20px; box-sizing: border-box; }
+body { 
+    font-family: var(--primary-font); 
+    color: var(--text-main); 
+    background-color: var(--bg-color); 
+    margin: 0; 
+    display: flex; 
+    justify-content: center;
+    /* 이미지의 질감을 위한 아주 미세한 패턴 */
+    background-image: radial-gradient(#d1d1d1 0.5px, transparent 0.5px);
+    background-size: 20px 20px;
+}
 
-/* 공통 정렬 */
-.screen { display: none; text-align: center; animation: fadeIn 0.3s ease; }
-.screen.active-screen { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.app-container { width: 100%; max-width: 1100px; padding: 40px 20px; box-sizing: border-box; }
 
-/* 🌟 메인 화면 (버튼 아래로 이동) */
-.home-logo-container { margin-top: 15vh; margin-bottom: 5vh; }
-.main-title { font-size: 3.5em; font-weight: 800; letter-spacing: -2px; }
-.home-menu { display: flex; flex-direction: column; gap: 15px; max-width: 320px; margin: 0 auto; margin-top: 50px; } /* 마진 탑으로 위치 조정 */
-.menu-btn { font-size: 1.3em; padding: 18px; border-radius: 18px; border: none; font-weight: 700; cursor: pointer; transition: 0.2s; }
+/* 🌟 메인 로고 디자인 (DOPPLE 스타일) */
+.home-logo-container { margin-top: 10vh; margin-bottom: 5vh; text-align: left; }
+.main-title { 
+    font-size: 6em; 
+    font-weight: 900; 
+    color: var(--accent-blue); 
+    letter-spacing: -4px; 
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 0.9;
+}
+.sub-logo-text {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--accent-blue);
+    margin-top: 10px;
+    letter-spacing: 1px;
+}
 
-/* 버튼 & 카드 스타일 */
-.primary-btn { background-color: var(--accent); color: #fff; }
-.secondary-btn { background-color: #f1f0fd; color: var(--accent); }
-.small-btn { font-size: 1.1em !important; padding: 12px 30px !important; width: auto !important; }
-.rounded { border-radius: 12px !important; }
+/* 🌟 이미지 속 버튼 디자인 (Outline + Glow) */
+.menu-btn { 
+    background: white;
+    color: var(--accent-blue);
+    border: var(--border-width) solid var(--accent-blue);
+    padding: 25px;
+    font-size: 2em;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 15px var(--glow-blue); /* 블루 네온 효과 */
+    margin-bottom: 15px;
+}
 
-/* 🌟 모달 & 오답노트 둥글기 및 중앙 정렬 */
-.modern-panel { background: #fff; padding: 40px; border-radius: 28px; border: 1px solid var(--border-color); max-width: 500px; margin: 0 auto; }
+.menu-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 25px var(--glow-blue);
+    background-color: var(--accent-blue);
+    color: white;
+}
+
+/* 상단 네비게이션 스타일 (Home, Kanji, Exercises...) */
+.nav-row-minimal {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+    margin-bottom: 40px;
+    font-weight: 600;
+    color: #555;
+}
+.nav-item { cursor: pointer; border-bottom: 2px solid transparent; }
+.nav-item.active { border-bottom: 2px solid var(--accent-blue); color: var(--accent-blue); }
+
+/* 🌟 카드 디자인 (Journey Box 스타일) */
 .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-.vocabulary-card { background: #fff; border-radius: 20px; padding: 35px 20px; border: 1px solid var(--border-color); position: relative; cursor: pointer; }
-.vocabulary-card .kanji { font-size: 3.5em; font-weight: 800; }
+.vocabulary-card { 
+    background: white; 
+    border: var(--border-width) solid var(--accent-blue); 
+    border-radius: 15px; 
+    padding: 30px 20px;
+    text-align: center;
+    transition: 0.3s;
+}
+.vocabulary-card:hover { box-shadow: 0 0 15px var(--glow-blue); }
+.vocabulary-card .kanji { font-size: 4em; font-weight: 800; color: var(--accent-blue); }
 
-/* 🌟 토글 숨김 핵심 */
+/* 모달 및 오답노트 */
+.modern-panel { 
+    background: white; 
+    border: var(--border-width) solid var(--accent-blue); 
+    border-radius: 20px; 
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
 .hidden-detail { display: none !important; }
 
-/* 큰 단어 카드 (모달) */
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
-.modal-card { background: #fff; padding: 50px 40px; border-radius: 30px; width: 90%; max-width: 450px; position: relative; text-align: center; }
-.modal-number { position: absolute; top: 20px; left: 25px; color: var(--text-sub); font-weight: 600; }
-.inner-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 3em; color: var(--accent); cursor: pointer; padding: 20px; z-index: 10; opacity: 0.3; transition: 0.2s; }
-.inner-arrow:hover { opacity: 1; }
-.inner-arrow.prev { left: 0; }
-.inner-arrow.next { right: 0; }
+/* 🌟 큰 단어 카드 (Kanji of the Day 스타일) */
+.modal-card { 
+    background: white; 
+    border: 3px solid var(--accent-blue); 
+    border-radius: 25px; 
+    padding: 50px;
+    position: relative;
+    box-shadow: 0 0 30px var(--glow-blue);
+}
+.kanji-huge { font-size: 8em; font-weight: 800; color: var(--accent-blue); margin: 30px 0; }
+.detail-box { 
+    border: 1.5px solid var(--accent-blue); 
+    background: #f9f9ff; 
+    border-radius: 10px;
+    padding: 15px;
+    font-weight: 700;
+}
 
-.detail-split { display: flex; gap: 10px; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
-.detail-box { flex: 1; background: #f8f8fa; padding: 15px; border-radius: 15px; font-weight: 600; font-size: 1.3em; display: flex; justify-content: center; align-items: center; min-height: 60px; }
-
-/* 오답 노트 체크박스 */
-.top-right-label { position: absolute; top: 0; right: 0; font-weight: 700; color: var(--accent); cursor: pointer; font-size: 0.9em; }
-.corner-number { position: absolute; top: 15px; right: 20px; color: #ddd; font-weight: 800; font-size: 1.2em; }
-.toggle-mini { padding: 6px 15px; border-radius: 10px; border: 1px solid #eee; background: #fff; cursor: pointer; font-weight: 600; margin: 0 3px; }
-.toggle-mini.active { background: #1d1d1f; color: #fff; }
+/* 탭 버튼 디자인 */
+.level-button {
+    background: white;
+    border: 1.5px solid #ddd;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.level-button.active {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+}
