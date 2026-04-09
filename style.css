@@ -17,14 +17,14 @@
 body { 
     font-family: var(--primary-font); 
     color: var(--text-main); 
-    background: linear-gradient(135deg, #FFD3D1 0%, #B19FFF 100%); /* 사진 속 그라데이션 */
+    background: linear-gradient(135deg, #FFD3D1 0%, #B19FFF 100%); 
     background-attachment: fixed;
     margin: 0; padding: 0; line-height: 1.6; min-height: 100vh; 
     display: flex; justify-content: center; 
     -webkit-font-smoothing: antialiased; 
 }
 
-/* 배경에 약간의 입자감(Grainy) 효과 추가를 위한 오버레이 */
+/* 배경에 미세한 종이 질감 효과 */
 body::before {
     content: "";
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -32,75 +32,90 @@ body::before {
     opacity: 0.3; pointer-events: none; z-index: -1;
 }
 
-.app-container { width: 100%; max-width: 1100px; padding: 30px 20px; }
+.app-container { width: 100%; max-width: 1100px; padding: 30px 20px; box-sizing: border-box; }
 
-/* 🌟 로고 느낌을 살린 메인 타이틀 */
+/* 🌟 화면 전환 시스템 */
+.screen { display: none; animation: fadeIn 0.4s ease; }
+.screen.active-screen { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* 🌟 타이틀: 로고의 굵은 붓글씨 느낌 (반응형 적용) */
+.brush-font { font-family: 'Nanum Brush Script', cursive; }
+.bold-brush { text-shadow: 0.8px 0.8px 0 currentColor, -0.8px -0.8px 0 currentColor; }
 .main-title { 
-    font-size: 7em; 
+    font-size: clamp(4em, 15vw, 7em); /* 화면 크기에 따라 유동적으로 조절 */
     margin-bottom: 5px; 
-    color: #000; /* 완전 블랙으로 로고 느낌 강조 */
+    color: #000; 
     letter-spacing: -2px;
-    filter: drop-shadow(2px 2px 0px rgba(255,255,255,0.5));
 }
 
-/* 🌟 유리창(Glass) 패널 스타일 수정 */
+/* 🌟 유리창(Glass) 패널 */
 .glass-effect, .glass-panel { 
-    background-color: rgba(255, 255, 255, 0.65); 
+    background-color: rgba(255, 255, 255, 0.75); 
     backdrop-filter: blur(15px); 
     -webkit-backdrop-filter: blur(15px); 
-    box-shadow: 0 10px 40px rgba(94, 77, 147, 0.15); /* 보라색 계열 그림자 */
+    box-shadow: 0 10px 40px rgba(94, 77, 147, 0.15); 
     border-radius: 24px; 
     border: 1px solid rgba(255, 255, 255, 0.5); 
 }
+.glass-panel { padding: 40px 30px; text-align: center; margin: 0 auto; max-width: 600px; }
 
-/* 🌟 레벨 버튼 & 탭 디자인 */
+/* 🌟 홈 메뉴 버튼 */
+.home-menu { display: flex; flex-direction: column; gap: 20px; }
+.menu-btn { 
+    padding: 20px; font-size: 2.2em; color: var(--text-main); 
+    display: flex; align-items: center; justify-content: center; 
+    border: none; cursor: pointer; transition: 0.3s;
+}
+.menu-btn:hover { transform: translateY(-5px); background: white; }
+
+/* 🌟 단어 학습장 헤더 & 레이아웃 */
+.screen-header { display: flex; align-items: center; margin-bottom: 30px; position: relative; justify-content: center; }
+.back-btn { position: absolute; left: 0; background: none; border: none; color: var(--color-dark); font-weight: 700; cursor: pointer; }
+
+nav#level-selection { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
 .level-button { 
-    background-color: rgba(235, 232, 249, 0.5); /* 연라벤더 */
+    background-color: rgba(255, 255, 255, 0.6); 
     border: 1px solid rgba(94, 77, 147, 0.2); 
-    padding: 10px 22px; border-radius: 15px; 
-    color: var(--color-dark);
-    font-weight: 700;
+    padding: 8px 18px; border-radius: 12px; 
+    color: var(--color-dark); font-weight: 700; cursor: pointer;
 }
-.level-button.active { 
-    background-color: var(--color-dark); 
-    color: #fff; 
-    border-color: var(--color-dark); 
-    box-shadow: 0 5px 15px rgba(94, 77, 147, 0.3);
+.level-button.active { background-color: var(--color-dark); color: #fff; }
+
+/* 🌟 검색창 */
+.search-container { width: 100%; text-align: center; margin-bottom: 30px; }
+#word-search { 
+    width: 90%; max-width: 500px; padding: 15px 25px; font-size: 1.1em; 
+    border: 2px solid var(--color-lavender); border-radius: 30px; 
+    outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
 }
 
-.level-button.mada-tab { border-color: var(--color-pink); color: #d6807d; background: white; }
-.level-button.mada-tab.active { background-color: var(--color-pink) !important; color: #fff !important; }
-
-.level-button.memo-tab { border-color: var(--color-periwinkle); color: var(--color-dark); background: white; }
-.level-button.memo-tab.active { background-color: var(--color-periwinkle) !important; color: #fff !important; }
-
-/* 🌟 단어 카드: 로고의 여백 미와 색상 조화 */
+/* 🌟 단어 카드 그리드 (여기가 깨짐의 주원인이었을 거예요) */
+main#vocabulary-display { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 20px; 
+}
 .vocabulary-card { 
-    background-color: rgba(255, 255, 255, 0.8); 
-    border: 1px solid var(--color-lavender);
+    padding: 30px 20px; text-align: center; position: relative; 
+    transition: 0.3s; background: rgba(255,255,255,0.85);
 }
-.vocabulary-card .kanji { color: #000; } /* 한자는 더 선명하게 블랙 */
-.vocabulary-card .reading { color: var(--color-dark); font-weight: 500; }
-
-/* 🌟 미니 버튼 컬러 변경 */
-.btn-mada.active { background: var(--color-pink); color: #fff; border-color: var(--color-pink); }
-.btn-oboeru.active { background: var(--color-periwinkle); color: white; border-color: var(--color-periwinkle); }
-
-/* 🌟 모달창: 사진의 깨끗한 느낌 반영 */
-.modal-content.solid-white {
-    background: var(--color-lavender) !important;
-    border: 2px solid white;
-}
-.toggle-btn {
-    border-color: var(--color-dark);
-    color: var(--color-dark);
-}
-.toggle-btn.active-toggle {
-    background-color: var(--color-dark);
+.vocabulary-card .kanji { font-size: 4em; font-weight: 700; color: #000; margin-bottom: 10px; }
+.vocabulary-card .reading { color: var(--color-dark); }
+.vocabulary-card .level-stamp { 
+    position: absolute; bottom: 10px; right: 10px; 
+    border: 1.5px solid var(--stamp-red); color: var(--stamp-red); 
+    font-size: 0.7em; padding: 2px 5px; border-radius: 4px; font-weight: 800;
 }
 
-/* 🌟 퀴즈 타입 버튼 */
-.setup-btn.active {
-    background: var(--color-dark);
-    border-color: var(--color-dark);
+/* 🌟 퀴즈 및 기타 공통 버튼 */
+.setup-btn { 
+    background: white; border: 1px solid #ddd; padding: 12px; 
+    border-radius: 12px; font-weight: 700; cursor: pointer;
 }
+.setup-btn.active { background: var(--color-dark); color: white; }
+
+/* 모달 */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+.modal-content { background: var(--color-lavender); padding: 40px; border-radius: 24px; text-align: center; position: relative; width: 90%; max-width: 400px; }
+.modal-kanji { font-size: 5em; font-weight: 800; margin: 20px 0; }
