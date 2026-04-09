@@ -150,366 +150,151 @@ const vocabulary = {
     ],
   n2: [], n1: []
 };
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>바이브 漢</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel='/style.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="app-container">
+    
+    <section id="screen-home" class="screen active-screen">
+      <div class="home-logo-container">
+        <h1 class="main-title">바이브 漢</h1>
+      </div>
+      <div class="home-menu">
+        <button class="menu-btn primary-btn hover-effect" onclick="switchScreen('screen-vocab')">단어 학습장</button>
+        <button class="menu-btn primary-btn hover-effect" onclick="switchScreen('screen-quiz-setup')">실전 퀴즈</button>
+      </div>
+    </section>
 
-// ----------------------------------------------------
-// 1. 단어장 상태 관리 (격리 및 로컬스토리지 연동)
-// ----------------------------------------------------
-let madaWords = JSON.parse(localStorage.getItem('madaWords')) || [];
-let oboeruWords = JSON.parse(localStorage.getItem('oboeruWords')) || [];
-let currentDisplayedWords = [];
-const vocabularyDisplay = document.getElementById('vocabulary-display');
-const searchInput = document.getElementById('word-search');
-let currentLevel = 'n5'; // 초기 진입 레벨 유지
+    <section id="screen-vocab" class="screen">
+      <header class="minimal-header">
+        <button class="back-btn" onclick="switchScreen('screen-home')">←</button>
+        <h2 class="header-title">단어 학습장</h2>
+      </header>
+      
+      <nav id="level-selection" class="level-nav">
+        <button class="level-button active" data-level="n5">N5</button>
+        <button class="level-button" data-level="n4">N4</button>
+        <button class="level-button" data-level="n3">N3</button>
+        <button class="level-button mada-tab" data-level="mada">まだまだ</button>
+        <button class="level-button memo-tab" data-level="oboeru">覚える</button>
+      </nav>
 
-function switchScreen(screenId) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
-  document.getElementById(screenId).classList.add('active-screen');
-  if(screenId === 'screen-vocab') displayVocabulary(currentLevel);
-}
+      <div class="search-container minimal-search">
+        <input type="text" id="word-search" placeholder="검색...">
+      </div>
+      <main id="vocabulary-display" class="vocab-grid"></main>
+    </section>
 
-function toggleWordStatus(event, kanji, targetStatus) {
-  if (event) event.stopPropagation();
-  
-  madaWords = madaWords.filter(w => w !== kanji);
-  oboeruWords = oboeruWords.filter(w => w !== kanji);
+    <section id="screen-quiz-setup" class="screen modern-panel">
+      <h2 class="header-title" style="margin-bottom:20px; font-size: 2em;">퀴즈 설정</h2>
+      <div class="quiz-setup-list">
+        <div class="quiz-setup-item">
+          <label>레벨</label>
+          <div class="btn-group" id="setup-level">
+            <button class="setup-btn active" data-val="n5">N5</button>
+            <button class="setup-btn" data-val="n4">N4</button>
+            <button class="setup-btn" data-val="n3">N3</button>
+          </div>
+        </div>
+        <div class="quiz-setup-item">
+          <label>타입</label>
+          <div class="btn-group" id="setup-type">
+            <button class="setup-btn active" data-val="meaning">뜻</button>
+            <button class="setup-btn" data-val="reading">음</button>
+            <button class="setup-btn" data-val="random">랜덤</button>
+          </div>
+        </div>
+      </div>
+      <div class="start-quiz-buttons">
+        <button class="start-btn primary-btn" onclick="startQuiz(null, 'multiple')">객관식</button>
+        <button class="start-btn secondary-btn" onclick="startQuiz(null, 'short')">서술형</button>
+      </div>
+      <button class="back-btn-bottom" onclick="switchScreen('screen-home')" style="margin-top:20px; background:none; border:none; color:gray; cursor:pointer;">홈으로 돌아가기</button>
+    </section>
 
-  const oldMada = JSON.parse(localStorage.getItem('madaWords')) || [];
-  const oldOboeru = JSON.parse(localStorage.getItem('oboeruWords')) || [];
-  let currentStatus = oldMada.includes(kanji) ? 'mada' : (oldOboeru.includes(kanji) ? 'oboeru' : 'n5');
+    <section id="screen-quiz-active" class="screen modern-panel">
+      <header class="quiz-header" style="display:flex; justify-content:space-between; align-items:center;">
+        <button class="quit-btn" onclick="switchScreen('screen-quiz-setup')" style="color:red; background:none; border:none; cursor:pointer; font-weight:bold;">중단하기</button>
+        <span id="quiz-progress">1 / 20</span>
+      </header>
+      <p id="quiz-question-label" style="margin-top:30px; color:var(--accent-color); font-weight:bold;">이 한자의 뜻은?</p>
+      <div id="quiz-kanji" class="quiz-kanji-big" style="font-size: 5em; font-weight:800; margin: 30px 0;">漢</div>
+      <div id="quiz-options" class="quiz-options-list"></div>
+      <div id="quiz-short-answer-container" style="display:none;">
+        <input type="text" id="short-answer-input" class="short-input-modern" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ddd; text-align:center; font-size:1.5em; margin-bottom:15px;">
+        <button id="short-answer-submit" class="primary-btn" style="width:100%; padding:15px; border-radius:10px; border:none;">제출</button>
+      </div>
+    </section>
 
-  if (currentStatus !== targetStatus) {
-      if (targetStatus === 'mada') madaWords.push(kanji);
-      if (targetStatus === 'oboeru') oboeruWords.push(kanji);
-  }
+    <section id="screen-quiz-result" class="screen modern-panel">
+      <h2 class="header-title">결과</h2>
+      <div class="score-display-modern" style="font-size:4em; font-weight:800; color:var(--accent-color); margin:20px 0;"><span id="final-score">0</span> / <span id="total-score">20</span></div>
+      <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
+        <button class="primary-btn small-btn" onclick="switchScreen('screen-home')" style="padding:10px 30px;">홈으로</button>
+        <button id="btn-review-incorrect" class="secondary-btn small-btn" onclick="startIncorrectReview()" style="padding:10px 30px; display:none;">틀린 문제</button>
+      </div>
+    </section>
 
-  localStorage.setItem('madaWords', JSON.stringify(madaWords));
-  localStorage.setItem('oboeruWords', JSON.stringify(oboeruWords));
-  
-  displayVocabulary(currentLevel, searchInput.value);
-  if (document.getElementById('vocabulary-modal').style.display === 'flex') {
-      updateModalButtons(kanji);
-  }
-}
+    <section id="screen-incorrect-review" class="screen modern-panel" style="position:relative;">
+       <header class="minimal-header">
+          <button class="back-btn" onclick="switchScreen('screen-quiz-result')">←</button>
+          <h2 class="header-title" style="font-size:1.8em;">오답 노트</h2>
+          <label style="position:absolute; top:0; right:0; color:var(--accent-color); font-weight:bold; cursor:pointer;">
+            <input type="checkbox" id="rev-checkbox"> 암기 완료
+          </label>
+       </header>
+       <div class="toggle-container-minimal" style="margin:20px 0;">
+          <button id="rev-toggle-kanji" class="toggle-btn-minimal active-toggle">한자</button>
+          <button id="rev-toggle-reading" class="toggle-btn-minimal active-toggle">음</button>
+          <button id="rev-toggle-meaning" class="toggle-btn-minimal active-toggle">뜻</button>
+       </div>
+       <div class="review-card-minimal" style="border:1px solid #ddd; border-radius:20px; padding:40px 20px; position:relative;">
+          <div id="review-progress-card" style="position:absolute; top:10px; right:15px; color:#ccc; font-weight:bold;"></div>
+          <div id="rev-kanji" style="font-size:5em; font-weight:800;"></div>
+          <div class="modal-detail-minimal" style="display:flex; gap:10px; margin-top:20px; border-top:1px solid #eee; padding-top:20px;">
+            <div id="rev-reading" class="modal-detail-box" style="flex:1; background:#f5f5f7; padding:15px; border-radius:10px; font-weight:bold;"></div>
+            <div id="rev-meaning" class="modal-detail-box" style="flex:1; background:#f5f5f7; padding:15px; border-radius:10px; font-weight:bold;"></div>
+          </div>
+       </div>
+       <div style="display:flex; justify-content:center; gap:15px; margin-top:20px;">
+          <button id="rev-prev" class="primary-btn" onclick="navReview(-1)" style="padding:10px 25px; border-radius:10px;">이전</button>
+          <button id="rev-next" class="primary-btn" onclick="navReview(1)" style="padding:10px 25px; border-radius:10px;">다음</button>
+       </div>
+    </section>
 
-// 🌟 단어 카드 생성 시 크기 및 가독성 폰트 반영
-function createVocabularyCard(word, displayIndex) {
-  const card = document.createElement('div');
-  card.className = 'vocabulary-card hover-effect cleans-effect'; // 미니멀 스타일 적용
-  
-  const isMada = madaWords.includes(word.kanji);
-  const isOboeru = oboeruWords.includes(word.kanji);
-  
-  // 🌟 단어 카드의 한자 크기를 키우고 가독성 폰트 적용
-  card.innerHTML = `
-    <div class="card-number">${displayIndex + 1}</div>
-    <div class="card-actions">
-       <button class="status-btn-mini btn-mada ${isMada ? 'active' : ''}" title="まだまだ">△</button>
-       <button class="status-btn-mini btn-oboeru ${isOboeru ? 'active' : ''}" title="覚える">★</button>
+    <div id="vocabulary-modal" class="modal">
+      <div class="minimalist-content">
+        <div class="modal-word-number" id="modal-word-number" style="position:absolute; top:20px; left:25px; color:gray; font-weight:bold;"></div>
+        <span class="close-button" onclick="closeModal()" style="position:absolute; top:15px; right:20px; font-size:2em; cursor:pointer; color:#ccc;">&times;</span>
+        
+        <button id="nav-prev" class="modal-nav-arrow prev" onclick="navigateWord('prev')" style="position:absolute; left:10px; top:50%; font-size:3em; background:none; border:none; color:var(--accent-color); cursor:pointer;">&#10094;</button>
+        <button id="nav-next" class="modal-nav-arrow next" onclick="navigateWord('next')" style="position:absolute; right:10px; top:50%; font-size:3em; background:none; border:none; color:var(--accent-color); cursor:pointer;">&#10095;</button>
+
+        <div class="modal-header-actions" style="margin-bottom:20px;">
+           <button id="modal-mada-btn" class="setup-btn">まだまだ</button>
+           <button id="modal-oboeru-btn" class="setup-btn">覚える</button>
+        </div>
+        <div class="toggle-container-minimal" style="margin-bottom:20px;">
+          <button id="toggle-kanji" class="toggle-btn-minimal active-toggle">한자</button>
+          <button id="toggle-reading" class="toggle-btn-minimal active-toggle">히라가나</button>
+          <button id="toggle-meaning" class="toggle-btn-minimal active-toggle">뜻</button>
+        </div>
+        <div id="modal-kanji" style="font-size:6em; font-weight:800; margin-bottom:20px;"></div>
+        <div class="modal-detail-minimal" style="display:flex; gap:10px; border-top:1px solid #eee; padding-top:20px;">
+          <div id="modal-reading" class="modal-detail-box" style="flex:1; background:#f5f5f7; padding:15px; border-radius:10px; font-weight:bold; display:flex; justify-content:center; align-items:center;"></div>
+          <div id="modal-meaning" class="modal-detail-box" style="flex:1; background:#f5f5f7; padding:15px; border-radius:10px; font-weight:bold; display:flex; justify-content:center; align-items:center;"></div>
+        </div>
+      </div>
     </div>
-    <div class="kanji">${word.kanji}</div>
-    <div class="reading">${word.reading}</div>
-    <div class="meaning">${word.meaning}</div>
-    <div class="level-stamp minimal-stamp">${word.level ? word.level.toUpperCase() : 'N5'}</div>
-  `;
-  
-  card.querySelector('.btn-mada').addEventListener('click', (e) => toggleWordStatus(e, word.kanji, 'mada'));
-  card.querySelector('.btn-oboeru').addEventListener('click', (e) => toggleWordStatus(e, word.kanji, 'oboeru'));
-  card.addEventListener('click', () => showModal(word, displayIndex));
-  return card;
-}
 
-function displayVocabulary(level, searchTerm = '') {
-  currentLevel = level;
-  vocabularyDisplay.innerHTML = '';
-  
-  let allWords = [];
-  ['n5', 'n4', 'n3', 'n2', 'n1'].forEach(lvl => {
-      vocabulary[lvl].forEach(w => allWords.push({...w, level: lvl}));
-  });
-
-  let words = [];
-  if (level === 'mada') {
-      words = allWords.filter(w => madaWords.includes(w.kanji));
-  } else if (level === 'oboeru') {
-      words = allWords.filter(w => oboeruWords.includes(w.kanji));
-  } else {
-      // 🌟 다른 탭에 저장되지 않은 레벨 단어만 표시
-      words = (vocabulary[level] || []).filter(w => !madaWords.includes(w.kanji) && !oboeruWords.includes(w.kanji));
-  }
-
-  if (searchTerm.trim() !== '') {
-      const term = searchTerm.toLowerCase();
-      // 🌟 한자, 히라가나, 뜻 검색 지원
-      words = words.filter(w => w.kanji.includes(term) || w.reading.includes(term) || w.meaning.includes(term));
-  }
-
-  currentDisplayedWords = words;
-
-  if (words.length > 0) {
-      words.forEach((word, index) => vocabularyDisplay.appendChild(createVocabularyCard(word, index)));
-  } else {
-      vocabularyDisplay.innerHTML = `<p style="color:#888; font-size:1.2em; grid-column: 1/-1;">해당하는 단어가 없습니다.</p>`;
-  }
-}
-
-searchInput.addEventListener('input', (e) => displayVocabulary(currentLevel, e.target.value));
-
-document.getElementById('level-selection').onclick = (e) => {
-  const btn = e.target.closest('.level-button');
-  if (btn) {
-      document.querySelectorAll('#level-selection .level-button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      searchInput.value = ''; // 검색어 초기화
-      displayVocabulary(btn.dataset.level);
-  }
-};
-
-
-// ----------------------------------------------------
-// 2. 모달 (큰 단어 카드): 화살표 내부화 및 번호 추가
-// ----------------------------------------------------
-const vocabularyModal = document.getElementById('vocabulary-modal');
-const modalWordNumber = document.getElementById('modal-word-number'); // 🌟 번호 엘리먼트
-const modalKanji = document.querySelector('.modal-kanji-minimal'); // 🌟 새로운 클래스명 반영
-const modalReading = document.querySelector('.modal-reading');
-const modalMeaning = document.querySelector('.modal-meaning');
-let currentWordIndex = 0;
-
-// 🌟 큰 단어 카드 모달 업데이트
-function showModal(word, index) {
-  currentWordIndex = index;
-  
-  // 🌟 번호 업데이트 (단어 1 / 150 식)
-  modalWordNumber.textContent = `단어 ${currentQuizIndex + 1} / ${currentDisplayedWords.length}`;
-  
-  modalKanji.textContent = word.kanji;
-  modalReading.textContent = word.reading;
-  modalMeaning.textContent = word.meaning;
-  updateModalButtons(word.kanji);
-  
-  vocabularyModal.style.display = 'flex';
-  
-  // 🌟 화살표 비활성화 조건 업데이트
-  document.getElementById('nav-prev').disabled = currentQuizIndex === 0;
-  document.getElementById('nav-next').disabled = currentQuizIndex === currentDisplayedWords.length - 1;
-}
-
-function updateModalButtons(kanji) {
-  const isMada = madaWords.includes(kanji);
-  const isOboeru = oboeruWords.includes(kanji);
-  
-  const madaBtn = document.getElementById('modal-mada-btn');
-  const oboeruBtn = document.getElementById('modal-oboeru-btn');
-  
-  madaBtn.className = isMada ? 'setup-btn mada-btn mada-active active' : 'setup-btn mada-btn';
-  oboeruBtn.className = isOboeru ? 'setup-btn oboeru-btn oboeru-active active' : 'setup-btn oboeru-btn';
-  
-  madaBtn.onclick = () => toggleWordStatus(null, kanji, 'mada');
-  oboeruBtn.onclick = () => toggleWordStatus(null, kanji, 'oboeru');
-}
-
-function navigateWord(direction) {
-  if (direction === 'prev' && currentWordIndex > 0) currentWordIndex--;
-  else if (direction === 'next' && currentWordIndex < currentDisplayedWords.length - 1) currentWordIndex++;
-  showModal(currentDisplayedWords[currentWordIndex], currentWordIndex);
-}
-
-// 토글 버튼 로직은 그대로 유지하되 새로운 클래스 반영
-['toggle-kanji', 'toggle-reading', 'toggle-meaning'].forEach((id, idx) => {
-  const target = [modalKanji, modalReading, modalMeaning][idx];
-  const btn = document.getElementById(id);
-  if (btn) btn.onclick = () => { btn.classList.toggle('active-toggle'); target.classList.toggle('hidden-detail'); };
-});
-document.querySelector('.close-button').onclick = () => vocabularyModal.style.display = 'none';
-document.getElementById('nav-prev').onclick = () => navigateWord('prev');
-document.getElementById('nav-next').onclick = () => navigateWord('next');
-window.onclick = (e) => { if (e.target === vocabularyModal) vocabularyModal.style.display = 'none'; };
-
-
-// ----------------------------------------------------
-// 3. 실전 퀴즈 로직 (객관식 / 서술형): 크기 키움
-// ----------------------------------------------------
-let quizWords = [];
-let incorrectQuestions = []; 
-let currentQuizIndex = 0;
-let score = 0;
-let quizConfig = { level: 'n5', type: 'meaning', count: 20, mode: 'multiple' };
-let currentCorrectAnswerStr = "";
-
-// 🌟 퀴즈 설정 버튼 크기 키움 반영
-document.querySelectorAll('.quiz-setup-list .btn-group').forEach(group => {
-  group.onclick = (e) => {
-    const btn = e.target.closest('.setup-btn');
-    if (btn) {
-      group.querySelectorAll('.setup-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const type = group.id.replace('setup-', '');
-      quizConfig[type] = btn.dataset.val;
-    }
-  };
-});
-
-function shuffleArray(array) {
-  let arr = [...array];
-  for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-function startQuiz(overrideWords = null, mode = 'multiple') {
-  quizConfig.mode = mode; 
-  let words = overrideWords || vocabulary[quizConfig.level];
-  if (!words || words.length < 4) return alert("단어가 부족합니다. (최소 4개)");
-
-  let maxCount = overrideWords ? words.length : parseInt(quizConfig.count);
-  let shuffled = shuffleArray(words);
-  maxCount = Math.min(maxCount, shuffled.length); 
-  
-  quizWords = shuffled.slice(0, maxCount);
-  incorrectQuestions = [];
-  currentQuizIndex = 0;
-  score = 0;
-
-  switchScreen('screen-quiz-active');
-  loadQuizQuestion();
-}
-
-function loadQuizQuestion() {
-  const currentWord = quizWords[currentQuizIndex];
-  document.getElementById('quiz-progress').textContent = `${currentQuizIndex + 1} / ${quizWords.length}`;
-  
-  let activeType = quizConfig.type;
-  if (activeType === 'random') {
-    const types = ['meaning', 'reading', 'kanji'];
-    activeType = types[Math.floor(Math.random() * types.length)];
-  }
-
-  const labelEl = document.getElementById('quiz-question-label');
-  const kanjiEl = document.getElementById('quiz-kanji');
-  
-  if (activeType === 'meaning') {
-    labelEl.textContent = "이 한자의 뜻은?";
-    kanjiEl.textContent = currentWord.kanji;
-    currentCorrectAnswerStr = currentWord.meaning;
-  } else if (activeType === 'reading') {
-    labelEl.textContent = "이 한자의 히라가나 읽기는?";
-    kanjiEl.textContent = currentWord.kanji;
-    currentCorrectAnswerStr = currentWord.reading;
-  } else if (activeType === 'kanji') {
-    labelEl.textContent = "다음 뜻을 가진 한자는?";
-    kanjiEl.textContent = currentWord.meaning;
-    currentCorrectAnswerStr = currentWord.kanji;
-  }
-
-  if (quizConfig.mode === 'multiple') {
-      document.getElementById('quiz-options').style.display = 'flex';
-      document.getElementById('quiz-short-answer-container').style.display = 'none';
-      
-      let optionsStrArray = [currentCorrectAnswerStr];
-      let allWords = vocabulary[quizConfig.level] || vocabulary['n5']; 
-      
-      while(optionsStrArray.length < 4) {
-          let randomWord = allWords[Math.floor(Math.random() * allWords.length)];
-          let optionStr = (activeType === 'meaning') ? randomWord.meaning : (activeType === 'reading' ? randomWord.reading : randomWord.kanji);
-          if(!optionsStrArray.includes(optionStr)) optionsStrArray.push(optionStr);
-      }
-      optionsStrArray = shuffleArray(optionsStrArray);
-      
-      const optionsContainer = document.getElementById('quiz-options');
-      optionsContainer.innerHTML = '';
-      optionsStrArray.forEach(optStr => {
-          const btn = document.createElement('button');
-          btn.className = 'quiz-option-btn hover-effect cleats-effect'; // 미니멀 스타일 적용
-          btn.textContent = optStr;
-          btn.onclick = () => handleQuizAnswer(btn, optStr === currentCorrectAnswerStr, currentWord);
-          optionsContainer.appendChild(btn);
-      });
-  } 
-  else {
-      document.getElementById('quiz-options').style.display = 'none';
-      const shortContainer = document.getElementById('quiz-short-answer-container');
-      shortContainer.style.display = 'block';
-      const inputEl = document.getElementById('short-answer-input');
-      const submitBtn = document.getElementById('short-answer-submit');
-      inputEl.value = ''; inputEl.className = 'short-input-modern'; // 새로운 인풋 클래스 반영
-      inputEl.disabled = false; submitBtn.disabled = false; inputEl.focus();
-      submitBtn.onclick = () => handleShortAnswer(inputEl.value, currentWord);
-      inputEl.onkeypress = (e) => { if(e.key === 'Enter') handleShortAnswer(inputEl.value, currentWord); };
-  }
-}
-
-function handleQuizAnswer(clickedBtn, isCorrect, currentWord) {
-  const buttons = document.querySelectorAll('.quiz-option-btn');
-  buttons.forEach(btn => btn.disabled = true);
-  if (isCorrect) { clickedBtn.classList.add('correct'); score++; }
-  else { clickedBtn.classList.add('wrong'); incorrectQuestions.push(currentWord); buttons.forEach(btn => { if(btn.textContent === currentCorrectAnswerStr) btn.classList.add('correct'); }); }
-  proceedNextQuestion(1000);
-}
-
-function handleShortAnswer(userAnswer, currentWord) {
-  const inputEl = document.getElementById('short-answer-input');
-  const submitBtn = document.getElementById('short-answer-submit');
-  if(userAnswer.trim() === '') return;
-  inputEl.disabled = true; submitBtn.disabled = true;
-  const isCorrect = userAnswer.trim() === currentCorrectAnswerStr;
-  if (isCorrect) { inputEl.classList.add('correct-input'); score++; }
-  else { inputEl.classList.add('wrong-input'); inputEl.value = `${userAnswer} (정답: ${currentCorrectAnswerStr})`; incorrectQuestions.push(currentWord); }
-  proceedNextQuestion(1500);
-}
-
-function proceedNextQuestion(delay) {
-  setTimeout(() => {
-      currentQuizIndex++;
-      if(currentQuizIndex < quizWords.length) loadQuizQuestion();
-      else endQuiz();
-  }, delay);
-}
-
-function endQuiz() {
-  document.getElementById('final-score').textContent = score;
-  document.getElementById('total-score').textContent = quizWords.length;
-  const reviewBtn = document.getElementById('btn-review-incorrect');
-  if (incorrectQuestions.length > 0) reviewBtn.style.display = 'block';
-  else reviewBtn.style.display = 'none';
-  switchScreen('screen-quiz-result');
-}
-
-
-// ----------------------------------------------------
-// 4. 오답 복습 모드
-// ----------------------------------------------------
-let reviewIndex = 0;
-let reviewCheckState = [];
-
-function startIncorrectReview() {
-  reviewIndex = 0;
-  reviewCheckState = new Array(incorrectQuestions.length).fill(false);
-  switchScreen('screen-incorrect-review');
-  loadReviewWord();
-}
-
-function loadReviewWord() {
-  const word = incorrectQuestions[reviewIndex];
-  document.getElementById('review-progress').textContent = `${reviewIndex + 1} / ${incorrectQuestions.length}`;
-  document.getElementById('rev-kanji').textContent = word.kanji;
-  document.getElementById('rev-reading').textContent = word.reading;
-  document.getElementById('rev-meaning').textContent = word.meaning;
-  const checkbox = document.getElementById('rev-checkbox');
-  checkbox.checked = reviewCheckState[reviewIndex];
-  checkbox.onchange = (e) => { reviewCheckState[reviewIndex] = e.target.checked; checkReviewCompletion(); };
-  document.getElementById('rev-prev').disabled = reviewIndex === 0;
-  document.getElementById('rev-next').disabled = reviewIndex === incorrectQuestions.length - 1;
-}
-
-function navReview(dir) { reviewIndex += dir; loadReviewWord(); }
-
-function checkReviewCompletion() {
-  const allChecked = reviewCheckState.every(state => state === true);
-  if(allChecked && reviewCheckState.length > 0) {
-      setTimeout(() => { switchScreen('screen-review-complete'); }, 400);
-  }
-}
-
-function retakeIncorrectQuiz() { startQuiz([...incorrectQuestions], quizConfig.mode); }
+  </div>
+  <script defer type="text/javascript" src="/main.js"></script>
+</body>
+</html>
