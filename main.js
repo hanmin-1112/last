@@ -156,16 +156,13 @@ const vocabulary = {
   let currentWordIndex = 0;
   let currentLevel = 'n5';
   
-  // 퀴즈 관련 상태
   let quizWords = [];
   let incorrectQuestions = [];
   let currentQuizIndex = 0;
   let score = 0;
   let quizConfig = { level: 'n5', qTypes: ['meaning'], aTypes: ['kanji'], count: 20 }; 
-  let currentCorrectAnswerStr = "";
   
   let reviewIndex = 0;
-  
   let hideState = { kanji: false, reading: false, meaning: false };
   let revHideState = { kanji: false, reading: false, meaning: false };
   
@@ -194,31 +191,26 @@ const vocabulary = {
   function openHelp() { helpModal.style.display = 'flex'; }
   function closeHelp() { helpModal.style.display = 'none'; }
   
-  // 🌟 특정 레벨/단어장의 객체 리스트 가져오기 헬퍼
   function getWordsByLevel(level) {
     let all = [];
     ['n5', 'n4', 'n3', 'n2', 'n1'].forEach(lvl => {
         if (vocabulary[lvl]) vocabulary[lvl].forEach(w => all.push({...w, level: lvl}));
     });
-  
     if (level === 'oboeta') return all.filter(w => oboetaWords.includes(w.kanji));
     if (level === 'oboenakatta') return all.filter(w => oboenakattaWords.includes(w.kanji));
     return vocabulary[level] || [];
   }
   
-  // 🌟 단어 리스트 & 전체 해제 버튼 로직
   function displayVocabulary(level, searchTerm = '') {
     currentLevel = level;
     vocabularyDisplay.innerHTML = '';
     
     let words = getWordsByLevel(level);
   
-    // 일반 레벨 탭에서는 이미 분류된 단어 숨김
     if (level !== 'oboeta' && level !== 'oboenakatta') {
         words = words.filter(w => !oboetaWords.includes(w.kanji) && !oboenakattaWords.includes(w.kanji));
     }
   
-    // 검색
     if (searchTerm) {
         const t = searchTerm.toLowerCase();
         words = words.filter(w => w.kanji.includes(t) || w.meaning.includes(t) || w.reading.includes(t));
@@ -226,7 +218,6 @@ const vocabulary = {
   
     currentDisplayedWords = words;
   
-    // 전체 해제 버튼 표시 제어
     const clearBtn = document.getElementById('clear-list-btn');
     if (level === 'oboeta' || level === 'oboenakatta') {
         clearBtn.style.display = 'block';
@@ -236,14 +227,13 @@ const vocabulary = {
                 if (level === 'oboenakatta') oboenakattaWords = [];
                 localStorage.setItem('oboetaWords', JSON.stringify(oboetaWords));
                 localStorage.setItem('oboenakattaWords', JSON.stringify(oboenakattaWords));
-                displayVocabulary(level); // 리프레시
+                displayVocabulary(level); 
             }
         };
     } else {
         clearBtn.style.display = 'none';
     }
   
-    // 카드 렌더링
     if (words.length > 0) {
         words.forEach((w, i) => {
             const card = document.createElement('div');
@@ -344,17 +334,15 @@ const vocabulary = {
   function closeModal() { vocabularyModal.style.display = 'none'; }
   
   
-  // 🌟 퀴즈 다중 선택 포맷 헬퍼
   function formatWord(wordObj, types) {
       return types.map(t => wordObj[t]).join(' / ');
   }
   
-  // 🌟 퀴즈 시스템 (중복/랜덤 방지 로직 포함)
+  // 🌟 퀴즈 시스템 (다중 선택/정답 로직)
   function startQuiz() {
     const qActive = Array.from(document.querySelectorAll('#setup-qtype .active')).map(b => b.dataset.val);
     const aActive = Array.from(document.querySelectorAll('#setup-atype .active')).map(b => b.dataset.val);
   
-    // 중복 검사 (랜덤 제외)
     const qSpecific = qActive.filter(v => v !== 'random');
     const aSpecific = aActive.filter(v => v !== 'random');
     const intersection = qSpecific.filter(v => aSpecific.includes(v));
@@ -387,94 +375,141 @@ const vocabulary = {
     const currentWord = quizWords[currentQuizIndex];
     document.getElementById('quiz-progress').textContent = `${currentQuizIndex + 1} / ${quizWords.length}`;
     
-    // 🌟 동적 랜덤 출제 로직
     const allTypes = ['kanji', 'reading', 'meaning'];
     let finalQ = [...quizConfig.qTypes];
     let finalA = [...quizConfig.aTypes];
   
     if (finalQ.includes('random') && finalA.includes('random')) {
-        // 둘 다 랜덤: 전체 3개 중 순서를 섞어서 1개씩 부여 (절대 안겹침)
         let shuffled = [...allTypes].sort(() => Math.random() - 0.5);
         finalQ = [shuffled[0]];
         finalA = [shuffled[1]];
     } else if (finalQ.includes('random')) {
-        // 질문만 랜덤: 보기(A)에 없는 것 중 하나 랜덤 선택
         let available = allTypes.filter(t => !finalA.includes(t));
         finalQ = [available[Math.floor(Math.random() * available.length)]];
     } else if (finalA.includes('random')) {
-        // 보기만 랜덤: 질문(Q)에 없는 것 중 하나 랜덤 선택
         let available = allTypes.filter(t => !finalQ.includes(t));
         finalA = [available[Math.floor(Math.random() * available.length)]];
     }
   
     const labelMap = { kanji: '한자', reading: '히라가나', meaning: '뜻' };
-    const qLabelText = finalQ.map(t => labelMap[t]).join(' + ');
-    const aLabelText = finalA.map(t => labelMap[t]).join(' + ');
+    const qLabelText = finalQ.map(t => labelMap[t]).join(', ');
+    const aLabelText = finalA.map(t => labelMap[t]).join('와(과) ');
     
-    document.getElementById('quiz-question-label').textContent = `다음 ${qLabelText}에 맞는 ${aLabelText}은?`;
+    if (finalA.length > 1) {
+        document.getElementById('quiz-question-label').textContent = `다음 ${qLabelText}에 맞는 ${aLabelText}을 모두 고르세요.`;
+    } else {
+        document.getElementById('quiz-question-label').textContent = `다음 ${qLabelText}에 맞는 ${aLabelText}은?`;
+    }
     
     const kanjiEl = document.getElementById('quiz-kanji');
     kanjiEl.textContent = formatWord(currentWord, finalQ);
     
-    if (kanjiEl.textContent.length >= 8) kanjiEl.classList.add('kanji-modal-long'); // 복합 텍스트일 때 길이 조절
+    if (kanjiEl.textContent.length >= 8) kanjiEl.classList.add('kanji-modal-long'); 
     else kanjiEl.classList.remove('kanji-modal-long');
   
-    // 정답 세팅
-    currentCorrectAnswerStr = formatWord(currentWord, finalA);
-  
-    // 오답 보기 생성
-    let opts = [currentCorrectAnswerStr];
-    let pool = getWordsByLevel(quizConfig.level); 
-    let fallbackCounter = 0;
-    
-    while(opts.length < 4 && fallbackCounter < 50) {
-        fallbackCounter++;
-        let rand = pool[Math.floor(Math.random() * pool.length)];
-        let val = formatWord(rand, finalA);
-        if(!opts.includes(val)) opts.push(val);
-    }
-    opts.sort(() => Math.random() - 0.5);
-    
     const container = document.getElementById('quiz-options');
     container.innerHTML = '';
-    opts.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'menu-btn hover-effect';
-        btn.textContent = opt;
-        btn.onclick = () => handleQuizAnswer(btn, opt === currentCorrectAnswerStr, currentWord);
-        container.appendChild(btn);
+  
+    // 🌟 다중 보기 생성
+    window.currentQuizSelections = {}; 
+    window.currentCorrectAnswers = {};
+    window.currentFinalA = finalA;
+  
+    finalA.forEach(aType => {
+        let correctVal = formatWord(currentWord, [aType]);
+        window.currentCorrectAnswers[aType] = correctVal;
+  
+        let opts = [correctVal];
+        let pool = getWordsByLevel(quizConfig.level); 
+        let fallbackCounter = 0;
+        
+        while(opts.length < 4 && fallbackCounter < 50) {
+            fallbackCounter++;
+            let rand = pool[Math.floor(Math.random() * pool.length)];
+            let val = formatWord(rand, [aType]);
+            if(!opts.includes(val)) opts.push(val);
+        }
+        opts.sort(() => Math.random() - 0.5);
+        
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'quiz-group-container';
+        
+        // 2개 이상일 때 그룹 타이틀 표시
+        if (finalA.length > 1) {
+            const title = document.createElement('div');
+            title.className = 'quiz-group-title';
+            title.textContent = `[ ${labelMap[aType]} 선택 ]`;
+            groupDiv.appendChild(title);
+        }
+  
+        opts.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'menu-btn hover-effect quiz-option-btn';
+            btn.textContent = opt;
+            btn.dataset.type = aType;
+            btn.dataset.val = opt;
+            btn.onclick = () => handleMultiQuizAnswer(btn, aType, currentWord, finalA);
+            groupDiv.appendChild(btn);
+        });
+        container.appendChild(groupDiv);
     });
   }
   
-  function handleQuizAnswer(btn, isCorrect, word) {
-    document.querySelectorAll('.quiz-options-list .menu-btn').forEach(b => b.disabled = true);
+  // 🌟 다중 선택 정답 평가 로직 (모든 그룹에서 하나씩 골라야 평가 진행)
+  function handleMultiQuizAnswer(btn, aType, word, finalA) {
+    // 같은 그룹의 다른 버튼 선택 해제
+    const groupBtns = btn.parentElement.querySelectorAll('.quiz-option-btn');
+    groupBtns.forEach(b => b.classList.remove('selected'));
     
-    const feedbackBox = document.getElementById('quiz-feedback-box');
-    const feedbackMsg = document.getElementById('quiz-feedback-msg');
-    const addBtn = document.getElementById('btn-quiz-add');
+    // 현재 버튼 선택
+    btn.classList.add('selected');
+    window.currentQuizSelections[aType] = btn;
   
-    feedbackBox.style.display = 'block';
-  
-    if (isCorrect) { 
-        btn.classList.add('quiz-correct'); 
-        score++; 
+    // 모든 그룹(타입)에서 선택이 완료되었는지 확인
+    if (Object.keys(window.currentQuizSelections).length === finalA.length) {
         
-        feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">정답입니다!</span> <br> '覚えた' 단어장에 추가할까요?`;
-        addBtn.className = 'status-btn oboeta-btn hover-effect';
-        addBtn.textContent = '覚えた 추가';
-        addBtn.onclick = () => { internalToggleList(word.kanji, 'oboeta'); proceedQuiz(); };
-    } else { 
-        btn.classList.add('quiz-wrong'); 
-        incorrectQuestions.push(word); 
+        // 더 이상 클릭하지 못하게 비활성화
+        document.querySelectorAll('.quiz-option-btn').forEach(b => b.disabled = true);
         
-        document.querySelectorAll('.quiz-options-list .menu-btn').forEach(b => {
-            if(b.textContent === currentCorrectAnswerStr) b.classList.add('quiz-correct');
-        });
+        let isAllCorrect = true;
   
-        feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">오답입니다.</span> <br> '覚えなかった' 단어장에 추가할까요?`;
-        addBtn.className = 'status-btn oboenakatta-btn hover-effect';
-        addBtn.textContent = '覚えなかった 추가';
-        addBtn.onclick = () => { internalToggleList(word.kanji, 'oboenakatta'); proceedQuiz(); };
+        // 각 타입별로 정답 비교
+        for (const type of finalA) {
+            const selectedBtn = window.currentQuizSelections[type];
+            const correctVal = window.currentCorrectAnswers[type];
+            
+            if (selectedBtn.dataset.val === correctVal) {
+                selectedBtn.classList.add('quiz-correct');
+            } else {
+                isAllCorrect = false;
+                selectedBtn.classList.add('quiz-wrong');
+                
+                // 틀렸을 경우, 해당 그룹에서 정답을 찾아 초록색으로 표시
+                selectedBtn.parentElement.querySelectorAll('.quiz-option-btn').forEach(b => {
+                    if(b.dataset.val === correctVal) b.classList.add('quiz-correct');
+                });
+            }
+        }
+  
+        // 피드백 박스 노출
+        const feedbackBox = document.getElementById('quiz-feedback-box');
+        const feedbackMsg = document.getElementById('quiz-feedback-msg');
+        const addBtn = document.getElementById('btn-quiz-add');
+        feedbackBox.style.display = 'block';
+  
+        if (isAllCorrect) {
+            score++;
+            feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">완벽하게 맞췄습니다!</span> <br> '覚えた' 단어장에 추가할까요?`;
+            addBtn.className = 'status-btn oboeta-btn hover-effect';
+            addBtn.textContent = '覚えた 추가';
+            addBtn.onclick = () => { internalToggleList(word.kanji, 'oboeta'); proceedQuiz(); };
+        } else {
+            incorrectQuestions.push(word);
+            feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">오답입니다.</span> <br> '覚えなかった' 단어장에 추가할까요?`;
+            addBtn.className = 'status-btn oboenakatta-btn hover-effect';
+            addBtn.textContent = '覚えなかった 추가';
+            addBtn.onclick = () => { internalToggleList(word.kanji, 'oboenakatta'); proceedQuiz(); };
+        }
     }
   }
   
@@ -482,7 +517,6 @@ const vocabulary = {
       if (target === 'oboeta' && !oboetaWords.includes(kanji)) oboetaWords.push(kanji);
       if (target === 'oboenakatta' && !oboenakattaWords.includes(kanji)) oboenakattaWords.push(kanji);
       
-      // 반대쪽 리스트에서는 삭제 (중복 방지)
       if (target === 'oboeta') oboenakattaWords = oboenakattaWords.filter(w => w !== kanji);
       if (target === 'oboenakatta') oboetaWords = oboetaWords.filter(w => w !== kanji);
   
@@ -503,7 +537,6 @@ const vocabulary = {
     switchScreen('screen-quiz-result');
   }
   
-  // 오답 노트
   function startIncorrectReview() {
     reviewIndex = 0;
     switchScreen('screen-incorrect-review');
@@ -574,7 +607,6 @@ const vocabulary = {
     
     if (searchInput) searchInput.oninput = (e) => displayVocabulary(currentLevel, e.target.value);
     
-    // 탭 변경
     document.getElementById('level-selection').onclick = (e) => {
         const btn = e.target.closest('.level-button');
         if (btn) {
@@ -584,16 +616,13 @@ const vocabulary = {
         }
     };
   
-    // 🌟 다중 선택 퀴즈 설정 그룹
     document.querySelectorAll('.quiz-setup-list .btn-group').forEach(group => {
           group.onclick = (e) => {
               const btn = e.target.closest('.level-button');
               if (!btn) return;
   
               if (group.classList.contains('multi-select')) {
-                  // 문제/보기 타입 (최대 2개, 랜덤 처리)
                   if (btn.dataset.val === 'random') {
-                      // 랜덤 누르면 다른 것 해제
                       group.querySelectorAll('.level-button').forEach(b => b.classList.remove('active'));
                       btn.classList.add('active');
                   } else {
@@ -607,10 +636,9 @@ const vocabulary = {
                           btn.classList.remove('active');
                           alert("최대 2개까지만 조합할 수 있습니다.");
                       }
-                      if (activeBtns.length === 0) btn.classList.add('active'); // 0개 방지
+                      if (activeBtns.length === 0) btn.classList.add('active'); 
                   }
               } else {
-                  // 단일 선택 (레벨, 문항 수)
                   group.querySelectorAll('.level-button').forEach(b => b.classList.remove('active'));
                   btn.classList.add('active');
                   

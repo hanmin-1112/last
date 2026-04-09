@@ -108,6 +108,7 @@
             <h3 id="quiz-progress" style="color:#888;">1 / 20</h3>
             <h2 id="quiz-question-label">질문</h2>
             <div id="quiz-kanji" class="kanji-huge" style="font-size:4.5em; cursor:default; border:none; margin: 30px auto; white-space: normal; line-height:1.2;"></div>
+            
             <div id="quiz-options" class="quiz-options-list"></div>
 
             <div id="quiz-feedback-box" class="quiz-feedback-box" style="display: none;">
@@ -132,21 +133,21 @@
     </section>
 
     <section id="screen-incorrect-review" class="screen review-screen">
-        <div class="modal-card" style="margin: 0 auto; box-shadow: none; border: 3px solid var(--red);">
+        <div class="modal-card" style="margin: 0 auto; box-shadow: none; border: 3px solid var(--red); max-width: 400px; padding: 35px 25px;">
             <div id="review-progress-card" class="modal-number" style="color: var(--red);">오답 1 / 5</div>
-            <div class="detail-box clickable-box" id="rev-kanji-box" style="margin-top: 30px; margin-bottom:20px; min-height: 150px; border-color:var(--red);">
-                <div id="rev-kanji" class="kanji-huge" style="color:var(--red); margin:0;"></div>
+            <div class="detail-box clickable-box" id="rev-kanji-box" style="margin-top: 30px; margin-bottom:20px; min-height: 120px; border-color:var(--red);">
+                <div id="rev-kanji" class="kanji-huge" style="color:var(--red); margin:0; font-size: 5em;"></div>
             </div>
-            <div class="detail-split" style="display:flex; gap:10px; margin-bottom:30px; border:none; padding:0;">
-                <div class="detail-box clickable-box" id="rev-reading-box" style="border-color:var(--red);">
+            <div class="detail-split" style="display:flex; gap:10px; margin-bottom:25px; border:none; padding:0;">
+                <div class="detail-box clickable-box" id="rev-reading-box" style="border-color:var(--red); padding: 15px 10px; font-size: 1.1em;">
                     <div id="rev-reading"></div>
                 </div>
-                <div class="detail-box clickable-box" id="rev-meaning-box" style="border-color:var(--red);">
+                <div class="detail-box clickable-box" id="rev-meaning-box" style="border-color:var(--red); padding: 15px 10px; font-size: 1.1em;">
                     <div id="rev-meaning"></div>
                 </div>
             </div>
             <p style="font-size:0.85em; color:#888; margin-bottom:20px;">* 빈 박스를 클릭하면 글자가 가려집니다.</p>
-            <button class="menu-btn hover-effect" style="background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 15px rgba(220,53,69,0.4); margin: 0 auto; display: block; border-radius: 20px;" onclick="markAsMemorized()">암기 완료 (Next)</button>
+            <button class="menu-btn hover-effect" style="background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 15px rgba(220,53,69,0.4); margin: 0 auto; display: block; border-radius: 20px; font-size: 1.5em; padding: 15px 30px;" onclick="markAsMemorized()">암기 완료 (Next)</button>
         </div>
     </section>
 
@@ -162,31 +163,31 @@
     </section>
 
     <div id="vocabulary-modal" class="modal">
-      <div class="modal-card" style="max-width: 500px;">
-        <div id="modal-word-number" class="modal-number"></div>
-        <span class="close-btn" onclick="closeModal()">&times;</span>
+      <div class="modal-card" style="max-width: 400px; padding: 35px 25px;">
+        <div id="modal-word-number" class="modal-number" style="font-size: 0.9em;"></div>
+        <span class="close-btn" onclick="closeModal()" style="font-size: 1.8em; top: 15px; right: 20px;">&times;</span>
         
-        <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')">&#10094;</button>
-        <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')">&#10095;</button>
+        <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')" style="font-size: 1.5em; left: 5px;">&#10094;</button>
+        <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')" style="font-size: 1.5em; right: 5px;">&#10095;</button>
 
-        <div class="detail-box clickable-box" id="modal-kanji-box" style="margin-top: 30px; margin-bottom:20px; min-height: 180px;">
-            <div id="modal-kanji" class="kanji-huge" style="margin:0;"></div>
+        <div class="detail-box clickable-box" id="modal-kanji-box" style="margin-top: 30px; margin-bottom:15px; min-height: 140px;">
+            <div id="modal-kanji" class="kanji-huge" style="margin:0; font-size: 5.5em;"></div>
         </div>
         
-        <div class="detail-split" style="display:flex; gap:10px; margin-bottom:20px; border-top:none; padding-top:0;">
-          <div class="detail-box clickable-box" id="modal-reading-box">
+        <div class="detail-split" style="display:flex; gap:10px; margin-bottom:15px; border-top:none; padding-top:0;">
+          <div class="detail-box clickable-box" id="modal-reading-box" style="padding: 15px 10px; font-size: 1.1em;">
               <div id="modal-reading"></div>
           </div>
-          <div class="detail-box clickable-box" id="modal-meaning-box">
+          <div class="detail-box clickable-box" id="modal-meaning-box" style="padding: 15px 10px; font-size: 1.1em;">
               <div id="modal-meaning"></div>
           </div>
         </div>
 
-        <p style="font-size:0.85em; color:#bbb; margin-bottom:25px; text-align:center;">* 박스를 클릭하면 글자가 가려진 채로 유지됩니다.</p>
+        <p style="font-size:0.8em; color:#bbb; margin-bottom:20px; text-align:center;">* 박스를 클릭하면 글자가 가려진 채로 유지됩니다.</p>
 
-        <div class="modal-action-btns" style="display:flex; gap:20px; justify-content:center;">
-           <button id="modal-oboeta-btn" class="status-btn oboeta-btn modal-action-btn hover-effect">覚えた</button>
-           <button id="modal-oboenakatta-btn" class="status-btn oboenakatta-btn modal-action-btn hover-effect">覚えなかった</button>
+        <div class="modal-action-btns" style="display:flex; gap:15px; justify-content:center;">
+           <button id="modal-oboeta-btn" class="status-btn oboeta-btn modal-action-btn hover-effect" style="padding: 12px 25px; font-size: 1.1em;">覚えた</button>
+           <button id="modal-oboenakatta-btn" class="status-btn oboenakatta-btn modal-action-btn hover-effect" style="padding: 12px 25px; font-size: 1.1em;">覚えなかった</button>
         </div>
       </div>
     </div>
@@ -198,7 +199,7 @@
             <ul style="text-align:left; line-height:1.8; color:#555; font-weight:600; font-size: 1.05em;">
                 <li style="margin-bottom:10px;"><strong>Kanji 단어장:</strong> N5~N1 레벨의 한자를 학습합니다. 외운 단어는 목록에서 즉시 분류되며, 상단의 [覚えた] / [覚えなかった] 탭에서 따로 모아보고 전체 해제할 수 있습니다.</li>
                 <li style="margin-bottom:10px;"><strong>단어 카드 (셀프 테스트):</strong> 큰 카드 모달에서 <strong>박스를 클릭하면 글자가 완전히 숨겨집니다.</strong> 숨김 상태가 유지되므로 셀프 암기용으로 좋습니다.</li>
-                <li style="margin-bottom:10px;"><strong>디테일한 Test 모드:</strong> 특정 단어장만 골라 시험을 보거나, 한자/히라가나/뜻을 최대 2개씩 조합해 복합적인 퀴즈(예: 한자+뜻을 보고 히라가나 맞추기)를 생성할 수 있습니다.</li>
+                <li style="margin-bottom:10px;"><strong>디테일한 Test 모드:</strong> 특정 단어장만 골라 시험을 보거나, 질문과 보기를 최대 2개씩 조합해 복합적인 퀴즈(예: 보기가 2개면 둘 다 골라야 정답!)를 생성할 수 있습니다.</li>
                 <li><strong>똑똑한 랜덤 기능:</strong> 문제와 보기를 모두 '랜덤'으로 설정해도 서로 겹치지 않도록 자동 출제됩니다. 퀴즈가 끝나면 오답을 즉시 단어장에 넣을 수 있습니다.</li>
             </ul>
         </div>

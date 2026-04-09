@@ -78,24 +78,31 @@ body {
 .modern-panel { background: white; border: var(--border-width) solid var(--accent-blue); border-radius: 20px; padding: 40px; max-width: 600px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
 
 .quiz-feedback-box { margin-top: 25px; padding: 25px; background: #f9f9ff; border: 2px dashed var(--accent-blue); border-radius: 20px; animation: fadeIn 0.3s ease; }
-.quiz-options-list { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px; }
-.quiz-options-list .menu-btn { margin-bottom: 0; max-width: 450px; font-size: 1.5em; padding: 20px; text-transform: none; line-height:1.4;} /* 보기 버튼이 복합일 경우를 위해 수정 */
-.quiz-correct { border: 3px solid var(--green) !important; color: var(--green) !important; box-shadow: 0 0 15px rgba(40, 167, 69, 0.5) !important; }
-.quiz-wrong { border: 3px solid var(--red) !important; color: var(--red) !important; box-shadow: 0 0 15px rgba(220, 53, 69, 0.5) !important; }
 
+/* 🌟 복합 퀴즈 보기 레이아웃 세팅 */
+.quiz-options-list { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px; }
+.quiz-group-container { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-bottom: 25px; align-items: center;}
+.quiz-group-title { font-size: 1.2em; font-weight: 900; color: var(--accent-blue); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;}
+.quiz-option-btn { margin-bottom: 0; max-width: 450px; font-size: 1.3em; padding: 18px; text-transform: none; line-height:1.4; transition: 0.2s;} 
+.quiz-option-btn.selected { background: #e0e7ff; color: var(--accent-blue); border-color: var(--accent-blue); transform: scale(1.03); font-weight: 900;}
+
+.quiz-correct { border: 3px solid var(--green) !important; color: var(--green) !important; box-shadow: 0 0 15px rgba(40, 167, 69, 0.5) !important; background: #f0fdf4 !important; }
+.quiz-wrong { border: 3px solid var(--red) !important; color: var(--red) !important; box-shadow: 0 0 15px rgba(220, 53, 69, 0.5) !important; background: #fef2f2 !important;}
+
+/* 🌟 모달 공통 */
 .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(5px);}
-.modal-card { background: white; border: 3px solid var(--accent-blue); border-radius: 25px; padding: 50px; position: relative; box-shadow: 0 0 30px var(--glow-blue); width: 90%; max-width: 500px; }
-.close-btn { position: absolute; top: 20px; right: 25px; font-size: 2em; font-weight: bold; color: var(--accent-blue); cursor: pointer; }
-.inner-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: none; font-size: 2em; color: var(--accent-blue); cursor: pointer; }
-.inner-arrow.prev { left: 10px; }
-.inner-arrow.next { right: 10px; }
-.modal-number { position: absolute; top: 25px; left: 25px; font-weight: 700; color: #888; }
+.modal-card { background: white; border: 3px solid var(--accent-blue); border-radius: 25px; padding: 50px; position: relative; box-shadow: 0 0 30px var(--glow-blue); width: 90%; }
+.close-btn { position: absolute; color: var(--accent-blue); cursor: pointer; font-weight: bold; transition: 0.2s; }
+.close-btn:hover { transform: scale(1.2); }
+.inner-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: var(--accent-blue); cursor: pointer; transition: 0.2s; }
+.inner-arrow:hover { transform: translateY(-50%) scale(1.2); }
+.modal-number { position: absolute; font-weight: 700; color: #888; }
 
 .clickable-box { cursor: pointer; user-select: none; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
 .clickable-box:hover { box-shadow: 0 0 15px var(--glow-blue); }
-.detail-box { border: 2px solid var(--accent-blue); background: transparent; border-radius: 15px; padding: 20px 15px; font-weight: 700; font-size: 1.3em; flex:1; }
+.detail-box { border: 2px solid var(--accent-blue); background: transparent; border-radius: 15px; flex:1; display:flex; align-items:center; justify-content:center; font-weight: 700;}
 
-.kanji-huge { font-size: 7em; font-weight: 900; color: var(--accent-blue); white-space: nowrap; transition: opacity 0.2s; }
-.kanji-modal-long { font-size: 3.5em !important; }
+.kanji-huge { font-weight: 900; color: var(--accent-blue); white-space: nowrap; transition: opacity 0.2s; }
+.kanji-modal-long { font-size: 2.8em !important; } /* 축소된 모달용 4글자 폰트 */
 
 .hidden-content { opacity: 0 !important; pointer-events: none; }
