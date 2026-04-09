@@ -1,134 +1,106 @@
 :root {
     --primary-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple SD Gothic Neo", sans-serif;
-    --text-main: #1d1d1f;
-    --text-sub: #86868b;
-    --accent-color: #007aff;
+    /* 사진에서 추출한 컬러 팔레트 */
+    --color-dark: #5E4D93;      /* 진보라/인디고 */
+    --color-pink: #FFD3D1;      /* 연핑크/피치 */
+    --color-lavender: #EBE8F9;  /* 연라벤더 */
+    --color-periwinkle: #B19FFF; /* 페리윙클/밝은보라 */
+    --text-main: #1a1a1a;       /* 로고의 진한 블랙 */
+    --text-sub: #5E4D93;
+    --accent-color: #B19FFF;    
     --stamp-red: #b22222; 
-    --memo-gold: #34c759; /* 覚える(외움) 색상 - 초록계열 */
-    --mada-orange: #ff9500; /* まだまだ(아직) 색상 - 오렌지계열 */
+    --memo-gold: #B19FFF;       /* 覚える - 페리윙클 */
+    --mada-orange: #FFD3D1;     /* まだまだ - 연핑크 */
 }
 
-body { font-family: var(--primary-font); color: var(--text-main); background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); margin: 0; padding: 0; line-height: 1.6; min-height: 100vh; display: flex; justify-content: center; -webkit-font-smoothing: antialiased; }
+/* 🌟 배경: 사진의 그라데이션과 질감 반영 */
+body { 
+    font-family: var(--primary-font); 
+    color: var(--text-main); 
+    background: linear-gradient(135deg, #FFD3D1 0%, #B19FFF 100%); /* 사진 속 그라데이션 */
+    background-attachment: fixed;
+    margin: 0; padding: 0; line-height: 1.6; min-height: 100vh; 
+    display: flex; justify-content: center; 
+    -webkit-font-smoothing: antialiased; 
+}
+
+/* 배경에 약간의 입자감(Grainy) 효과 추가를 위한 오버레이 */
+body::before {
+    content: "";
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+    opacity: 0.3; pointer-events: none; z-index: -1;
+}
+
 .app-container { width: 100%; max-width: 1100px; padding: 30px 20px; }
-.screen { display: none; animation: fadeIn 0.4s ease; }
-.screen.active-screen { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* 🌟 붓글씨 더 굵고 선명하게 */
-.brush-font { font-family: 'Nanum Brush Script', cursive; font-weight: 400; }
-.bold-brush { text-shadow: 0.8px 0.8px 0 currentColor, -0.8px -0.8px 0 currentColor; }
-.main-title { font-size: 6em; margin-bottom: 5px; color: #1a1a1a; letter-spacing: 2px; }
-.sub-title { color: var(--text-sub); margin-bottom: 40px; font-size: 1.2em; }
-.home-menu .menu-btn { font-size: 2.8em; }
-
-.glass-effect, .glass-panel { background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.6); }
-.glass-panel { padding: 40px 30px; text-align: center; margin: 0 auto; }
-.hover-effect { transition: all 0.3s ease; cursor: pointer; }
-.hover-effect:hover { transform: translateY(-5px); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08); }
-
-.home-menu { display: flex; flex-direction: column; gap: 20px; }
-.menu-btn { padding: 25px; color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 15px; border: none; }
-.screen-header { display: flex; align-items: center; margin-bottom: 30px; position: relative; }
-.screen-header h2 { flex: 1; text-align: center; margin: 0; color: #1a1a1a; }
-.back-btn { position: absolute; left: 0; background: none; border: none; color: var(--accent-color); font-weight: 600; font-size: 1em; padding: 10px; }
-
-/* 검색창 */
-.search-container { width: 100%; text-align: center; margin-bottom: 25px; }
-#word-search { width: 80%; max-width: 500px; padding: 15px 25px; font-size: 1.1em; border: 2px solid #ddd; border-radius: 30px; outline: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-#word-search:focus { border-color: var(--accent-color); box-shadow: 0 4px 15px rgba(0,122,255,0.2); }
-
-nav#level-selection { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-.level-button { background-color: rgba(255, 255, 255, 0.5); border: 1px solid #ddd; padding: 10px 22px; border-radius: 20px; font-weight: 600; }
-.level-button.active { background-color: var(--accent-color); color: #fff; border-color: var(--accent-color); }
-
-/* 🌟 상태 탭 컬러 포인트 */
-.level-button.mada-tab { border-color: var(--mada-orange); color: var(--mada-orange); background: white; }
-.level-button.mada-tab.active { background-color: var(--mada-orange) !important; color: #fff !important; }
-.level-button.memo-tab { border-color: var(--memo-gold); color: var(--memo-gold); background: white; }
-.level-button.memo-tab.active { background-color: var(--memo-gold) !important; color: #fff !important; }
-
-/* 단어 카드 설정 */
-main#vocabulary-display { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
-.vocabulary-card { background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); padding: 40px 30px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.8); position: relative; }
-.vocabulary-card .kanji { font-size: 4.5em; font-weight: 700; color: #1a1a1a; margin-bottom: 15px; }
-.vocabulary-card .reading { font-size: 1.3em; color: #666; margin-bottom: 5px; }
-.vocabulary-card .meaning { font-size: 1.5em; font-weight: 700; color: #333; }
-.vocabulary-card .level-stamp { position: absolute; bottom: 15px; right: 15px; width: 35px; height: 35px; border: 2px solid var(--stamp-red); color: var(--stamp-red); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; opacity: 0.7; border-radius: 5px; }
-.card-number { position: absolute; top: 15px; left: 15px; font-size: 1.1em; font-weight: bold; color: #aaa; }
-
-/* 🌟 단어 카드 미니 버튼 (まだまだ / 覚える) */
-.card-actions { position: absolute; top: 12px; right: 12px; display: flex; gap: 8px; z-index: 10; }
-.status-btn-mini { background: #fff; border: 2px solid #ddd; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; font-size: 1em; color: #bbb; font-weight: bold; transition: 0.2s; display:flex; align-items:center; justify-content:center; }
-.status-btn-mini:hover { transform: scale(1.1); }
-.btn-mada:hover { border-color: var(--mada-orange); color: var(--mada-orange); }
-.btn-mada.active { background: var(--mada-orange); color: white; border-color: var(--mada-orange); }
-.btn-oboeru:hover { border-color: var(--memo-gold); color: var(--memo-gold); }
-.btn-oboeru.active { background: var(--memo-gold); color: white; border-color: var(--memo-gold); }
-
-/* 모달 및 세팅 버튼 */
-.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; }
-.solid-white { background-color: #ffffff !important; box-shadow: 0 10px 40px rgba(0,0,0,0.3); border: none; }
-.modal-content { padding: 40px; width: 85%; max-width: 450px; position: relative; display: flex; flex-direction: column; align-items: center; min-height: 380px; border-radius: 20px; }
-.close-button { position: absolute; top: 15px; right: 20px; font-size: 2em; color: #888; cursor: pointer; }
-.toggle-container { display: flex; gap: 10px; margin: 15px 0 25px; }
-.toggle-btn { background: transparent; color: var(--accent-color); border: 2px solid var(--accent-color); padding: 6px 16px; border-radius: 20px; font-size: 0.9em; font-weight: 600; }
-.toggle-btn.active-toggle { background-color: var(--accent-color); color: white; }
-.modal-kanji { font-size: 6em; font-weight: 700; color: var(--text-main); transition: opacity 0.2s; margin-bottom: 20px; }
-.modal-detail { display: flex; justify-content: space-around; width: 100%; padding-top: 20px; border-top: 1px solid #ddd; }
-.modal-reading, .modal-meaning { font-size: 1.6em; color: #555; font-weight: 600; transition: opacity 0.2s; }
-.hidden-detail { opacity: 0; pointer-events: none; }
-.nav-arrow { position: absolute; background: none; border: none; color: white; font-size: 3em; cursor: pointer; padding: 20px; z-index: 1001; transition: transform 0.2s; }
-.nav-arrow.prev { left: 2%; } .nav-arrow.next { right: 2%; }
-.nav-arrow:hover { transform: scale(1.1); } .nav-arrow:disabled { opacity: 0.2; pointer-events: none; }
-
-.quiz-setup-group { text-align: left; margin-bottom: 25px; }
-.quiz-setup-group h3 { font-size: 1.1em; color: #555; margin-bottom: 10px; }
-.btn-group { display: flex; flex-wrap: wrap; gap: 10px; }
-.setup-btn { background: rgba(255,255,255,0.6); border: 1px solid #ccc; padding: 12px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; flex: 1; min-width: 80px; color: #333; }
-.setup-btn:hover { background: #eee; }
-.setup-btn.active { background: var(--accent-color); color: white; border-color: var(--accent-color); box-shadow: 0 4px 10px rgba(0,122,255,0.3); }
-
-/* 모달 내 버튼 컬러 지정 */
-.mada-active { background-color: var(--mada-orange) !important; color: white !important; border-color: var(--mada-orange) !important; box-shadow: 0 4px 10px rgba(255,149,0,0.3); }
-.oboeru-active { background-color: var(--memo-gold) !important; color: white !important; border-color: var(--memo-gold) !important; box-shadow: 0 4px 10px rgba(52,199,89,0.3); }
-
-.quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-#quiz-progress { font-weight: 700; color: var(--text-sub); font-size: 1.1em; }
-.quit-btn { background: none; border: none; color: #ff3b30; font-weight: 600; cursor: pointer; }
-.quiz-question-label { color: var(--accent-color); font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
-.quiz-kanji { font-size: 5em; font-weight: 700; margin-bottom: 40px; color: var(--text-main); }
-.quiz-options { display: flex; flex-direction: column; gap: 12px; }
-.quiz-option-btn { background-color: rgba(255,255,255,0.9); border: 2px solid #eee; padding: 18px; border-radius: 15px; font-size: 1.2em; font-weight: 600; text-align: center; }
-.quiz-option-btn.correct { background-color: #34c759; color: white; border-color: #34c759; }
-.quiz-option-btn.wrong { background-color: #ff3b30; color: white; border-color: #ff3b30; }
-.score-display { font-size: 4em; font-weight: 700; color: var(--accent-color); margin: 10px 0; }
-/* 🌟 서술형 인풋박스 디자인 추가 */
-.short-input { 
-    font-family: var(--primary-font);
-    font-size: 1.5em; 
-    font-weight: 600;
-    padding: 18px 20px; 
-    border-radius: 15px; 
-    border: 2px solid #ddd; 
-    width: 85%; 
-    margin-bottom: 15px; 
-    outline: none; 
-    text-align: center; 
-    transition: 0.3s ease;
-    color: var(--text-main);
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+/* 🌟 로고 느낌을 살린 메인 타이틀 */
+.main-title { 
+    font-size: 7em; 
+    margin-bottom: 5px; 
+    color: #000; /* 완전 블랙으로 로고 느낌 강조 */
+    letter-spacing: -2px;
+    filter: drop-shadow(2px 2px 0px rgba(255,255,255,0.5));
 }
-.short-input:focus { 
-    border-color: var(--accent-color); 
-    box-shadow: 0 0 0 4px rgba(0,122,255,0.2); 
+
+/* 🌟 유리창(Glass) 패널 스타일 수정 */
+.glass-effect, .glass-panel { 
+    background-color: rgba(255, 255, 255, 0.65); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px); 
+    box-shadow: 0 10px 40px rgba(94, 77, 147, 0.15); /* 보라색 계열 그림자 */
+    border-radius: 24px; 
+    border: 1px solid rgba(255, 255, 255, 0.5); 
 }
-.correct-input { 
-    background-color: #34c759 !important; 
-    color: white !important; 
-    border-color: #34c759 !important; 
+
+/* 🌟 레벨 버튼 & 탭 디자인 */
+.level-button { 
+    background-color: rgba(235, 232, 249, 0.5); /* 연라벤더 */
+    border: 1px solid rgba(94, 77, 147, 0.2); 
+    padding: 10px 22px; border-radius: 15px; 
+    color: var(--color-dark);
+    font-weight: 700;
 }
-.wrong-input { 
-    background-color: #ff3b30 !important; 
-    color: white !important; 
-    border-color: #ff3b30 !important; 
+.level-button.active { 
+    background-color: var(--color-dark); 
+    color: #fff; 
+    border-color: var(--color-dark); 
+    box-shadow: 0 5px 15px rgba(94, 77, 147, 0.3);
+}
+
+.level-button.mada-tab { border-color: var(--color-pink); color: #d6807d; background: white; }
+.level-button.mada-tab.active { background-color: var(--color-pink) !important; color: #fff !important; }
+
+.level-button.memo-tab { border-color: var(--color-periwinkle); color: var(--color-dark); background: white; }
+.level-button.memo-tab.active { background-color: var(--color-periwinkle) !important; color: #fff !important; }
+
+/* 🌟 단어 카드: 로고의 여백 미와 색상 조화 */
+.vocabulary-card { 
+    background-color: rgba(255, 255, 255, 0.8); 
+    border: 1px solid var(--color-lavender);
+}
+.vocabulary-card .kanji { color: #000; } /* 한자는 더 선명하게 블랙 */
+.vocabulary-card .reading { color: var(--color-dark); font-weight: 500; }
+
+/* 🌟 미니 버튼 컬러 변경 */
+.btn-mada.active { background: var(--color-pink); color: #fff; border-color: var(--color-pink); }
+.btn-oboeru.active { background: var(--color-periwinkle); color: white; border-color: var(--color-periwinkle); }
+
+/* 🌟 모달창: 사진의 깨끗한 느낌 반영 */
+.modal-content.solid-white {
+    background: var(--color-lavender) !important;
+    border: 2px solid white;
+}
+.toggle-btn {
+    border-color: var(--color-dark);
+    color: var(--color-dark);
+}
+.toggle-btn.active-toggle {
+    background-color: var(--color-dark);
+}
+
+/* 🌟 퀴즈 타입 버튼 */
+.setup-btn.active {
+    background: var(--color-dark);
+    border-color: var(--color-dark);
 }
