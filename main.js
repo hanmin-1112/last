@@ -18,7 +18,7 @@ const vocabulary = {
     ],
   n1: []
 };
-// 여기에 기존에 추가하셨던 단어 데이터(const vocabulary = { n5:[...], n4:[...] ... })가 있어야 합니다!
+
 
 let oboetaWords = JSON.parse(localStorage.getItem('oboetaWords')) || [];
 let oboenakattaWords = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
@@ -187,7 +187,6 @@ function showModal(index) {
     r.textContent = word.reading;
     m.textContent = word.meaning;
 
-    // 길이에 따라 크기를 대폭 줄임
     const len = word.kanji.length;
     if (len >= 6) k.style.fontSize = '2.2em';
     else if (len >= 4) k.style.fontSize = '3.2em';
@@ -214,7 +213,6 @@ function formatWord(wordObj, types) {
       return types.map(t => wordObj[t]).join(' / ');
 }
 
-// 🌟 퀴즈 시스템
 function startQuiz() {
     const qActive = Array.from(document.querySelectorAll('#setup-qtype .active')).map(b => b.dataset.val);
     const aActive = Array.from(document.querySelectorAll('#setup-atype .active')).map(b => b.dataset.val);
@@ -277,7 +275,6 @@ function loadQuizQuestion() {
         document.getElementById('quiz-question-label').textContent = `다음 ${qLabelText}에 맞는 ${aLabelText}은?`;
     }
     
-    // 🌟 퀴즈 문제 질문 영역 글자수 크기 조절
     const kanjiEl = document.getElementById('quiz-kanji');
     kanjiEl.textContent = formatWord(currentWord, finalQ);
     
@@ -289,7 +286,6 @@ function loadQuizQuestion() {
     const container = document.getElementById('quiz-options');
     container.innerHTML = '';
 
-    // 다중 보기 생성
     window.currentQuizSelections = {}; 
     window.currentCorrectAnswers = {};
     window.currentFinalA = finalA;
@@ -333,7 +329,6 @@ function loadQuizQuestion() {
     });
 }
 
-// 🌟 플로팅 모달로 나타나는 퀴즈 피드백 로직
 function handleMultiQuizAnswer(btn, aType, word, finalA) {
     const groupBtns = btn.parentElement.querySelectorAll('.quiz-option-btn');
     groupBtns.forEach(b => b.classList.remove('selected'));
@@ -369,7 +364,6 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
         document.getElementById('fb-reading').textContent = word.reading;
         document.getElementById('fb-meaning').textContent = word.meaning;
 
-        // 🌟 피드백 플로팅 모달 글자수 크기 조절
         const len = word.kanji.length;
         if (len >= 6) fbKanji.style.fontSize = '2.2em';
         else if (len >= 4) fbKanji.style.fontSize = '2.8em';
@@ -378,7 +372,6 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
         const btnOboeta = document.getElementById('btn-quiz-oboeta');
         const btnOboenakatta = document.getElementById('btn-quiz-oboenakatta');
 
-        // 정답/오답에 따른 버튼 분기 처리
         if (isAllCorrect) {
             score++;
             feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">🎉 완벽하게 맞췄습니다!</span><br><span style="font-size:0.7em; color:#888;">이 단어를 완전히 외우셨다면 추가하세요.</span>`;
@@ -435,7 +428,6 @@ function startIncorrectReview() {
     loadReviewWord();
 }
 
-// 🌟 오답 노트 모달 글자수 크기 조절
 function loadReviewWord() {
     const word = incorrectQuestions[reviewIndex];
     document.getElementById('review-progress-card').textContent = `오답 ${reviewIndex + 1} / ${incorrectQuestions.length}`;

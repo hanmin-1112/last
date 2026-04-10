@@ -98,43 +98,34 @@ body {
 .clickable-box:hover { box-shadow: 0 0 15px var(--glow-blue); }
 .detail-box { border: 2px solid var(--accent-blue); background: transparent; border-radius: 15px; flex:1; display:flex; align-items:center; justify-content:center; font-weight: 700;}
 
-/* 🌟 한자 폰트 설정: 줄바꿈 방지 및 자동 크기 조절 애니메이션 추가 */
 .kanji-huge { font-weight: 900; color: var(--accent-blue); white-space: nowrap; transition: font-size 0.2s, opacity 0.2s; word-break: keep-all; }
 .kanji-modal-long { font-size: 2.8em !important; } 
 
 .hidden-content { opacity: 0 !important; pointer-events: none; }
 
-/* ---------------------------------------------------
-   🌟 구글 애드센스 반응형 배치 (PC: 좌측 상단 / 모바일: 하단)
---------------------------------------------------- */
 
-/* PC 기준: 화면 좌측 상단 고정 */
 #custom-ad-container {
     position: fixed;
     top: 20px;
     left: 20px;
-    width: 300px; /* PC에서 보여줄 광고의 최대 너비 */
-    z-index: 9999; /* 다른 UI에 가려지지 않도록 최상단 배치 */
+    width: 300px; 
+    z-index: 9999; 
 }
-
-/* 🌟 모바일 화면 (너비 768px 이하) 반응형 디자인 최적화 & 광고 배치 */
 @media (max-width: 768px) {
     .modal-card { padding: 30px 15px; width: 95%; }
     .quiz-option-btn { font-size: 1.1em; padding: 15px; }
     .main-title { font-size: 4.5em; }
     .nav-row-minimal { justify-content: center; }
     
-    /* 모바일 기준 하단 고정 */
     #custom-ad-container {
         top: auto;
         bottom: 0;
         left: 0;
-        width: 100%; /* 모바일에서는 가로 폭 100% 사용 */
-        background-color: #fff; /* 콘텐츠와 겹칠 때 가독성을 위해 흰색 배경 추가 */
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.1); /* 약간의 그림자 효과 */
+        width: 100%; 
+        background-color: #fff; 
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
     }
     
-    /* 모바일에서 하단 광고 배너 때문에 앱의 맨 밑부분이 가려지지 않도록 빈 공간(여백) 추가 */
     body {
         padding-bottom: 80px; 
     }
