@@ -57,7 +57,38 @@ function switchScreen(screenId) {
     }
 }
 
-function openHelp() { helpModal.style.display = 'flex'; }
+function openHelp() { 
+    // 현재 활성화된 화면 감지
+    const activeScreen = document.querySelector('.active-screen').id;
+    const helpTitle = document.getElementById('help-title');
+    const helpContent = document.getElementById('help-content');
+
+    // 화면별 안내 문구 동적 설정
+    if (activeScreen === 'screen-home') {
+        helpTitle.textContent = "🏡 홈 화면 안내";
+        helpContent.innerHTML = `
+            <li style="margin-bottom:12px;"><strong>바이브 漢:</strong> N5부터 N1까지의 일본어 한자를 가장 트렌디하게 학습하는 웹 앱입니다.</li>
+            <li style="margin-bottom:12px;">상단의 <strong>Kanji</strong> 메뉴를 눌러 레벨별 단어장을 확인하고 학습을 시작하세요.</li>
+            <li>상단의 <strong>Test</strong> 메뉴를 눌러 나만의 맞춤형 퀴즈를 만들고 실력을 테스트해 보세요!</li>
+        `;
+    } else if (activeScreen === 'screen-vocab') {
+        helpTitle.textContent = "📖 Kanji 단어장 사용법";
+        helpContent.innerHTML = `
+            <li style="margin-bottom:12px;"><strong>상태 분류:</strong> 외운 단어는 [覚えた], 헷갈리는 단어는 [覚えなかった] 버튼을 눌러 따로 모아볼 수 있습니다.</li>
+            <li style="margin-bottom:12px;"><strong>셀프 블라인드 테스트:</strong> 단어를 클릭하면 뜨는 큰 카드에서 <strong>한자, 히라가나, 뜻이 적힌 박스를 클릭해 보세요!</strong> 글자가 가려져서 혼자 암기하기 좋습니다.</li>
+            <li><strong>검색 기능:</strong> 상단 검색창에 한자나 뜻을 입력해 원하는 단어를 빠르게 찾을 수 있습니다.</li>
+        `;
+    } else if (activeScreen.includes('quiz') || activeScreen.includes('review')) {
+        helpTitle.textContent = "📝 Test 모드 사용법";
+        helpContent.innerHTML = `
+            <li style="margin-bottom:12px;"><strong>세밀한 퀴즈 설정:</strong> 질문 타입과 보기 타입을 최대 2개씩 자유롭게 조합하여 입체적인 퀴즈를 만들 수 있습니다.</li>
+            <li style="margin-bottom:12px;"><strong>다중 선택 정답:</strong> 보기가 2개 이상일 경우, 문제에 맞는 정답 버튼을 <strong>모두 선택해야</strong> 정답으로 인정됩니다.</li>
+            <li><strong>똑똑한 오답 노트:</strong> 퀴즈가 끝난 후 틀린 문제만 모아 복습 카드를 열고 다시 재시험을 치를 수 있습니다.</li>
+        `;
+    }
+
+    helpModal.style.display = 'flex'; 
+}
 function closeHelp() { helpModal.style.display = 'none'; }
 
 function getWordsByLevel(level) {

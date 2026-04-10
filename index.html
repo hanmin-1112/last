@@ -195,7 +195,7 @@
     <div id="vocabulary-modal" class="modal">
       <div class="modal-card" style="max-width: 400px; padding: 35px 25px;">
         <div id="modal-word-number" class="modal-number" style="font-size: 0.9em;"></div>
-        <span class="close-btn" onclick="closeModal()" style="font-size: 1.8em; top: 15px; right: 20px;">&times;</span>
+        <span class="close-btn" onclick="closeModal()">&times;</span>
         
         <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')" style="font-size: 1.5em; left: 5px;">&#10094;</button>
         <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')" style="font-size: 1.5em; right: 5px;">&#10095;</button>
@@ -223,15 +223,11 @@
     </div>
 
     <div id="help-modal" class="modal">
-        <div class="modal-card text-center" style="max-width: 550px;">
+        <div class="modal-card text-center" style="max-width: 550px; padding: 40px 30px;">
             <span class="close-btn" onclick="closeHelp()">&times;</span>
-            <h2 style="color:var(--accent-blue); font-weight:900; margin-bottom: 20px;">사용 방법 안내</h2>
-            <ul style="text-align:left; line-height:1.8; color:#555; font-weight:600; font-size: 1.05em;">
-                <li style="margin-bottom:10px;"><strong>Kanji 단어장:</strong> N5~N1 레벨의 한자를 학습합니다. 외운 단어는 목록에서 즉시 분류되며, 상단의 [覚えた] / [覚えなかった] 탭에서 따로 모아보고 전체 해제할 수 있습니다.</li>
-                <li style="margin-bottom:10px;"><strong>단어 카드 (셀프 테스트):</strong> 큰 카드 모달에서 <strong>박스를 클릭하면 글자가 완전히 숨겨집니다.</strong> 숨김 상태가 유지되므로 셀프 암기용으로 좋습니다.</li>
-                <li style="margin-bottom:10px;"><strong>디테일한 Test 모드:</strong> 특정 단어장만 골라 시험을 보거나, 질문과 보기를 최대 2개씩 조합해 복합적인 퀴즈(예: 보기가 2개면 둘 다 골라야 정답!)를 생성할 수 있습니다.</li>
-                <li><strong>똑똑한 랜덤 기능:</strong> 문제와 보기를 모두 '랜덤'으로 설정해도 서로 겹치지 않도록 자동 출제됩니다. 퀴즈가 끝나면 오답을 즉시 단어장에 넣을 수 있습니다.</li>
-            </ul>
+            <h2 id="help-title" style="color:var(--accent-blue); font-weight:900; margin-bottom: 25px; font-size: 1.8em;">사용 방법 안내</h2>
+            <ul id="help-content" style="text-align:left; line-height:1.8; color:#555; font-weight:600; font-size: 1.1em; padding-left: 20px;">
+                </ul>
         </div>
     </div>
 
