@@ -19,36 +19,23 @@ const vocabulary = {
   n1: []
 };
 
-// 로컬 스토리지 상태
 let oboetaWords = JSON.parse(localStorage.getItem('oboetaWords')) || [];
 let oboenakattaWords = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
 
-// 현재 앱 상태
 let currentScreen = 'screen-home';
-let currentTab = 'n5'; // Kanji List의 메인 탭 (n5~n1, oboeta, oboenakatta)
-let currentJlptFilter = 'all'; // 외운 단어장 등에서의 내부 N레벨 필터
-
+let currentTab = 'n5'; 
+let currentJlptFilter = 'all'; 
 let currentDisplayedWords = [];
 let currentWordIndex = 0;
 
-// 퀴즈 상태
 let quizWords = [];
 let incorrectQuestions = [];
 let currentQuizIndex = 0;
 let score = 0;
-let quizConfig = { level: 'n5', qTypes: ['meaning'], aTypes: ['kanji'], count: 20 }; 
-let quizTypeSlots = { question: 1, answer: 1 }; // 현재 생성된 슬롯 개수
+let quizConfig = { level: 'n5', count: 20 }; // 타입 정보는 시작할 때 DOM에서 읽음
 
-// 상세 모달 상태
-let reviewIndex = 0;
 let hideState = { kanji: false, reading: false, meaning: false };
 let revHideState = { kanji: false, reading: false, meaning: false };
-
-// DOM 요소
-const vocabularyDisplay = document.getElementById('vocabulary-display');
-const searchInput = document.getElementById('word-search');
-const vocabularyModal = document.getElementById('vocabulary-modal');
-const helpModal = document.getElementById('help-modal');
 
 // --- 화면 전환 ---
 function switchScreen(screenId) {
@@ -58,58 +45,50 @@ function switchScreen(screenId) {
     if (target) target.classList.add('active-screen');
     window.scrollTo(0, 0);
 
-    // 네비게이션 UI 업데이트
     document.querySelectorAll('.nav-item:not(.help-btn)').forEach(nav => nav.classList.remove('active'));
     if (screenId === 'screen-home') document.getElementById('nav-home').classList.add('active');
     
     if (screenId === 'screen-vocab') {
         document.getElementById('nav-vocab').classList.add('active');
-        // 단어장 진입 시 서브 필터 초기화 및 리스트 갱신
         currentJlptFilter = 'all'; 
         displayVocabulary(currentTab);
     }
     
     if (screenId.includes('quiz') || screenId.includes('review')) {
         document.getElementById('nav-test').classList.add('active');
-        if (screenId === 'screen-quiz-setup') initQuizSetupUI();
     }
 }
 
-// --- 도움말 로직 (맞춤형 내용 추가) ---
 function openHelp() { 
     const helpTitle = document.getElementById('help-title');
     const helpContent = document.getElementById('help-content');
-
-    if (currentScreen === 'screen-home') {
-        helpTitle.textContent = "🏡 홈 화면 안내";
-        helpContent.innerHTML = `
-            <li style="margin-bottom:12px;"><strong>바이브 漢:</strong> N5부터 N1까지의 일본어 한자를 가장 트렌디하게 학습하는 웹 앱입니다.</li>
-            <li style="margin-bottom:12px;">상단의 <strong>Kanji</strong> 메뉴를 눌러 레벨별 단어장을 확인하고 학습을 시작하세요.</li>
-            <li>상단의 <strong>Test</strong> 메뉴를 눌러 나만의 맞춤형 퀴즈를 만들고 실력을 테스트해 보세요!</li>
-        `;
-    } else if (currentScreen === 'screen-vocab') {
-        helpTitle.textContent = "📖 Kanji 단어장 사용법";
-        helpContent.innerHTML = `
-            <li style="margin-bottom:12px;"><strong>상태 분류:</strong> 단어 카드 하단의 [覚えた], [覚えなかった] 버튼을 눌러 단어를 분류하세요.</li>
-            <li style="margin-bottom:12px;"><strong>강력한 필터링:</strong> 메인 탭에서 단어장을 고른 후, <strong>[覚えた] 탭 내에서도 N5~N1 레벨 버튼을 눌러 원하는 레벨만 골라볼 수 있습니다.</strong></li>
-            <li style="margin-bottom:12px;"><strong>셀프 블라인드 테스트:</strong> 단어를 클릭하면 뜨는 큰 카드에서 <strong>한자, 히라가나, 뜻이 적힌 박스를 클릭해 보세요!</strong> 글자가 가려져서 혼자 암기하기 좋습니다.</li>
-            <li><strong>검색 기능:</strong> 검색창에 한자나 뜻을 입력해 원하는 단어를 빠르게 찾으세요.</li>
-        `;
-    } else if (currentScreen.includes('quiz') || currentScreen.includes('review')) {
-        helpTitle.textContent = "📝 Test 모드 사용법";
-        helpContent.innerHTML = `
-            <li style="margin-bottom:12px;"><strong>입체적인 퀴즈 조합 (+추가 버튼):</strong> 문제와 보기 타입 하단의 <strong>[+ 추가] 버튼</strong>을 눌러 최대 2개까지 타입을 조합할 수 있습니다. (예: 뜻 문제 -> 한자+히라가나 보기)</li>
-            <li style="margin-bottom:12px;"><strong>다중 선택 정답:</strong> 보기가 2개 조합된 경우, 문제에 맞는 정답 버튼을 <strong>모두 선택해야</strong> 정답으로 인정됩니다.</li>
-            <li><strong>똑똑한 오답 노트:</strong> 퀴즈가 끝난 후 틀린 문제만 모아 복습 카드를 열고 다시 재시험을 치를 수 있습니다.</li>
-        `;
-    }
-
-    helpModal.style.display = 'flex'; 
+    helpTitle.textContent = "바이브 漢 사용법";
+    helpContent.innerHTML = `
+        <li style="margin-bottom:12px;"><strong>단어장:</strong> 상단의 레벨 버튼을 가로로 스와이프하여 넘길 수 있습니다.</li>
+        <li style="margin-bottom:12px;"><strong>단어 카드:</strong> 카드의 여백을 누르셔도 모달 창이 열리도록 개선되었습니다.</li>
+        <li><strong>퀴즈 조합:</strong> 문제와 보기 타입의 [+ 추가] 버튼을 눌러 입체적인 테스트를 세팅해 보세요.</li>
+    `;
+    document.getElementById('help-modal').style.display = 'flex'; 
 }
-function closeHelp() { helpModal.style.display = 'none'; }
+function closeHelp() { document.getElementById('help-modal').style.display = 'none'; }
 
 
-// --- 단어 데이터 가져오기 (이중 필터링 로직 적용) ---
+// --- 탭 및 필터 클릭 직접 제어 (먹통 방지) ---
+function changeMainTab(tab, btn) {
+    document.querySelectorAll('#level-selection .level-button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentJlptFilter = 'all'; 
+    displayVocabulary(tab);
+}
+
+function changeSubFilter(filter, btn) {
+    document.querySelectorAll('#sub-filter-selection .level-button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentJlptFilter = filter;
+    displayVocabulary(currentTab, document.getElementById('word-search').value);
+}
+
+
 function getWordsByLevel(tab) {
     let allWords = [];
     ['n5', 'n4', 'n3', 'n2', 'n1'].forEach(lvl => {
@@ -117,40 +96,39 @@ function getWordsByLevel(tab) {
     });
 
     let baseWords = [];
-    // 1차 필터링 (메인 탭)
     if (tab === 'oboeta') baseWords = allWords.filter(w => oboetaWords.includes(w.kanji));
     else if (tab === 'oboenakatta') baseWords = allWords.filter(w => oboenakattaWords.includes(w.kanji));
     else baseWords = vocabulary[tab] || [];
 
-    // 2차 필터링 (서브 N레벨 필터 - 외운 단어장 등에서 작동)
     if (['oboeta', 'oboenakatta'].includes(tab) && currentJlptFilter !== 'all') {
         baseWords = baseWords.filter(w => w.level === currentJlptFilter);
     }
     return baseWords;
 }
 
-// --- 단어장 디스플레이 (서브 필터 UI 제어 포함) ---
+// --- 단어장 디스플레이 ---
 function displayVocabulary(tab, searchTerm = '') {
     currentTab = tab;
-    vocabularyDisplay.innerHTML = '';
+    const vocabDisplay = document.getElementById('vocabulary-display');
+    vocabDisplay.innerHTML = '';
     
-    // 서브 필터 UI 제어
     const subFilterNav = document.getElementById('sub-filter-selection');
     if (['oboeta', 'oboenakatta'].includes(tab)) {
-        subFilterNav.style.display = 'flex'; // 외운 단어장 등에서는 서브 필터 보여줌
-        updateSubFilterUI();
+        subFilterNav.style.display = 'flex'; 
+        document.querySelectorAll('#sub-filter-selection .level-button').forEach(b => {
+            b.classList.remove('active');
+            if (b.textContent.toLowerCase() === currentJlptFilter || (currentJlptFilter==='all' && b.textContent==='전체')) b.classList.add('active');
+        });
     } else {
-        subFilterNav.style.display = 'none'; // 일반 N레벨 단어장에서는 숨김
+        subFilterNav.style.display = 'none'; 
     }
 
     let words = getWordsByLevel(tab);
 
-    // 일반 레벨 탭에서는 이미 분류된 단어는 숨김 (원하면 이 로직은 주석 처리 가능)
     if (!['oboeta', 'oboenakatta'].includes(tab)) {
         words = words.filter(w => !oboetaWords.includes(w.kanji) && !oboenakattaWords.includes(w.kanji));
     }
 
-    // 검색어 필터
     if (searchTerm) {
         const t = searchTerm.toLowerCase();
         words = words.filter(w => w.kanji.includes(t) || w.meaning.includes(t) || w.reading.includes(t));
@@ -158,103 +136,67 @@ function displayVocabulary(tab, searchTerm = '') {
 
     currentDisplayedWords = words;
 
-    // 전체 해제 버튼 제어
-    const clearBtn = document.getElementById('clear-list-btn');
-    if (['oboeta', 'oboenakatta'].includes(tab)) {
-        clearBtn.style.display = 'block';
-        clearBtn.onclick = () => {
-            if(confirm("이 단어장의 모든 단어를 해제하시겠습니까? (원래 레벨로 돌아갑니다)")) {
-                if (tab === 'oboeta') oboetaWords = [];
-                if (tab === 'oboenakatta') oboenakattaWords = [];
-                localStorage.setItem('oboetaWords', JSON.stringify(oboetaWords));
-                localStorage.setItem('oboenakattaWords', JSON.stringify(oboenakattaWords));
-                displayVocabulary(tab); 
-            }
-        };
-    } else {
-        clearBtn.style.display = 'none';
-    }
-
-    // 카드 생성
     if (words.length > 0) {
         words.forEach((w, i) => {
             const card = document.createElement('div');
             card.className = 'vocabulary-card hover-effect';
+            // 🔥 카드 전체 여백을 클릭해도 모달이 열리도록 변경! (버그 해결 핵심)
+            card.onclick = () => showModal(i);
             
             const isOboeta = oboetaWords.includes(w.kanji) ? 'active' : '';
             const isOboenakatta = oboenakattaWords.includes(w.kanji) ? 'active' : '';
-            
             const kanjiClass = w.kanji.length >= 4 ? 'kanji kanji-small-long' : 'kanji';
 
             card.innerHTML = `
                 <div class="card-number-small">${i + 1}</div>
-                <div class="${kanjiClass}" onclick="showModal(${i})">${w.kanji}</div>
-                <div class="reading" onclick="showModal(${i})">${w.reading}</div>
-                <div class="meaning" onclick="showModal(${i})">${w.meaning}</div>
+                <div class="${kanjiClass}">${w.kanji}</div>
+                <div class="reading">${w.reading}</div>
+                <div class="meaning">${w.meaning}</div>
                 <div class="card-btn-group">
                     <button class="status-btn oboeta-btn ${isOboeta}" onclick="toggleWordStatus(event, '${w.kanji}', 'oboeta')">覚えた</button>
                     <button class="status-btn oboenakatta-btn ${isOboenakatta}" onclick="toggleWordStatus(event, '${w.kanji}', 'oboenakatta')">覚えなかった</button>
                 </div>
             `;
-            vocabularyDisplay.appendChild(card);
+            vocabDisplay.appendChild(card);
         });
     } else {
-        vocabularyDisplay.innerHTML = `<p style="grid-column: 1/-1; color: #888; padding: 50px; text-align:center;">해당하는 단어가 없습니다.</p>`;
+        vocabDisplay.innerHTML = `<p style="grid-column: 1/-1; color: #888; padding: 50px; text-align:center;">단어가 없습니다.</p>`;
     }
 }
 
-// 서브 필터 버튼 UI 업데이트
-function updateSubFilterUI() {
-    document.querySelectorAll('#sub-filter-selection .level-button').forEach(b => {
-        b.classList.remove('active');
-        if (b.dataset.filter === currentJlptFilter) b.classList.add('active');
-    });
-}
-
-// --- 단어 상태 변경 (N5~N1 탭에서는 리스트에서 사라짐) ---
 function toggleWordStatus(event, kanji, target) {
     if(event) event.stopPropagation();
 
-    // 양쪽 리스트에서 일단 제거
     oboetaWords = oboetaWords.filter(w => w !== kanji);
     oboenakattaWords = oboenakattaWords.filter(w => w !== kanji);
     
-    // 이전 상태 확인을 위해 로컬 스토리지 다시 읽기
     const oldOboeta = JSON.parse(localStorage.getItem('oboetaWords')) || [];
     const oldOboenakatta = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
     let currentStatus = oldOboeta.includes(kanji) ? 'oboeta' : (oldOboenakatta.includes(kanji) ? 'oboenakatta' : 'none');
 
-    // 토글 논리: 누른 버튼이 현재 상태와 다를 때만 추가
     if (currentStatus !== target) {
         if (target === 'oboeta') oboetaWords.push(kanji);
         else if (target === 'oboenakatta') oboenakattaWords.push(kanji);
     }
 
-    // 저장
     localStorage.setItem('oboetaWords', JSON.stringify(oboetaWords));
     localStorage.setItem('oboenakattaWords', JSON.stringify(oboenakattaWords));
     
-    // 리스트 갱신 (검색어 유지)
-    displayVocabulary(currentTab, searchInput ? searchInput.value : '');
+    displayVocabulary(currentTab, document.getElementById('word-search') ? document.getElementById('word-search').value : '');
     
-    // 모달이 열려있다면 모달 버튼도 업데이트
-    if (vocabularyModal.style.display === 'flex') updateModalButtons(kanji);
+    if (document.getElementById('vocabulary-modal').style.display === 'flex') updateModalButtons(kanji);
 }
 
-// --- 상세 모달 버튼 UI (모달 전용) ---
 function updateModalButtons(kanji) {
     const oboetaBtn = document.getElementById('modal-oboeta-btn');
     const oboenakattaBtn = document.getElementById('modal-oboenakatta-btn');
     
-    // 클래스 초기화 및 부여 (모바일 잔상 완벽 해결을 위해 JS에서 명시적으로 제어)
     oboetaBtn.className = `status-btn oboeta-btn modal-action-btn ${oboetaWords.includes(kanji) ? 'active' : ''}`;
     oboenakattaBtn.className = `status-btn oboenakatta-btn modal-action-btn ${oboenakattaWords.includes(kanji) ? 'active' : ''}`;
     
-    // 클릭 이벤트
     oboetaBtn.onclick = (e) => { 
-        oboetaBtn.blur(); // 모바일 터치 잔상 방지
+        oboetaBtn.blur(); 
         toggleWordStatus(e, kanji, 'oboeta'); 
-        // 다음 단어로 자동으로 넘어가게 설정 (원치 않으면 주석 처리)
         if (currentWordIndex < currentDisplayedWords.length - 1) setTimeout(() => navigateWord('next'), 150);
         else setTimeout(() => closeModal(), 150);
     };
@@ -266,170 +208,101 @@ function updateModalButtons(kanji) {
     };
 }
 
-// --- 모달 열기 ---
 function showModal(index) {
     currentWordIndex = index;
     const word = currentDisplayedWords[index];
     const k = document.getElementById('modal-kanji');
-    const r = document.getElementById('modal-reading');
-    const m = document.getElementById('modal-meaning');
     
-    document.getElementById('modal-word-number').textContent = `KANJI ${currentWordIndex + 1} / ${currentDisplayedWords.length}`;
-    
+    document.getElementById('modal-word-number').textContent = `KANJI ${index + 1} / ${currentDisplayedWords.length}`;
     k.textContent = word.kanji;
-    r.textContent = word.reading;
-    m.textContent = word.meaning;
+    document.getElementById('modal-reading').textContent = word.reading;
+    document.getElementById('modal-meaning').textContent = word.meaning;
 
-    // 글자 수에 따른 폰트 크기 조절
-    const len = word.kanji.length;
-    if (len >= 6) k.style.fontSize = '2.2em';
-    else if (len >= 4) k.style.fontSize = '3.2em';
+    if (word.kanji.length >= 6) k.style.fontSize = '2.2em';
+    else if (word.kanji.length >= 4) k.style.fontSize = '3.2em';
     else k.style.fontSize = '5.5em';
 
-    applyHideStates(); // 박스 숨김 상태 적용
-    updateModalButtons(word.kanji); // 버튼 상태 업데이트
-    vocabularyModal.style.display = 'flex';
-    
-    // 화살표 표시 제어
-    document.getElementById('nav-prev').style.visibility = (currentWordIndex === 0) ? 'hidden' : 'visible';
-    document.getElementById('nav-next').style.visibility = (currentWordIndex === currentDisplayedWords.length - 1) ? 'hidden' : 'visible';
+    applyHideStates(); 
+    updateModalButtons(word.kanji); 
+    document.getElementById('vocabulary-modal').style.display = 'flex';
 }
 
-// 모달 내 단어 이동
 function navigateWord(dir) {
     if (dir === 'prev' && currentWordIndex > 0) currentWordIndex--;
     else if (dir === 'next' && currentWordIndex < currentDisplayedWords.length - 1) currentWordIndex++;
     showModal(currentWordIndex);
 }
-
-// 모달 닫기
-function closeModal() { vocabularyModal.style.display = 'none'; }
+function closeModal() { document.getElementById('vocabulary-modal').style.display = 'none'; }
 
 
-// ==================== 퀴즈 로직 (복합 조합 구현) ====================
+// ==================== 퀴즈 UI 및 로직 (안정성 강화) ====================
 
-// --- 퀴즈 설정 초기화 (슬롯 1개씩 생성) ---
-function initQuizSetupUI() {
-    quizTypeSlots = { question: 1, answer: 1 };
-    renderQuizTypeSlots('question');
-    renderQuizTypeSlots('answer');
+function setQuizConfig(key, val, btn) {
+    quizConfig[key] = val;
+    const container = btn.parentElement;
+    container.querySelectorAll('.level-button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
 }
 
-// --- 문제/보기 타입 슬롯 렌더링 (동적 생성) ---
-function renderQuizTypeSlots(type) {
-    const containerId = type === 'question' ? 'qtype-slots-container' : 'atype-slots-container';
-    const container = document.getElementById(containerId);
-    container.innerHTML = '';
+// 퀴즈 타입 버튼 클릭 시 (알약 버튼 디자인)
+function setTypeBtn(btn) {
+    const group = btn.parentElement;
+    group.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+// 슬롯 열고 닫기 (DOM 파괴 없음, 먹통 버그 원천 차단)
+function addTypeSlot(category) {
+    document.getElementById(`${category}-slot-2`).style.display = 'flex';
+    document.getElementById(`btn-add-${category}`).style.display = 'none';
+}
+function removeTypeSlot(category) {
+    document.getElementById(`${category}-slot-2`).style.display = 'none';
+    document.getElementById(`btn-add-${category}`).style.display = 'inline-block';
+}
+
+function getActiveTypes(category) {
+    let types = [];
+    const btn1 = document.querySelector(`#${category}-slot-1 .type-btn.active`);
+    if (btn1) types.push(btn1.dataset.val);
     
-    const count = quizTypeSlots[type];
-    const options = [
-        {val: 'kanji', text: '한자'},
-        {val: 'reading', text: '히라가나'},
-        {val: 'meaning', text: '뜻'},
-        {val: 'random', text: '랜덤'}
-    ];
-
-    for (let i = 0; i < count; i++) {
-        const slotDiv = document.createElement('div');
-        slotDiv.className = 'quiz-slot';
-        
-        let selectHtml = `<select class="quiz-type-select hover-effect" data-type="${type}" data-slot="${i}">`;
-        options.forEach(opt => {
-            // 기본값 설정 (첫 번째 슬롯은 의미/한자, 두 번째는 히라가나 등)
-            let selected = '';
-            if (i === 0) {
-                if (type === 'question' && opt.val === 'meaning') selected = 'selected';
-                if (type === 'answer' && opt.val === 'kanji') selected = 'selected';
-            } else if (i === 1) {
-                if (opt.val === 'reading') selected = 'selected';
-            }
-            selectHtml += `<option value="${opt.val}" ${selected}>${opt.text}</option>`;
-        });
-        selectHtml += `</select>`;
-        
-        slotDiv.innerHTML = selectHtml;
-        
-        // 두 번째 슬롯부터는 삭제 버튼 추가
-        if (i > 0) {
-            const removeBtn = document.createElement('button');
-            removeBtn.className = 'remove-slot-btn';
-            removeBtn.innerHTML = '&times;';
-            removeBtn.onclick = () => removeQuizTypeSlot(type);
-            slotDiv.appendChild(removeBtn);
-        }
-        
-        container.appendChild(slotDiv);
+    const slot2 = document.getElementById(`${category}-slot-2`);
+    if (slot2.style.display !== 'none') {
+        const btn2 = slot2.querySelector('.type-btn.active');
+        if (btn2) types.push(btn2.dataset.val);
     }
-    
-    // 추가 버튼 제어 (최대 2개)
-    const addBtnId = type === 'question' ? 'btn-add-qtype' : 'btn-add-atype';
-    const addBtn = document.getElementById(addBtnId);
-    addBtn.style.display = count < 2 ? 'inline-block' : 'none';
+    return types;
 }
 
-// 슬롯 추가
-function addQuizTypeSlot(type) {
-    if (quizTypeSlots[type] < 2) {
-        quizTypeSlots[type]++;
-        renderQuizTypeSlots(type);
-    }
-}
-
-// 슬롯 삭제
-function removeQuizTypeSlot(type) {
-    if (quizTypeSlots[type] > 1) {
-        quizTypeSlots[type]--;
-        renderQuizTypeSlots(type);
-    }
-}
-
-// --- 단어 포맷팅 (복합 타입 지원) ---
 function formatWord(wordObj, types) {
-    // types가 배열일 때 (예: ['meaning', 'reading']) '뜻 / 히라가나' 형태로 반환
-    if (Array.isArray(types)) {
-        return types.map(t => wordObj[t]).join(' / ');
-    }
+    if (Array.isArray(types)) return types.map(t => wordObj[t]).join(' / ');
     return wordObj[types];
 }
 
-// --- 퀴즈 시작 (복합 조합 설정 읽기) ---
 function startQuiz() {
-    // 문제 타입 슬롯값 읽기
-    const qSelects = document.querySelectorAll('#qtype-slots-container .quiz-type-select');
-    let qActive = Array.from(qSelects).map(s => s.value);
-    
-    // 보기 타입 슬롯값 읽기
-    const aSelects = document.querySelectorAll('#atype-slots-container .quiz-type-select');
-    let aActive = Array.from(aSelects).map(s => s.value);
+    let qActive = getActiveTypes('q');
+    let aActive = getActiveTypes('a');
 
-    // 중복 검사 (랜덤 제외)
     const qSpecific = qActive.filter(v => v !== 'random');
     const aSpecific = aActive.filter(v => v !== 'random');
     
-    // 같은 슬롯 군 안에서의 중복 검사 (예: 한자+한자 조합 방지)
     if (new Set(qSpecific).size !== qSpecific.length || new Set(aSpecific).size !== aSpecific.length) {
          return alert("오류: 같은 영역 안에 동일한 타입을 중복으로 조합할 수 없습니다.");
     }
-
-    // 문제와 보기 사이의 교집합 검사 (예: 한자 문제 -> 한자 보기 방지)
     const intersection = qSpecific.filter(v => aSpecific.includes(v));
     if (intersection.length > 0) {
-        return alert("중복은 안됩니다! 문제(질문) 영역과 보기(선택지) 영역에 동일한 타입을 선택할 수 없습니다.");
+        return alert("중복 불가! 질문 영역과 보기 영역에 동일한 타입을 선택할 수 없습니다.");
     }
 
-    // 설정 저장
     quizConfig.qTypes = qActive;
     quizConfig.aTypes = aActive;
 
-    // 단어 가져오기 및 유효성 검사
     let words = getWordsByLevel(quizConfig.level);
-    if (!words || words.length < 4) return alert("해당 범위의 단어가 4개 이상 필요합니다.");
+    if (!words || words.length === 0) return alert("해당 범위에 단어가 없습니다. 다른 범위를 선택해 주세요.");
 
-    // 문제 섞기 및 개수 자르기
     let count = parseInt(quizConfig.count);
     quizWords = [...words].sort(() => Math.random() - 0.5).slice(0, count); 
     
-    // 상태 초기화 및 화면 전환
     incorrectQuestions = [];
     currentQuizIndex = 0;
     score = 0;
@@ -439,82 +312,64 @@ function startQuiz() {
     loadQuizQuestion();
 }
 
-// --- 퀴즈 문제 로드 (랜덤 처리 및 복합 질문 지원) ---
 function loadQuizQuestion() {
     document.getElementById('quiz-feedback-modal').style.display = 'none';
-    document.getElementById('quiz-options').style.display = 'flex';
-
     const currentWord = quizWords[currentQuizIndex];
     document.getElementById('quiz-progress').textContent = `${currentQuizIndex + 1} / ${quizWords.length}`;
     
     const allTypes = ['kanji', 'reading', 'meaning'];
-    
-    // 랜덤 타입 결정 로직 (이전보다 강력하게 수정)
     let finalQ = [];
     let finalA = [];
     
-    // 1. 문제 타입 결정
     quizConfig.qTypes.forEach(q => {
         if (q === 'random') {
-            // 보기에 사용되지 않은 타입 중 랜덤 선택
             let available = allTypes.filter(t => !quizConfig.aTypes.includes(t) && !finalQ.includes(t));
-            if (available.length === 0) available = allTypes.filter(t => !finalQ.includes(t)); // 최후의 수단
+            if (available.length === 0) available = allTypes.filter(t => !finalQ.includes(t));
             finalQ.push(available[Math.floor(Math.random() * available.length)]);
-        } else {
-            finalQ.push(q);
-        }
+        } else finalQ.push(q);
     });
 
-    // 2. 보기 타입 결정
     quizConfig.aTypes.forEach(a => {
         if (a === 'random') {
-            // 문제에 사용되지 않은 타입 중 랜덤 선택
             let available = allTypes.filter(t => !finalQ.includes(t) && !finalA.includes(t));
             if (available.length === 0) available = allTypes.filter(t => !finalA.includes(t));
             finalA.push(available[Math.floor(Math.random() * available.length)]);
-        } else {
-            finalA.push(a);
-        }
+        } else finalA.push(a);
     });
 
-    // 라벨 텍스트 설정
     const labelMap = { kanji: '한자', reading: '히라가나', meaning: '뜻' };
     const qLabelText = finalQ.map(t => labelMap[t]).join(', ');
     const aLabelText = finalA.map(t => labelMap[t]).join('와(과) ');
     
-    if (finalA.length > 1) {
-        document.getElementById('quiz-question-label').textContent = `다음 ${qLabelText}에 맞는 ${aLabelText}을 모두 고르세요.`;
-    } else {
-        document.getElementById('quiz-question-label').textContent = `다음 ${qLabelText}에 맞는 ${aLabelText}은?`;
-    }
+    const labelEl = document.getElementById('quiz-question-label');
+    labelEl.textContent = finalA.length > 1 ? `다음 ${qLabelText}에 맞는 ${aLabelText}을 모두 고르세요.` : `다음 ${qLabelText}에 맞는 ${aLabelText}은?`;
     
-    // 문제 디스플레이 (복합 포맷팅)
     const kanjiEl = document.getElementById('quiz-kanji');
     kanjiEl.textContent = formatWord(currentWord, finalQ);
     
-    // 문제 길이에 따른 폰트 조절
-    const qLen = kanjiEl.textContent.length;
-    if (qLen >= 8) kanjiEl.style.fontSize = '2.2em';
-    else if (qLen >= 5) kanjiEl.style.fontSize = '3.2em';
+    if (kanjiEl.textContent.length >= 8) kanjiEl.style.fontSize = '2.2em';
+    else if (kanjiEl.textContent.length >= 5) kanjiEl.style.fontSize = '3.2em';
     else kanjiEl.style.fontSize = '4.5em';
 
-    // 보기 디스플레이 생성
     const container = document.getElementById('quiz-options');
     container.innerHTML = '';
 
-    // 상태 저장 (정답 확인용)
     window.currentQuizSelections = {}; 
     window.currentCorrectAnswers = {};
-    window.currentFinalA = finalA;
 
-    // 각 보기 타입별로 그룹 생성 (예: 한자 그룹, 히라가나 그룹)
+    // 💡 버그 방지: 보기 풀을 만들 때, 해당 레벨 단어가 너무 적으면 전체 단어에서 섞어서 가져옴!
+    let pool = getWordsByLevel(quizConfig.level); 
+    if (pool.length < 4) {
+        let allDict = [];
+        ['n5','n4','n3','n2','n1'].forEach(l => { if(vocabulary[l]) allDict.push(...vocabulary[l]) });
+        pool = allDict;
+    }
+
     finalA.forEach(aType => {
-        let correctVal = formatWord(currentWord, [aType]); // 개별 타입의 정답값
+        let correctVal = formatWord(currentWord, [aType]); 
         window.currentCorrectAnswers[aType] = correctVal;
 
-        // 보기 풀 생성 (오답 포함)
         let opts = [correctVal];
-        let pool = getWordsByLevel(quizConfig.level); // 현재 레벨의 단어 풀
         let fallbackCounter = 0;
         
         while(opts.length < 4 && fallbackCounter < 50) {
@@ -523,14 +378,11 @@ function loadQuizQuestion() {
             let val = formatWord(rand, [aType]);
             if(!opts.includes(val)) opts.push(val);
         }
-        // 보기 섞기
         opts.sort(() => Math.random() - 0.5);
         
-        // 보기 그룹 UI 생성
         const groupDiv = document.createElement('div');
         groupDiv.className = 'quiz-group-container';
         
-        // 보기가 여러 타입일 때만 타이틀 표시
         if (finalA.length > 1) {
             const title = document.createElement('div');
             title.className = 'quiz-group-title';
@@ -538,12 +390,10 @@ function loadQuizQuestion() {
             groupDiv.appendChild(title);
         }
 
-        // 보기 버튼 생성
         opts.forEach(opt => {
             const btn = document.createElement('button');
             btn.className = 'menu-btn hover-effect quiz-option-btn';
             btn.textContent = opt;
-            btn.dataset.type = aType; // 어떤 타입의 보기인지 (예: kanji)
             btn.dataset.val = opt;
             btn.onclick = () => handleMultiQuizAnswer(btn, aType, currentWord, finalA);
             groupDiv.appendChild(btn);
@@ -552,12 +402,131 @@ function loadQuizQuestion() {
     });
 }
 
-// --- 퀴즈 정답 확인 (다중 선택 완벽 지원) ---
 function handleMultiQuizAnswer(btn, aType, word, finalA) {
-    // 같은 그룹 내 다른 버튼 선택 해제
     const groupBtns = btn.parentElement.querySelectorAll('.quiz-option-btn');
     groupBtns.forEach(b => b.classList.remove('selected'));
-    
-    // 현재 버튼 선택
     btn.classList.add('selected');
+    
+    window.currentQuizSelections[aType] = btn;
+
+    if (Object.keys(window.currentQuizSelections).length === finalA.length) {
+        document.querySelectorAll('.quiz-option-btn').forEach(b => b.disabled = true);
+        let isAllCorrect = true;
+
+        for (const type of finalA) {
+            const selectedBtn = window.currentQuizSelections[type];
+            const correctVal = window.currentCorrectAnswers[type];
+            
+            if (selectedBtn.dataset.val === correctVal) {
+                selectedBtn.classList.add('quiz-correct');
+            } else {
+                isAllCorrect = false;
+                selectedBtn.classList.add('quiz-wrong');
+                selectedBtn.parentElement.querySelectorAll('.quiz-option-btn').forEach(b => {
+                    if(b.dataset.val === correctVal) b.classList.add('quiz-correct');
+                });
+            }
+        }
+
+        const feedbackMsg = document.getElementById('quiz-feedback-msg');
+        document.getElementById('fb-kanji').textContent = word.kanji;
+        document.getElementById('fb-reading').textContent = word.reading;
+        document.getElementById('fb-meaning').textContent = word.meaning;
+
+        const btnOboeta = document.getElementById('btn-quiz-oboeta');
+        const btnOboenakatta = document.getElementById('btn-quiz-oboenakatta');
+
+        if (isAllCorrect) {
+            score++;
+            feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">🎉 완벽하게 맞췄습니다!</span>`;
+            btnOboeta.style.display = 'inline-block';
+            btnOboenakatta.style.display = 'none';
+        } else {
+            incorrectQuestions.push(word); 
+            feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">❌ 아쉽게도 오답입니다.</span>`;
+            btnOboeta.style.display = 'none';
+            btnOboenakatta.style.display = 'inline-block';
+        }
+
+        document.getElementById('quiz-feedback-modal').style.display = 'flex';
+
+        btnOboeta.onclick = () => { internalToggleList(word.kanji, 'oboeta'); proceedQuiz(); };
+        btnOboenakatta.onclick = () => { internalToggleList(word.kanji, 'oboenakatta'); proceedQuiz(); };
+    }
 }
+
+function internalToggleList(kanji, target) {
+      if (target === 'oboeta' && !oboetaWords.includes(kanji)) oboetaWords.push(kanji);
+      if (target === 'oboenakatta' && !oboenakattaWords.includes(kanji)) oboenakattaWords.push(kanji);
+      
+      if (target === 'oboeta') oboenakattaWords = oboenakattaWords.filter(w => w !== kanji);
+      if (target === 'oboenakatta') oboetaWords = oboetaWords.filter(w => w !== kanji);
+
+      localStorage.setItem('oboetaWords', JSON.stringify(oboetaWords));
+      localStorage.setItem('oboenakattaWords', JSON.stringify(oboenakattaWords));
+}
+
+function proceedQuiz() {
+    document.getElementById('quiz-feedback-modal').style.display = 'none';
+    currentQuizIndex++;
+    if(currentQuizIndex < quizWords.length) loadQuizQuestion();
+    else endQuiz();
+}
+
+function endQuiz() {
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('total-score').textContent = quizWords.length;
+    document.getElementById('btn-review-incorrect').style.display = incorrectQuestions.length > 0 ? 'block' : 'none';
+    switchScreen('screen-quiz-result');
+}
+
+// ==================== 오답 노트 ====================
+function startIncorrectReview() { reviewIndex = 0; switchScreen('screen-incorrect-review'); loadReviewWord(); }
+function loadReviewWord() {
+    const word = incorrectQuestions[reviewIndex];
+    document.getElementById('review-progress-card').textContent = `오답 ${reviewIndex + 1} / ${incorrectQuestions.length}`;
+    document.getElementById('rev-kanji').textContent = word.kanji;
+    document.getElementById('rev-reading').textContent = word.reading;
+    document.getElementById('rev-meaning').textContent = word.meaning;
+    applyRevHideStates(); 
+}
+function markAsMemorized() {
+      reviewIndex++;
+      if (reviewIndex < incorrectQuestions.length) loadReviewWord();
+      else switchScreen('screen-review-complete');
+}
+function retakeIncorrectQuiz() {
+    quizWords = [...incorrectQuestions].sort(() => Math.random() - 0.5);
+    incorrectQuestions = [];
+    currentQuizIndex = 0;
+    score = 0;
+    switchScreen('screen-quiz-active');
+    loadQuizQuestion();
+}
+
+// ==================== 가리기 이벤트 ====================
+function setupClickToHide() {
+      document.getElementById('modal-kanji-box').onclick = () => { hideState.kanji = !hideState.kanji; applyHideStates(); };
+      document.getElementById('modal-reading-box').onclick = () => { hideState.reading = !hideState.reading; applyHideStates(); };
+      document.getElementById('modal-meaning-box').onclick = () => { hideState.meaning = !hideState.meaning; applyHideStates(); };
+
+      document.getElementById('rev-kanji-box').onclick = () => { revHideState.kanji = !revHideState.kanji; applyRevHideStates(); };
+      document.getElementById('rev-reading-box').onclick = () => { revHideState.reading = !revHideState.reading; applyRevHideStates(); };
+      document.getElementById('rev-meaning-box').onclick = () => { revHideState.meaning = !revHideState.meaning; applyRevHideStates(); };
+}
+function applyHideStates() {
+      document.getElementById('modal-kanji').classList.toggle('hidden-content', hideState.kanji);
+      document.getElementById('modal-reading').classList.toggle('hidden-content', hideState.reading);
+      document.getElementById('modal-meaning').classList.toggle('hidden-content', hideState.meaning);
+}
+function applyRevHideStates() {
+      document.getElementById('rev-kanji').classList.toggle('hidden-content', revHideState.kanji);
+      document.getElementById('rev-reading').classList.toggle('hidden-content', revHideState.reading);
+      document.getElementById('rev-meaning').classList.toggle('hidden-content', revHideState.meaning);
+}
+
+window.onload = () => {
+    setupClickToHide();
+    const searchInput = document.getElementById('word-search');
+    if (searchInput) searchInput.oninput = (e) => displayVocabulary(currentTab, e.target.value);
+};
