@@ -112,10 +112,20 @@
             <div id="quiz-options" class="quiz-options-list"></div>
 
             <div id="quiz-feedback-box" class="quiz-feedback-box" style="display: none;">
-                <p id="quiz-feedback-msg" style="font-size: 1.2em; margin-bottom: 15px;"></p>
-                <div style="display:flex; gap:15px; justify-content:center;">
-                    <button id="btn-quiz-add" class="status-btn" style="padding: 12px 25px; font-size: 1em;">추가</button>
-                    <button class="menu-btn hover-effect" style="padding: 12px 25px; font-size: 1em; margin: 0; max-width: 150px; border-radius: 15px;" onclick="proceedQuiz()">다음 문제</button>
+                <p id="quiz-feedback-msg" style="font-size: 1.3em; margin-bottom: 15px;"></p>
+                
+                <div id="quiz-feedback-card" style="border: 2px solid var(--accent-blue); border-radius: 15px; padding: 25px 15px; margin-bottom: 25px; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+                    <div id="fb-kanji" class="kanji-huge" style="font-size: 3.5em; margin-bottom: 15px; color: var(--accent-blue);"></div>
+                    <div id="fb-reading" style="font-size: 1.2em; font-weight: bold; margin-bottom: 8px;"></div>
+                    <div id="fb-meaning" style="font-size: 1.1em; color: #666;"></div>
+                </div>
+
+                <p style="font-size: 1.05em; margin-bottom: 15px; font-weight:bold; color:#555;">이 단어를 단어장에 추가하시겠습니까?</p>
+                
+                <div style="display:flex; gap:10px; justify-content:center; flex-wrap: wrap;">
+                    <button id="btn-quiz-oboeta" class="status-btn oboeta-btn hover-effect" style="padding: 12px 20px; font-size: 1em;">覚えた 추가</button>
+                    <button id="btn-quiz-oboenakatta" class="status-btn oboenakatta-btn hover-effect" style="padding: 12px 20px; font-size: 1em;">覚えなかった 추가</button>
+                    <button class="menu-btn hover-effect" style="padding: 12px 20px; font-size: 1em; margin: 0; max-width: 150px; border-radius: 15px;" onclick="proceedQuiz()">그냥 넘어가기</button>
                 </div>
             </div>
         </div>
