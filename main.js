@@ -111,6 +111,8 @@ function displayVocabulary(level, searchTerm = '') {
             
             const isOboeta = oboetaWords.includes(w.kanji) ? 'active' : '';
             const isOboenakatta = oboenakattaWords.includes(w.kanji) ? 'active' : '';
+            
+            // 리스트의 글자 크기는 CSS 클래스로 유지
             const kanjiClass = w.kanji.length >= 4 ? 'kanji kanji-small-long' : 'kanji';
 
             card.innerHTML = `
@@ -171,6 +173,7 @@ function updateModalButtons(kanji) {
     };
 }
 
+// 🌟 1. 메인 단어장 모달에서 글자 수에 따른 폰트 크기 자동 조절
 function showModal(index) {
     currentWordIndex = index;
     const word = currentDisplayedWords[index];
@@ -184,8 +187,11 @@ function showModal(index) {
     r.textContent = word.reading;
     m.textContent = word.meaning;
 
-    if (word.kanji.length >= 4) k.classList.add('kanji-modal-long');
-    else k.classList.remove('kanji-modal-long');
+    // 길이에 따라 크기를 대폭 줄임
+    const len = word.kanji.length;
+    if (len >= 6) k.style.fontSize = '2.2em';
+    else if (len >= 4) k.style.fontSize = '3.2em';
+    else k.style.fontSize = '5.5em';
 
     applyHideStates();
     updateModalButtons(word.kanji);
@@ -271,16 +277,19 @@ function loadQuizQuestion() {
         document.getElementById('quiz-question-label').textContent = `다음 ${qLabelText}에 맞는 ${aLabelText}은?`;
     }
     
+    // 🌟 2. 퀴즈 문제 질문 영역 글자수 크기 조절
     const kanjiEl = document.getElementById('quiz-kanji');
     kanjiEl.textContent = formatWord(currentWord, finalQ);
     
-    if (kanjiEl.textContent.length >= 8) kanjiEl.classList.add('kanji-modal-long'); 
-    else kanjiEl.classList.remove('kanji-modal-long');
+    const qLen = kanjiEl.textContent.length;
+    if (qLen >= 8) kanjiEl.style.fontSize = '2.2em';
+    else if (qLen >= 5) kanjiEl.style.fontSize = '3.2em';
+    else kanjiEl.style.fontSize = '4.5em';
 
     const container = document.getElementById('quiz-options');
     container.innerHTML = '';
 
-    // 🌟 다중 보기 생성
+    // 다중 보기 생성
     window.currentQuizSelections = {}; 
     window.currentCorrectAnswers = {};
     window.currentFinalA = finalA;
@@ -326,23 +335,17 @@ function loadQuizQuestion() {
 
 // 🌟 플로팅 모달로 나타나는 퀴즈 피드백 로직
 function handleMultiQuizAnswer(btn, aType, word, finalA) {
-    // 같은 그룹의 다른 버튼 선택 해제
     const groupBtns = btn.parentElement.querySelectorAll('.quiz-option-btn');
     groupBtns.forEach(b => b.classList.remove('selected'));
     
-    // 현재 버튼 선택
     btn.classList.add('selected');
     window.currentQuizSelections[aType] = btn;
 
-    // 모든 그룹(타입)에서 선택이 완료되었는지 확인
     if (Object.keys(window.currentQuizSelections).length === finalA.length) {
         
-        // 더 이상 클릭하지 못하게 비활성화
         document.querySelectorAll('.quiz-option-btn').forEach(b => b.disabled = true);
-        
         let isAllCorrect = true;
 
-        // 각 타입별로 정답 비교
         for (const type of finalA) {
             const selectedBtn = window.currentQuizSelections[type];
             const correctVal = window.currentCorrectAnswers[type];
@@ -352,15 +355,12 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
             } else {
                 isAllCorrect = false;
                 selectedBtn.classList.add('quiz-wrong');
-                
-                // 틀렸을 경우, 해당 그룹에서 정답을 찾아 초록색으로 표시
                 selectedBtn.parentElement.querySelectorAll('.quiz-option-btn').forEach(b => {
                     if(b.dataset.val === correctVal) b.classList.add('quiz-correct');
                 });
             }
         }
 
-        // 🌟 모달 띄우기 및 단어 카드 세팅
         const feedbackModal = document.getElementById('quiz-feedback-modal');
         const feedbackMsg = document.getElementById('quiz-feedback-msg');
         
@@ -369,8 +369,11 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
         document.getElementById('fb-reading').textContent = word.reading;
         document.getElementById('fb-meaning').textContent = word.meaning;
 
-        if (word.kanji.length >= 4) fbKanji.classList.add('kanji-modal-long');
-        else fbKanji.classList.remove('kanji-modal-long');
+        // 🌟 3. 피드백 플로팅 모달 글자수 크기 조절
+        const len = word.kanji.length;
+        if (len >= 6) fbKanji.style.fontSize = '2.2em';
+        else if (len >= 4) fbKanji.style.fontSize = '2.8em';
+        else fbKanji.style.fontSize = '4em';
 
         const btnOboeta = document.getElementById('btn-quiz-oboeta');
         const btnOboenakatta = document.getElementById('btn-quiz-oboenakatta');
@@ -378,20 +381,18 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
         // 정답/오답에 따른 버튼 분기 처리
         if (isAllCorrect) {
             score++;
-            feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">🎉 완벽하게 맞췄습니다!</span><br><span style="font-size:0.8em; color:#555;">단어를 확실히 외우셨나요?</span>`;
+            feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">🎉 완벽하게 맞췄습니다!</span><br><span style="font-size:0.7em; color:#888;">이 단어를 완전히 외우셨다면 추가하세요.</span>`;
             btnOboeta.style.display = 'inline-block';
             btnOboenakatta.style.display = 'none';
         } else {
             incorrectQuestions.push(word);
-            feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">❌ 아쉽게도 오답입니다.</span><br><span style="font-size:0.8em; color:#555;">복습이 필요한 단어입니다.</span>`;
+            feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">❌ 아쉽게도 오답입니다.</span><br><span style="font-size:0.7em; color:#888;">복습이 필요한 단어장에 보관할까요?</span>`;
             btnOboeta.style.display = 'none';
             btnOboenakatta.style.display = 'inline-block';
         }
 
-        // 모달 표시
         feedbackModal.style.display = 'flex';
 
-        // 버튼 동작 연결
         btnOboeta.onclick = () => { 
             internalToggleList(word.kanji, 'oboeta'); 
             proceedQuiz(); 
@@ -434,6 +435,7 @@ function startIncorrectReview() {
     loadReviewWord();
 }
 
+// 🌟 4. 오답 노트 모달 글자수 크기 조절
 function loadReviewWord() {
     const word = incorrectQuestions[reviewIndex];
     document.getElementById('review-progress-card').textContent = `오답 ${reviewIndex + 1} / ${incorrectQuestions.length}`;
@@ -446,8 +448,10 @@ function loadReviewWord() {
     r.textContent = word.reading;
     m.textContent = word.meaning;
 
-    if (word.kanji.length >= 4) k.classList.add('kanji-modal-long');
-    else k.classList.remove('kanji-modal-long');
+    const len = word.kanji.length;
+    if (len >= 6) k.style.fontSize = '2.2em';
+    else if (len >= 4) k.style.fontSize = '3.2em';
+    else k.style.fontSize = '5em';
 
     applyRevHideStates();
 }

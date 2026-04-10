@@ -107,7 +107,7 @@
         <div class="modern-panel text-center">
             <h3 id="quiz-progress" style="color:#888;">1 / 20</h3>
             <h2 id="quiz-question-label">질문</h2>
-            <div id="quiz-kanji" class="kanji-huge" style="font-size:4.5em; cursor:default; border:none; margin: 30px auto; white-space: normal; line-height:1.2;"></div>
+            <div id="quiz-kanji" class="kanji-huge" style="cursor:default; border:none; margin: 30px auto; white-space: normal; line-height:1.2;"></div>
             
             <div id="quiz-options" class="quiz-options-list"></div>
         </div>
@@ -128,7 +128,7 @@
         <div class="modal-card" style="margin: 0 auto; box-shadow: none; border: 3px solid var(--red); max-width: 400px; padding: 35px 25px;">
             <div id="review-progress-card" class="modal-number" style="color: var(--red);">오답 1 / 5</div>
             <div class="detail-box clickable-box" id="rev-kanji-box" style="margin-top: 30px; margin-bottom:20px; min-height: 120px; border-color:var(--red);">
-                <div id="rev-kanji" class="kanji-huge" style="color:var(--red); margin:0; font-size: 5em;"></div>
+                <div id="rev-kanji" class="kanji-huge" style="color:var(--red); margin:0;"></div>
             </div>
             <div class="detail-split" style="display:flex; gap:10px; margin-bottom:25px; border:none; padding:0;">
                 <div class="detail-box clickable-box" id="rev-reading-box" style="border-color:var(--red); padding: 15px 10px; font-size: 1.1em;">
@@ -156,12 +156,12 @@
 
     <div id="quiz-feedback-modal" class="modal" style="z-index: 200;">
         <div class="modal-card text-center" style="max-width: 420px; padding: 40px 25px;">
-            <p id="quiz-feedback-msg" style="font-size: 1.5em; margin-bottom: 20px;"></p>
+            <p id="quiz-feedback-msg" style="font-size: 1.5em; margin-bottom: 20px; line-height: 1.4;"></p>
             
-            <div style="border: 2px solid var(--accent-blue); border-radius: 15px; padding: 30px 15px; margin-bottom: 25px; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.05);">
-                <div id="fb-kanji" class="kanji-huge" style="font-size: 4em; margin-bottom: 15px; color: var(--accent-blue);"></div>
+            <div style="border: 2px solid var(--accent-blue); border-radius: 15px; padding: 30px 15px; margin-bottom: 25px; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.05); overflow: hidden;">
+                <div id="fb-kanji" class="kanji-huge" style="margin-bottom: 15px; color: var(--accent-blue);"></div>
                 <div id="fb-reading" style="font-size: 1.3em; font-weight: bold; margin-bottom: 8px;"></div>
-                <div id="fb-meaning" style="font-size: 1.2em; color: #666;"></div>
+                <div id="fb-meaning" style="font-size: 1.2em; color: #666; word-break: keep-all;"></div>
             </div>
 
             <div style="display:flex; gap:10px; justify-content:center; flex-wrap: wrap;">
@@ -180,8 +180,8 @@
         <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')" style="font-size: 1.5em; left: 5px;">&#10094;</button>
         <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')" style="font-size: 1.5em; right: 5px;">&#10095;</button>
 
-        <div class="detail-box clickable-box" id="modal-kanji-box" style="margin-top: 30px; margin-bottom:15px; min-height: 140px;">
-            <div id="modal-kanji" class="kanji-huge" style="margin:0; font-size: 5.5em;"></div>
+        <div class="detail-box clickable-box" id="modal-kanji-box" style="margin-top: 30px; margin-bottom:15px; min-height: 140px; overflow:hidden;">
+            <div id="modal-kanji" class="kanji-huge" style="margin:0;"></div>
         </div>
         
         <div class="detail-split" style="display:flex; gap:10px; margin-bottom:15px; border-top:none; padding-top:0;">

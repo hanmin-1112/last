@@ -77,9 +77,6 @@ body {
 
 .modern-panel { background: white; border: var(--border-width) solid var(--accent-blue); border-radius: 20px; padding: 40px; max-width: 600px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
 
-.quiz-feedback-box { margin-top: 25px; padding: 25px; background: #f9f9ff; border: 2px dashed var(--accent-blue); border-radius: 20px; animation: fadeIn 0.3s ease; }
-
-/* 🌟 복합 퀴즈 보기 레이아웃 세팅 */
 .quiz-options-list { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px; }
 .quiz-group-container { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-bottom: 25px; align-items: center;}
 .quiz-group-title { font-size: 1.2em; font-weight: 900; color: var(--accent-blue); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;}
@@ -89,7 +86,6 @@ body {
 .quiz-correct { border: 3px solid var(--green) !important; color: var(--green) !important; box-shadow: 0 0 15px rgba(40, 167, 69, 0.5) !important; background: #f0fdf4 !important; }
 .quiz-wrong { border: 3px solid var(--red) !important; color: var(--red) !important; box-shadow: 0 0 15px rgba(220, 53, 69, 0.5) !important; background: #fef2f2 !important;}
 
-/* 🌟 모달 공통 */
 .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(5px);}
 .modal-card { background: white; border: 3px solid var(--accent-blue); border-radius: 25px; padding: 50px; position: relative; box-shadow: 0 0 30px var(--glow-blue); width: 90%; }
 .close-btn { position: absolute; color: var(--accent-blue); cursor: pointer; font-weight: bold; transition: 0.2s; }
@@ -102,7 +98,16 @@ body {
 .clickable-box:hover { box-shadow: 0 0 15px var(--glow-blue); }
 .detail-box { border: 2px solid var(--accent-blue); background: transparent; border-radius: 15px; flex:1; display:flex; align-items:center; justify-content:center; font-weight: 700;}
 
-.kanji-huge { font-weight: 900; color: var(--accent-blue); white-space: nowrap; transition: opacity 0.2s; }
-.kanji-modal-long { font-size: 2.8em !important; } /* 축소된 모달용 4글자 폰트 */
+/* 🌟 한자 폰트 관련 설정: 줄바꿈 방지 및 자동 크기 조절 애니메이션 추가 */
+.kanji-huge { font-weight: 900; color: var(--accent-blue); white-space: nowrap; transition: font-size 0.2s, opacity 0.2s; word-break: keep-all; }
+.kanji-modal-long { font-size: 2.8em !important; } 
 
 .hidden-content { opacity: 0 !important; pointer-events: none; }
+
+/* 🌟 모바일 화면 (너비 480px 이하) 반응형 디자인 최적화 */
+@media (max-width: 480px) {
+    .modal-card { padding: 30px 15px; width: 95%; }
+    .quiz-option-btn { font-size: 1.1em; padding: 15px; }
+    .main-title { font-size: 4.5em; }
+    .nav-row-minimal { justify-content: center; }
+}
