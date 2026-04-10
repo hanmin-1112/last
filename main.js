@@ -32,7 +32,7 @@ let quizWords = [];
 let incorrectQuestions = [];
 let currentQuizIndex = 0;
 let score = 0;
-let quizConfig = { level: 'n5', count: 20 }; // 타입 정보는 시작할 때 DOM에서 읽음
+let quizConfig = { level: 'n5' }; // count는 이제 DOM에서 실시간으로 읽어옴
 
 let hideState = { kanji: false, reading: false, meaning: false };
 let revHideState = { kanji: false, reading: false, meaning: false };
@@ -66,14 +66,14 @@ function openHelp() {
     helpContent.innerHTML = `
         <li style="margin-bottom:12px;"><strong>단어장:</strong> 상단의 레벨 버튼을 가로로 스와이프하여 넘길 수 있습니다.</li>
         <li style="margin-bottom:12px;"><strong>단어 카드:</strong> 카드의 여백을 누르셔도 모달 창이 열리도록 개선되었습니다.</li>
-        <li><strong>퀴즈 조합:</strong> 문제와 보기 타입의 [+ 추가] 버튼을 눌러 입체적인 테스트를 세팅해 보세요.</li>
+        <li><strong>퀴즈 조합:</strong> 문제와 보기 타입의 [+ 추가] 버튼을 눌러 입체적인 테스트를 세팅해 보세요. 직접 원하는 문항 수를 입력해 시험을 볼 수 있습니다.</li>
     `;
     document.getElementById('help-modal').style.display = 'flex'; 
 }
 function closeHelp() { document.getElementById('help-modal').style.display = 'none'; }
 
 
-// --- 탭 및 필터 클릭 직접 제어 (먹통 방지) ---
+// --- 탭 및 필터 클릭 직접 제어 ---
 function changeMainTab(tab, btn) {
     document.querySelectorAll('#level-selection .level-button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -140,7 +140,6 @@ function displayVocabulary(tab, searchTerm = '') {
         words.forEach((w, i) => {
             const card = document.createElement('div');
             card.className = 'vocabulary-card hover-effect';
-            // 🔥 카드 전체 여백을 클릭해도 모달이 열리도록 변경! (버그 해결 핵심)
             card.onclick = () => showModal(i);
             
             const isOboeta = oboetaWords.includes(w.kanji) ? 'active' : '';
@@ -235,7 +234,7 @@ function navigateWord(dir) {
 function closeModal() { document.getElementById('vocabulary-modal').style.display = 'none'; }
 
 
-// ==================== 퀴즈 UI 및 로직 (안정성 강화) ====================
+// ==================== 퀴즈 UI 및 로직 ====================
 
 function setQuizConfig(key, val, btn) {
     quizConfig[key] = val;
@@ -244,14 +243,12 @@ function setQuizConfig(key, val, btn) {
     btn.classList.add('active');
 }
 
-// 퀴즈 타입 버튼 클릭 시 (알약 버튼 디자인)
 function setTypeBtn(btn) {
     const group = btn.parentElement;
     group.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 }
 
-// 슬롯 열고 닫기 (DOM 파괴 없음, 먹통 버그 원천 차단)
 function addTypeSlot(category) {
     document.getElementById(`${category}-slot-2`).style.display = 'flex';
     document.getElementById(`btn-add-${category}`).style.display = 'none';
@@ -300,8 +297,14 @@ function startQuiz() {
     let words = getWordsByLevel(quizConfig.level);
     if (!words || words.length === 0) return alert("해당 범위에 단어가 없습니다. 다른 범위를 선택해 주세요.");
 
-    let count = parseInt(quizConfig.count);
-    quizWords = [...words].sort(() => Math.random() - 0.5).slice(0, count); 
+    // 🔥 직접 입력한 문항 수 가져오기 및 유효성 검사
+    let countInput = parseInt(document.getElementById('setup-count-input').value);
+    if (isNaN(countInput) || countInput <= 0) {
+        countInput = 20; // 잘못 입력된 경우 기본값 20으로
+        document.getElementById('setup-count-input').value = 20;
+    }
+
+    quizWords = [...words].sort(() => Math.random() - 0.5).slice(0, countInput); 
     
     incorrectQuestions = [];
     currentQuizIndex = 0;
@@ -357,7 +360,6 @@ function loadQuizQuestion() {
     window.currentQuizSelections = {}; 
     window.currentCorrectAnswers = {};
 
-    // 💡 버그 방지: 보기 풀을 만들 때, 해당 레벨 단어가 너무 적으면 전체 단어에서 섞어서 가져옴!
     let pool = getWordsByLevel(quizConfig.level); 
     if (pool.length < 4) {
         let allDict = [];
