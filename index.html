@@ -1,16 +1,535 @@
-<div class="quiz-setup-item" style="margin-bottom: 35px;">
-    <label class="setup-label">출제 범위 (레벨/단어장)</label>
-    
-    <div id="setup-level" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-        <button class="level-button active" onclick="setQuizConfig('level', 'n5', this)">N5</button>
-        <button class="level-button" onclick="setQuizConfig('level', 'n4', this)">N4</button>
-        <button class="level-button" onclick="setQuizConfig('level', 'n3', this)">N3</button>
-        <button class="level-button" onclick="setQuizConfig('level', 'n2', this)">N2</button>
-        <button class="level-button" onclick="setQuizConfig('level', 'n1', this)">N1</button>
-        
-        <div style="flex-basis: 100%; height: 0; margin: 0;"></div>
-        
-        <button class="level-button oboeta-tab" onclick="setQuizConfig('level', 'oboeta', this)">覚えた</button>
-        <button class="level-button oboenakatta-tab" onclick="setQuizConfig('level', 'oboenakatta', this)">覚えなかった</button>
+<!doctype html>
+
+<html lang="ko">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="google-adsense-account" content="ca-pub-5122584499672519">
+
+  <title>바이브 漢 - STUDIO</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <link href='style.css' rel='stylesheet'>
+
+ 
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5122584499672519" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+ 
+
+  <div id="custom-ad-container">
+
+      <ins class="adsbygoogle"
+
+           style="display:block"
+
+           data-ad-client="ca-pub-5122584499672519"
+
+           data-ad-slot="8344470048"
+
+           data-ad-format="auto"
+
+           data-full-width-responsive="true"></ins>
+
+      <script>
+
+           (adsbygoogle = window.adsbygoogle || []).push({});
+
+      </script>
+
+  </div>
+
+
+
+  <div class="app-container">
+
+   
+
+    <div class="nav-row-minimal">
+
+      <div class="nav-item active" id="nav-home" onclick="switchScreen('screen-home')">Home</div>
+
+      <div class="nav-item" id="nav-vocab" onclick="switchScreen('screen-vocab')">Kanji</div>
+
+      <div class="nav-item" id="nav-test" onclick="switchScreen('screen-quiz-setup')">Test</div>
+
+      <div class="help-btn" onclick="openHelp()">?</div>
+
     </div>
-</div>
+
+
+
+    <section id="screen-home" class="screen active-screen">
+
+      <div class="home-logo-container">
+
+        <h1 class="main-title">바이브 漢</h1>
+
+        <div class="sub-logo-text">CREATIVE KANJI STUDIO</div>
+
+        <p style="margin-top: 20px; color: #888; line-height: 1.6;">
+
+          N5부터 N1까지의 일본어 한자를 효율적으로 학습하고,<br>
+
+          스마트한 셀프 테스트를 통해 완벽하게 암기해 보세요.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <section id="screen-vocab" class="screen">
+
+      <header class="minimal-header">
+
+        <button class="back-btn" onclick="switchScreen('screen-home')">← Home</button>
+
+        <h2 class="header-title" style="color:var(--accent-blue); font-weight:900; text-transform:uppercase; margin:0;">Kanji List</h2>
+
+      </header>
+
+     
+
+      <nav id="level-selection" class="scrollable-tabs" style="margin-bottom: 20px;">
+
+        <button class="level-button active" onclick="changeMainTab('n5', this)">N5</button>
+
+        <button class="level-button" onclick="changeMainTab('n4', this)">N4</button>
+
+        <button class="level-button" onclick="changeMainTab('n3', this)">N3</button>
+
+        <button class="level-button" onclick="changeMainTab('n2', this)">N2</button>
+
+        <button class="level-button" onclick="changeMainTab('n1', this)">N1</button>
+
+        <button class="level-button oboeta-tab" onclick="changeMainTab('oboeta', this)">覚えた</button>
+
+        <button class="level-button oboenakatta-tab" onclick="changeMainTab('oboenakatta', this)">覚えなかった</button>
+
+      </nav>
+
+
+
+      <nav id="sub-filter-selection" class="scrollable-tabs" style="display: none; background: rgba(0,0,0,0.03); border-radius: 15px; padding: 10px; margin-bottom: 25px; align-items: center;">
+
+        <span style="font-weight:700; color:#888; margin-right:10px; flex-shrink: 0;">레벨 필터:</span>
+
+        <button class="level-button active" onclick="changeSubFilter('all', this)">전체</button>
+
+        <button class="level-button" onclick="changeSubFilter('n5', this)">N5</button>
+
+        <button class="level-button" onclick="changeSubFilter('n4', this)">N4</button>
+
+        <button class="level-button" onclick="changeSubFilter('n3', this)">N3</button>
+
+        <button class="level-button" onclick="changeSubFilter('n2', this)">N2</button>
+
+        <button class="level-button" onclick="changeSubFilter('n1', this)">N1</button>
+
+      </nav>
+
+
+
+      <div class="search-container" style="display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
+
+        <input type="text" id="word-search" placeholder="Search Kanji..." style="flex:1; border: 2px solid var(--accent-blue); padding:15px; border-radius:30px; max-width: 600px; font-size:1.1em;">
+
+        <button id="clear-list-btn" class="menu-btn hover-effect" style="display: none; padding: 15px 20px; font-size: 1.1em; max-width: 130px; margin: 0; border-radius: 20px; background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 10px rgba(220,53,69,0.3);">전체 해제</button>
+
+      </div>
+
+     
+
+      <main id="vocabulary-display" class="vocab-grid"></main>
+
+    </section>
+
+
+
+    <section id="screen-quiz-setup" class="screen">
+
+        <header class="minimal-header">
+
+            <button class="back-btn" onclick="switchScreen('screen-home')">← Home</button>
+
+            <h2 class="header-title" style="color:var(--accent-blue); font-weight:900; margin:0;">TEST YOURSELF</h2>
+
+        </header>
+
+        <div class="modern-panel text-center">
+
+            <div class="quiz-setup-list" style="margin-bottom: 30px;">
+
+               
+
+                <div class="quiz-setup-item" style="margin-bottom: 35px;">
+
+                    <label class="setup-label">출제 범위 (레벨/단어장)</label>
+
+                    <div class="quiz-setup-item" style="margin-bottom: 35px;">
+                        <label class="setup-label">출제 범위 (레벨/단어장)</label>
+                        
+                        <div id="setup-level" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+                            <button class="level-button active" onclick="setQuizConfig('level', 'n5', this)">N5</button>
+                            <button class="level-button" onclick="setQuizConfig('level', 'n4', this)">N4</button>
+                            <button class="level-button" onclick="setQuizConfig('level', 'n3', this)">N3</button>
+                            <button class="level-button" onclick="setQuizConfig('level', 'n2', this)">N2</button>
+                            <button class="level-button" onclick="setQuizConfig('level', 'n1', this)">N1</button>
+                            
+                            <div style="flex-basis: 100%; height: 0; margin: 0;"></div>
+                            
+                            <button class="level-button oboeta-tab" onclick="setQuizConfig('level', 'oboeta', this)">覚えた</button>
+                            <button class="level-button oboenakatta-tab" onclick="setQuizConfig('level', 'oboenakatta', this)">覚えなかった</button>
+                        </div>
+                    </div>
+
+                   
+                   
+
+                </div>
+
+               
+
+                <div class="quiz-setup-item" style="margin-bottom: 35px;">
+
+                    <label class="setup-label">문제 타입 (질문)</label>
+
+                    <div class="slot-container" id="q-slots">
+
+                        <div class="slot-row" id="q-slot-1">
+
+                            <div class="type-btn-group">
+
+                                <button class="type-btn active" data-val="meaning" onclick="setTypeBtn(this)">뜻</button>
+
+                                <button class="type-btn" data-val="kanji" onclick="setTypeBtn(this)">한자</button>
+
+                                <button class="type-btn" data-val="reading" onclick="setTypeBtn(this)">히라가나</button>
+
+                                <button class="type-btn" data-val="random" onclick="setTypeBtn(this)">랜덤</button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="slot-row" id="q-slot-2" style="display:none;">
+
+                            <div class="type-btn-group">
+
+                                <button class="type-btn" data-val="meaning" onclick="setTypeBtn(this)">뜻</button>
+
+                                <button class="type-btn" data-val="kanji" onclick="setTypeBtn(this)">한자</button>
+
+                                <button class="type-btn active" data-val="reading" onclick="setTypeBtn(this)">히라가나</button>
+
+                                <button class="type-btn" data-val="random" onclick="setTypeBtn(this)">랜덤</button>
+
+                            </div>
+
+                            <button class="remove-slot-btn hover-effect" onclick="removeTypeSlot('q')">&times;</button>
+
+                        </div>
+
+                    </div>
+
+                    <button id="btn-add-q" class="add-slot-btn hover-effect" onclick="addTypeSlot('q')">+ 문제 조합 추가</button>
+
+                </div>
+
+
+
+                <div class="quiz-setup-item" style="margin-bottom: 35px;">
+
+                    <label class="setup-label">보기 타입 (선택지)</label>
+
+                    <div class="slot-container" id="a-slots">
+
+                        <div class="slot-row" id="a-slot-1">
+
+                            <div class="type-btn-group">
+
+                                <button class="type-btn" data-val="meaning" onclick="setTypeBtn(this)">뜻</button>
+
+                                <button class="type-btn active" data-val="kanji" onclick="setTypeBtn(this)">한자</button>
+
+                                <button class="type-btn" data-val="reading" onclick="setTypeBtn(this)">히라가나</button>
+
+                                <button class="type-btn" data-val="random" onclick="setTypeBtn(this)">랜덤</button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="slot-row" id="a-slot-2" style="display:none;">
+
+                            <div class="type-btn-group">
+
+                                <button class="type-btn" data-val="meaning" onclick="setTypeBtn(this)">뜻</button>
+
+                                <button class="type-btn" data-val="kanji" onclick="setTypeBtn(this)">한자</button>
+
+                                <button class="type-btn active" data-val="reading" onclick="setTypeBtn(this)">히라가나</button>
+
+                                <button class="type-btn" data-val="random" onclick="setTypeBtn(this)">랜덤</button>
+
+                            </div>
+
+                            <button class="remove-slot-btn hover-effect" onclick="removeTypeSlot('a')">&times;</button>
+
+                        </div>
+
+                    </div>
+
+                    <button id="btn-add-a" class="add-slot-btn hover-effect" onclick="addTypeSlot('a')">+ 보기 조합 추가</button>
+
+                </div>
+
+
+
+                <div class="quiz-setup-item">
+
+                    <label class="setup-label">문항 수</label>
+
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+
+                        <input type="number" id="quiz-count-input" value="20" min="1" max="999" class="count-input">
+
+                        <span style="font-size: 1.1em; font-weight: 700; color: #666;">문항</span>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+            <button class="menu-btn hover-effect" onclick="startQuiz()">START QUIZ</button>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="screen-quiz-active" class="screen">
+
+        <div class="modern-panel text-center">
+
+            <h3 id="quiz-progress" style="color:#888;">1 / 20</h3>
+
+            <h2 id="quiz-question-label">질문</h2>
+
+            <div id="quiz-kanji" class="kanji-huge" style="cursor:default; border:none; margin: 30px auto; white-space: normal; line-height:1.2;"></div>
+
+            <div id="quiz-options" class="quiz-options-list"></div>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="screen-quiz-result" class="screen">
+
+        <div class="modern-panel text-center">
+
+            <h2 style="color:var(--accent-blue); font-size:3em;">RESULT</h2>
+
+            <p style="font-size:2em;"><span id="final-score" style="color:var(--accent-blue); font-weight:bold;">0</span> / <span id="total-score">0</span></p>
+
+            <div style="display:flex; gap:15px; justify-content:center; margin-top:30px;">
+
+                <button class="level-button active" onclick="switchScreen('screen-home')">Go Home</button>
+
+                <button id="btn-review-incorrect" class="level-button" style="background:var(--red); border-color:var(--red); color:white; display:none;" onclick="startIncorrectReview()">오답 노트 펴기</button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="screen-incorrect-review" class="screen review-screen">
+
+        <div class="modal-card" style="margin: 0 auto; box-shadow: none; border: 3px solid var(--red); max-width: 400px; padding: 35px 25px;">
+
+            <div id="review-progress-card" class="modal-number" style="color: var(--red);">오답 1 / 5</div>
+
+            <div class="detail-box clickable-box" id="rev-kanji-box" style="margin-top: 30px; margin-bottom:20px; min-height: 120px; border-color:var(--red);">
+
+                <div id="rev-kanji" class="kanji-huge" style="color:var(--red); margin:0;"></div>
+
+            </div>
+
+            <div class="detail-split" style="display:flex; gap:10px; margin-bottom:25px; border:none; padding:0;">
+
+                <div class="detail-box clickable-box" id="rev-reading-box" style="border-color:var(--red); padding: 15px 10px; font-size: 1.1em;">
+
+                    <div id="rev-reading"></div>
+
+                </div>
+
+                <div class="detail-box clickable-box" id="rev-meaning-box" style="border-color:var(--red); padding: 15px 10px; font-size: 1.1em;">
+
+                    <div id="rev-meaning"></div>
+
+                </div>
+
+            </div>
+
+            <button class="menu-btn hover-effect" style="background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 15px rgba(220,53,69,0.4); margin: 0 auto; display: block; border-radius: 20px; font-size: 1.5em; padding: 15px 30px;" onclick="markAsMemorized()">암기 완료 (Next)</button>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="screen-review-complete" class="screen">
+
+        <div class="modern-panel text-center">
+
+            <h2 style="color:var(--green); font-size:2.5em;">All Cleared!</h2>
+
+            <p>모든 틀린 문제를 복습했습니다.</p>
+
+            <div style="display:flex; gap:15px; justify-content:center; margin-top:30px;">
+
+                <button class="level-button active" onclick="switchScreen('screen-home')">홈으로</button>
+
+                <button class="level-button" style="background:var(--accent-blue); color:white; border-color:var(--accent-blue);" onclick="retakeIncorrectQuiz()">재시험</button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <div id="quiz-feedback-modal" class="modal" style="z-index: 200;">
+
+        <div class="modal-card text-center" style="max-width: 420px; padding: 40px 25px;">
+
+            <p id="quiz-feedback-msg" style="font-size: 1.5em; margin-bottom: 20px; line-height: 1.4;"></p>
+
+            <div style="border: 2px solid var(--accent-blue); border-radius: 15px; padding: 30px 15px; margin-bottom: 25px; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.05);">
+
+                <div id="fb-kanji" class="kanji-huge" style="margin-bottom: 15px; color: var(--accent-blue);"></div>
+
+                <div id="fb-reading" style="font-size: 1.3em; font-weight: bold; margin-bottom: 8px;"></div>
+
+                <div id="fb-meaning" style="font-size: 1.2em; color: #666;"></div>
+
+            </div>
+
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap: wrap;">
+
+                <button id="btn-quiz-oboeta" class="status-btn oboeta-btn hover-effect" style="padding: 15px 20px; font-size: 1.1em; display:none;">覚えた 추가</button>
+
+                <button id="btn-quiz-oboenakatta" class="status-btn oboenakatta-btn hover-effect" style="padding: 15px 20px; font-size: 1.1em; display:none;">覚えなかった 추가</button>
+
+                <button class="menu-btn hover-effect" style="padding: 15px 20px; font-size: 1.1em; margin: 0; max-width: 140px; border-radius: 15px;" onclick="proceedQuiz()">다음 문제 ❯</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div id="vocabulary-modal" class="modal">
+
+      <div class="modal-card" style="max-width: 400px; padding: 35px 25px;">
+
+        <div id="modal-word-number" class="modal-number" style="font-size: 0.9em;"></div>
+
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+
+       
+
+        <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')" style="font-size: 1.5em; left: 5px;">&#10094;</button>
+
+        <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')" style="font-size: 1.5em; right: 5px;">&#10095;</button>
+
+
+
+        <div class="detail-box clickable-box" id="modal-kanji-box" style="margin-top: 30px; margin-bottom:15px; min-height: 140px;">
+
+            <div id="modal-kanji" class="kanji-huge" style="margin:0;"></div>
+
+        </div>
+
+       
+
+        <div class="detail-split" style="display:flex; gap:10px; margin-bottom:15px;">
+
+          <div class="detail-box clickable-box" id="modal-reading-box" style="padding: 15px 10px; font-size: 1.1em;">
+
+              <div id="modal-reading"></div>
+
+          </div>
+
+          <div class="detail-box clickable-box" id="modal-meaning-box" style="padding: 15px 10px; font-size: 1.1em;">
+
+              <div id="modal-meaning"></div>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="modal-action-btns" style="display:flex; gap:15px; justify-content:center;">
+
+           <button id="modal-oboeta-btn" class="status-btn oboeta-btn modal-action-btn hover-effect" style="padding: 12px 25px; font-size: 1.1em;">覚えた</button>
+
+           <button id="modal-oboenakatta-btn" class="status-btn oboenakatta-btn modal-action-btn hover-effect" style="padding: 12px 25px; font-size: 1.1em;">覚えなかった</button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <div id="help-modal" class="modal">
+
+        <div class="modal-card text-center" style="max-width: 550px; padding: 40px 30px;">
+
+            <span class="close-btn" onclick="closeHelp()">&times;</span>
+
+            <h2 id="help-title" style="color:var(--accent-blue); font-weight:900; margin-bottom: 25px; font-size: 1.8em;">사용 안내</h2>
+
+            <ul id="help-content" style="text-align:left; line-height:1.8; color:#555; font-weight:600; font-size: 1.1em; padding-left: 20px;"></ul>
+
+        </div>
+
+    </div>
+
+
+
+  </div>
+
+  <script defer type="text/javascript" src="main.js"></script>
+
+</body>
+
+</html>
