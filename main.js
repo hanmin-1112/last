@@ -18,7 +18,6 @@ const vocabulary = {
     ],
   n1: []
 };
-
 let oboetaWords = JSON.parse(localStorage.getItem('oboetaWords')) || [];
 let oboenakattaWords = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
 
@@ -228,7 +227,6 @@ function navigateWord(dir) {
 }
 function closeModal() { document.getElementById('vocabulary-modal').style.display = 'none'; }
 
-
 function setQuizConfig(key, val, btn) {
     quizConfig[key] = val;
     const container = btn.parentElement;
@@ -353,9 +351,9 @@ function loadQuizQuestion() {
     const kanjiEl = document.getElementById('quiz-kanji');
     kanjiEl.textContent = formatWord(currentWord, finalQ);
     
-    if (kanjiEl.textContent.length >= 8) kanjiEl.style.fontSize = '4.5em';
-    else if (kanjiEl.textContent.length >= 5) kanjiEl.style.fontSize = '6.6em';
-    else kanjiEl.style.fontSize = '9.1em';
+    if (kanjiEl.textContent.length >= 8) kanjiEl.style.fontSize = '2.2em';
+    else if (kanjiEl.textContent.length >= 5) kanjiEl.style.fontSize = '3.3em';
+    else kanjiEl.style.fontSize = '4.6em';
 
     const container = document.getElementById('quiz-options');
     container.innerHTML = '';
