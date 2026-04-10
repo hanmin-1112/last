@@ -353,9 +353,9 @@ function loadQuizQuestion() {
     const kanjiEl = document.getElementById('quiz-kanji');
     kanjiEl.textContent = formatWord(currentWord, finalQ);
     
-    if (kanjiEl.textContent.length >= 8) kanjiEl.style.fontSize = '2.2em';
-    else if (kanjiEl.textContent.length >= 5) kanjiEl.style.fontSize = '3.2em';
-    else kanjiEl.style.fontSize = '4.5em';
+    if (kanjiEl.textContent.length >= 8) kanjiEl.style.fontSize = '4.5em';
+    else if (kanjiEl.textContent.length >= 5) kanjiEl.style.fontSize = '6.6em';
+    else kanjiEl.style.fontSize = '9.1em';
 
     const container = document.getElementById('quiz-options');
     container.innerHTML = '';
