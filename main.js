@@ -173,7 +173,7 @@ function updateModalButtons(kanji) {
     };
 }
 
-// 🌟 1. 메인 단어장 모달에서 글자 수에 따른 폰트 크기 자동 조절
+// 🌟 메인 단어장 모달에서 글자 수에 따른 폰트 크기 자동 조절
 function showModal(index) {
     currentWordIndex = index;
     const word = currentDisplayedWords[index];
@@ -277,7 +277,7 @@ function loadQuizQuestion() {
         document.getElementById('quiz-question-label').textContent = `다음 ${qLabelText}에 맞는 ${aLabelText}은?`;
     }
     
-    // 🌟 2. 퀴즈 문제 질문 영역 글자수 크기 조절
+    // 🌟 퀴즈 문제 질문 영역 글자수 크기 조절
     const kanjiEl = document.getElementById('quiz-kanji');
     kanjiEl.textContent = formatWord(currentWord, finalQ);
     
@@ -369,7 +369,7 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
         document.getElementById('fb-reading').textContent = word.reading;
         document.getElementById('fb-meaning').textContent = word.meaning;
 
-        // 🌟 3. 피드백 플로팅 모달 글자수 크기 조절
+        // 🌟 피드백 플로팅 모달 글자수 크기 조절
         const len = word.kanji.length;
         if (len >= 6) fbKanji.style.fontSize = '2.2em';
         else if (len >= 4) fbKanji.style.fontSize = '2.8em';
@@ -435,7 +435,7 @@ function startIncorrectReview() {
     loadReviewWord();
 }
 
-// 🌟 4. 오답 노트 모달 글자수 크기 조절
+// 🌟 오답 노트 모달 글자수 크기 조절
 function loadReviewWord() {
     const word = incorrectQuestions[reviewIndex];
     document.getElementById('review-progress-card').textContent = `오답 ${reviewIndex + 1} / ${incorrectQuestions.length}`;
