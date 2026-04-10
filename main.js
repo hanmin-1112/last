@@ -18,7 +18,7 @@ const vocabulary = {
     ],
   n1: []
 };
-// 여기에 기존에 추가하셨던 단어 데이터(const vocabulary = { ... })가 있어야 합니다!
+// 여기에 기존에 추가하셨던 단어 데이터(const vocabulary = { n5:[...], n4:[...] ... })가 있어야 합니다!
 
 let oboetaWords = JSON.parse(localStorage.getItem('oboetaWords')) || [];
 let oboenakattaWords = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
@@ -234,12 +234,12 @@ function startQuiz() {
     score = 0;
 
     switchScreen('screen-quiz-active');
-    document.getElementById('quiz-feedback-box').style.display = 'none';
+    document.getElementById('quiz-feedback-modal').style.display = 'none';
     loadQuizQuestion();
 }
 
 function loadQuizQuestion() {
-    document.getElementById('quiz-feedback-box').style.display = 'none';
+    document.getElementById('quiz-feedback-modal').style.display = 'none';
     document.getElementById('quiz-options').style.display = 'flex';
 
     const currentWord = quizWords[currentQuizIndex];
@@ -324,7 +324,7 @@ function loadQuizQuestion() {
     });
 }
 
-// 🌟 수정된 다중 선택 정답 평가 로직 (단어 카드 노출 및 상태 저장 버튼 분리)
+// 🌟 플로팅 모달로 나타나는 퀴즈 피드백 로직
 function handleMultiQuizAnswer(btn, aType, word, finalA) {
     // 같은 그룹의 다른 버튼 선택 해제
     const groupBtns = btn.parentElement.querySelectorAll('.quiz-option-btn');
@@ -360,11 +360,10 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
             }
         }
 
-        // 🌟 피드백 박스 및 단어 카드 노출
-        const feedbackBox = document.getElementById('quiz-feedback-box');
+        // 🌟 모달 띄우기 및 단어 카드 세팅
+        const feedbackModal = document.getElementById('quiz-feedback-modal');
         const feedbackMsg = document.getElementById('quiz-feedback-msg');
         
-        // 단어 카드 세팅
         const fbKanji = document.getElementById('fb-kanji');
         fbKanji.textContent = word.kanji;
         document.getElementById('fb-reading').textContent = word.reading;
@@ -373,23 +372,31 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
         if (word.kanji.length >= 4) fbKanji.classList.add('kanji-modal-long');
         else fbKanji.classList.remove('kanji-modal-long');
 
-        feedbackBox.style.display = 'block';
+        const btnOboeta = document.getElementById('btn-quiz-oboeta');
+        const btnOboenakatta = document.getElementById('btn-quiz-oboenakatta');
 
-        // 정답/오답 메시지 세팅
+        // 정답/오답에 따른 버튼 분기 처리
         if (isAllCorrect) {
             score++;
-            feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">🎉 정답입니다! 완벽해요.</span>`;
+            feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">🎉 완벽하게 맞췄습니다!</span><br><span style="font-size:0.8em; color:#555;">단어를 확실히 외우셨나요?</span>`;
+            btnOboeta.style.display = 'inline-block';
+            btnOboenakatta.style.display = 'none';
         } else {
             incorrectQuestions.push(word);
-            feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">❌ 아쉽게도 오답입니다.</span>`;
+            feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">❌ 아쉽게도 오답입니다.</span><br><span style="font-size:0.8em; color:#555;">복습이 필요한 단어입니다.</span>`;
+            btnOboeta.style.display = 'none';
+            btnOboenakatta.style.display = 'inline-block';
         }
 
+        // 모달 표시
+        feedbackModal.style.display = 'flex';
+
         // 버튼 동작 연결
-        document.getElementById('btn-quiz-oboeta').onclick = () => { 
+        btnOboeta.onclick = () => { 
             internalToggleList(word.kanji, 'oboeta'); 
             proceedQuiz(); 
         };
-        document.getElementById('btn-quiz-oboenakatta').onclick = () => { 
+        btnOboenakatta.onclick = () => { 
             internalToggleList(word.kanji, 'oboenakatta'); 
             proceedQuiz(); 
         };
@@ -408,6 +415,7 @@ function internalToggleList(kanji, target) {
 }
 
 function proceedQuiz() {
+    document.getElementById('quiz-feedback-modal').style.display = 'none';
     currentQuizIndex++;
     if(currentQuizIndex < quizWords.length) loadQuizQuestion();
     else endQuiz();
@@ -459,7 +467,7 @@ function retakeIncorrectQuiz() {
     currentQuizIndex = 0;
     score = 0;
     switchScreen('screen-quiz-active');
-    document.getElementById('quiz-feedback-box').style.display = 'none';
+    document.getElementById('quiz-feedback-modal').style.display = 'none';
     loadQuizQuestion();
 }
 
