@@ -103,7 +103,6 @@ body {
 
 .hidden-content { opacity: 0 !important; pointer-events: none; }
 
-
 #custom-ad-container {
     position: fixed;
     top: 20px;
@@ -111,6 +110,7 @@ body {
     width: 300px; 
     z-index: 9999; 
 }
+
 @media (max-width: 768px) {
     .modal-card { padding: 30px 15px; width: 95%; }
     .quiz-option-btn { font-size: 1.1em; padding: 15px; }

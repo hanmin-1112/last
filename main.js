@@ -19,7 +19,6 @@ const vocabulary = {
   n1: []
 };
 
-
 let oboetaWords = JSON.parse(localStorage.getItem('oboetaWords')) || [];
 let oboenakattaWords = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
 let currentDisplayedWords = [];
@@ -112,7 +111,6 @@ function displayVocabulary(level, searchTerm = '') {
             const isOboeta = oboetaWords.includes(w.kanji) ? 'active' : '';
             const isOboenakatta = oboenakattaWords.includes(w.kanji) ? 'active' : '';
             
-            // 리스트의 글자 크기는 CSS 클래스로 유지
             const kanjiClass = w.kanji.length >= 4 ? 'kanji kanji-small-long' : 'kanji';
 
             card.innerHTML = `
@@ -150,7 +148,7 @@ function toggleWordStatus(event, kanji, target) {
     localStorage.setItem('oboetaWords', JSON.stringify(oboetaWords));
     localStorage.setItem('oboenakattaWords', JSON.stringify(oboenakattaWords));
     
-    displayVocabulary(currentLevel, searchInput.value);
+    displayVocabulary(currentLevel, searchInput ? searchInput.value : '');
     if (vocabularyModal.style.display === 'flex') updateModalButtons(kanji);
 }
 
@@ -173,7 +171,6 @@ function updateModalButtons(kanji) {
     };
 }
 
-// 🌟 메인 단어장 모달에서 글자 수에 따른 폰트 크기 자동 조절
 function showModal(index) {
     currentWordIndex = index;
     const word = currentDisplayedWords[index];
@@ -207,7 +204,6 @@ function navigateWord(dir) {
 }
 
 function closeModal() { vocabularyModal.style.display = 'none'; }
-
 
 function formatWord(wordObj, types) {
       return types.map(t => wordObj[t]).join(' / ');
