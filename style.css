@@ -101,6 +101,13 @@ body {
 .remove-slot-btn { background: #ffe5e5; color: var(--red); border: none; border-radius: 12px; width: 42px; height: 42px; font-size: 1.5em; font-weight: bold; cursor: pointer; line-height: 1; flex-shrink: 0; }
 .add-slot-btn { font-size: 1.05em; font-weight: 700; padding: 10px 20px; border-radius: 15px; background: transparent; color: var(--accent-blue); border: 2px solid var(--accent-blue); cursor: pointer; }
 
+/* 문항 수 입력 인풋 스타일 */
+.count-input { width: 100px; padding: 12px; font-size: 1.2em; text-align: center; border: 2px solid var(--accent-blue); border-radius: 15px; font-weight: 900; color: var(--accent-blue); outline: none; transition: 0.2s; }
+.count-input:focus { box-shadow: 0 0 10px var(--glow-blue); }
+/* 브라우저 기본 스핀 버튼 숨기기 */
+.count-input::-webkit-inner-spin-button, .count-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.count-input { -moz-appearance: textfield; }
+
 /* 퀴즈 진행 */
 .quiz-options-list { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px; }
 .quiz-group-container { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-bottom: 25px; align-items: center;}

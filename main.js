@@ -32,7 +32,7 @@ let quizWords = [];
 let incorrectQuestions = [];
 let currentQuizIndex = 0;
 let score = 0;
-let quizConfig = { level: 'n5', count: 20 };
+let quizConfig = { level: 'n5' }; // count는 이제 input에서 직접 가져옵니다.
 
 let hideState = { kanji: false, reading: false, meaning: false };
 let revHideState = { kanji: false, reading: false, meaning: false };
@@ -65,7 +65,7 @@ function openHelp() {
     helpContent.innerHTML = `
         <li style="margin-bottom:12px;"><strong>단어장:</strong> 상단의 레벨 버튼을 가로로 스와이프하여 넘길 수 있습니다.</li>
         <li style="margin-bottom:12px;"><strong>단어 카드:</strong> 카드의 여백을 누르셔도 모달 창이 열리도록 개선되었습니다.</li>
-        <li><strong>퀴즈 조합:</strong> 문제와 보기 타입의 [+ 추가] 버튼을 눌러 입체적인 테스트를 세팅해 보세요.</li>
+        <li><strong>퀴즈 조합:</strong> 문제와 보기 타입의 [+ 추가] 버튼을 눌러 입체적인 테스트를 세팅해 보세요. 문항 수도 직접 입력 가능합니다.</li>
     `;
     document.getElementById('help-modal').style.display = 'flex'; 
 }
@@ -290,7 +290,23 @@ function startQuiz() {
     let words = getWordsByLevel(quizConfig.level);
     if (!words || words.length === 0) return alert("해당 범위에 단어가 없습니다. 다른 범위를 선택해 주세요.");
 
-    let count = parseInt(quizConfig.count);
+    // 문항 수 입력값 가져오기
+    const countInput = document.getElementById('quiz-count-input');
+    let count = parseInt(countInput.value) || 20;
+    
+    if (count < 1) {
+        count = 1;
+        countInput.value = 1;
+    }
+    
+    // 사용자가 가진 단어 개수보다 많이 입력했을 경우 조정
+    if (count > words.length) {
+        count = words.length;
+        countInput.value = words.length;
+        alert(`해당 범위의 단어가 ${words.length}개뿐이므로, 문항 수가 ${words.length}개로 자동 조정됩니다.`);
+    }
+
+    quizConfig.count = count;
     quizWords = [...words].sort(() => Math.random() - 0.5).slice(0, count); 
     
     incorrectQuestions = [];
@@ -502,5 +518,18 @@ function setupClickToHide() {
       document.getElementById('rev-meaning-box').onclick = () => { revHideState.meaning = !revHideState.meaning; applyRevHideStates(); };
 }
 function applyHideStates() {
-      document.getElementById('modal-kanji').classList.toggle('hidden-content', hide)
-    }
+      document.getElementById('modal-kanji').classList.toggle('hidden-content', hideState.kanji);
+      document.getElementById('modal-reading').classList.toggle('hidden-content', hideState.reading);
+      document.getElementById('modal-meaning').classList.toggle('hidden-content', hideState.meaning);
+}
+function applyRevHideStates() {
+      document.getElementById('rev-kanji').classList.toggle('hidden-content', revHideState.kanji);
+      document.getElementById('rev-reading').classList.toggle('hidden-content', revHideState.reading);
+      document.getElementById('rev-meaning').classList.toggle('hidden-content', revHideState.meaning);
+}
+
+window.onload = () => {
+    setupClickToHide();
+    const searchInput = document.getElementById('word-search');
+    if (searchInput) searchInput.oninput = (e) => displayVocabulary(currentTab, e.target.value);
+};

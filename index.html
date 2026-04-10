@@ -94,8 +94,8 @@
                         <button class="level-button" onclick="setQuizConfig('level', 'n3', this)">N3</button>
                         <button class="level-button" onclick="setQuizConfig('level', 'n2', this)">N2</button>
                         <button class="level-button" onclick="setQuizConfig('level', 'n1', this)">N1</button>
-                        <button class="level-button oboeta-tab" onclick="setQuizConfig('level', 'oboeta', this)">覚えた 단어</button>
-                        <button class="level-button oboenakatta-tab" onclick="setQuizConfig('level', 'oboenakatta', this)">覚えなかった 단어</button>
+                        <button class="level-button oboeta-tab" onclick="setQuizConfig('level', 'oboeta', this)">覚えた</button>
+                        <button class="level-button oboenakatta-tab" onclick="setQuizConfig('level', 'oboenakatta', this)">覚えなかった</button>
                     </div>
                 </div>
                 
@@ -149,19 +149,12 @@
 
                 <div class="quiz-setup-item">
                     <label class="setup-label">문항 수</label>
-                    <div class="scrollable-tabs" id="setup-count">
-                        <button class="level-button" onclick="setQuizConfig('count', 10, this)">10</button>
-                        <button class="level-button active" onclick="setQuizConfig('count', 20, this)">20</button>
-                        <button class="level-button" onclick="setQuizConfig('count', 30, this)">30</button>
-                        <button class="level-button" onclick="setQuizConfig('count', 40, this)">40</button>
-                        <button class="level-button" onclick="setQuizConfig('count', 50, this)">50</button>
-                        <button class="level-button" onclick="setQuizConfig('count', 60, this)">60</button>
-                        <button class="level-button" onclick="setQuizConfig('count', 70, this)">70</button>
-                        <button class="level-button" onclick="setQuizConfig('count', 80, this)">80</button>
-                        <button class="level-button" onclick="setQuizConfig('count', 90, this)">90</button>
-                        <button class="level-button" onclick="setQuizConfig('count', 100, this)">100</button>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                        <input type="number" id="quiz-count-input" value="20" min="1" max="999" class="count-input">
+                        <span style="font-size: 1.1em; font-weight: 700; color: #666;">문항</span>
                     </div>
                 </div>
+
             </div>
             <button class="menu-btn hover-effect" onclick="startQuiz()">START QUIZ</button>
         </div>
