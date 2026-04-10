@@ -50,7 +50,7 @@
         <h2 class="header-title" style="color:var(--accent-blue); font-weight:900; text-transform:uppercase; margin:0;">Kanji List</h2>
       </header>
       
-      <nav id="level-selection" class="level-nav">
+      <nav id="level-selection" class="level-nav main-level-nav">
         <button class="level-button active" data-level="n5">N5</button>
         <button class="level-button" data-level="n4">N4</button>
         <button class="level-button" data-level="n3">N3</button>
@@ -60,7 +60,17 @@
         <button class="level-button oboenakatta-tab" data-level="oboenakatta">覚えなかった</button>
       </nav>
 
-      <div class="search-container" style="display: flex; gap: 10px; align-items: center; justify-content: center;">
+      <nav id="sub-filter-selection" class="level-nav sub-level-nav" style="display: none; justify-content: center; margin-bottom: 25px; padding: 10px; background: rgba(0,0,0,0.03); border-radius: 15px;">
+        <span style="font-weight:700; color:#888; margin-right:10px; align-self:center;">레벨 필터:</span>
+        <button class="level-button active" data-filter="all">전체</button>
+        <button class="level-button" data-filter="n5">N5</button>
+        <button class="level-button" data-filter="n4">N4</button>
+        <button class="level-button" data-filter="n3">N3</button>
+        <button class="level-button" data-filter="n2">N2</button>
+        <button class="level-button" data-filter="n1">N1</button>
+      </nav>
+
+      <div class="search-container" style="display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
         <input type="text" id="word-search" placeholder="Search Kanji..." style="flex:1; border: 2px solid var(--accent-blue); padding:15px; border-radius:30px; max-width: 600px; font-size:1.1em;">
         <button id="clear-list-btn" class="menu-btn hover-effect" style="display: none; padding: 15px 20px; font-size: 1.1em; max-width: 130px; margin: 0; border-radius: 20px; background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 10px rgba(220,53,69,0.3);">전체 해제</button>
       </div>
@@ -89,23 +99,17 @@
                 </div>
                 
                 <div class="quiz-setup-item" style="margin-bottom: 25px;">
-                    <label class="setup-label">문제 타입 (질문) - 최대 2개</label>
-                    <div class="btn-group multi-select" id="setup-qtype" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
-                        <button class="level-button" data-val="kanji">한자</button>
-                        <button class="level-button" data-val="reading">히라가나</button>
-                        <button class="level-button active" data-val="meaning">뜻</button>
-                        <button class="level-button" data-val="random" style="background:#ff9500; color:white; border-color:#ff9500;">랜덤</button>
-                    </div>
+                    <label class="setup-label">문제 타입 (질문) 조합</label>
+                    <div id="qtype-slots-container" class="dynamic-slots-container">
+                        </div>
+                    <button id="btn-add-qtype" class="level-button add-slot-btn" onclick="addQuizTypeSlot('question')">+ 문제 타입 추가</button>
                 </div>
 
                 <div class="quiz-setup-item" style="margin-bottom: 25px;">
-                    <label class="setup-label">보기 타입 (선택지) - 최대 2개</label>
-                    <div class="btn-group multi-select" id="setup-atype" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
-                        <button class="level-button active" data-val="kanji">한자</button>
-                        <button class="level-button" data-val="reading">히라가나</button>
-                        <button class="level-button" data-val="meaning">뜻</button>
-                        <button class="level-button" data-val="random" style="background:#ff9500; color:white; border-color:#ff9500;">랜덤</button>
-                    </div>
+                    <label class="setup-label">보기 타입 (선택지) 조합</label>
+                    <div id="atype-slots-container" class="dynamic-slots-container">
+                        </div>
+                    <button id="btn-add-atype" class="level-button add-slot-btn" onclick="addQuizTypeSlot('answer')">+ 보기 타입 추가</button>
                 </div>
 
                 <div class="quiz-setup-item">
