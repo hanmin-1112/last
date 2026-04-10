@@ -191,11 +191,13 @@ function updateModalButtons(kanji) {
     oboenakattaBtn.className = `status-btn oboenakatta-btn modal-action-btn hover-effect ${oboenakattaWords.includes(kanji) ? 'active' : ''}`;
     
     oboetaBtn.onclick = (e) => { 
+        oboetaBtn.blur(); // 🔥 모바일 터치(호버) 잔상 강제 해제
         toggleWordStatus(e, kanji, 'oboeta'); 
         if (currentWordIndex < currentDisplayedWords.length - 1) setTimeout(() => navigateWord('next'), 200);
         else setTimeout(() => closeModal(), 200);
     };
     oboenakattaBtn.onclick = (e) => { 
+        oboenakattaBtn.blur(); // 🔥 모바일 터치(호버) 잔상 강제 해제
         toggleWordStatus(e, kanji, 'oboenakatta'); 
         if (currentWordIndex < currentDisplayedWords.length - 1) setTimeout(() => navigateWord('next'), 200);
         else setTimeout(() => closeModal(), 200);
