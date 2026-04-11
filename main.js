@@ -68,10 +68,9 @@ let quizConfig = { level: 'n5' };
 let hideState = { kanji: false, reading: false, meaning: false };
 let revHideState = { kanji: false, reading: false, meaning: false };
 
-// 🌟 오답 노트에서 암기된 단어를 추적하는 배열
 let memorizedInReview = new Set();
 let reviewIndex = 0;
-let listToClear = ''; // 전체 해제용 변수
+let listToClear = ''; 
 
 function switchScreen(screenId) {
     currentScreen = screenId;
@@ -150,7 +149,6 @@ function displayVocabulary(tab, searchTerm = '') {
         subFilterNav.style.display = 'flex'; 
         clearBtn.style.display = 'block';
         
-        // 🌟 전체 해제 버튼 클릭 시 커스텀 팝업 호출
         clearBtn.onclick = () => {
             listToClear = tab;
             document.getElementById('confirm-modal').style.display = 'flex';
@@ -205,7 +203,6 @@ function displayVocabulary(tab, searchTerm = '') {
     }
 }
 
-// 🌟 전체 해제 팝업 동작 함수
 function closeConfirmModal() { 
     document.getElementById('confirm-modal').style.display = 'none'; 
 }
@@ -499,7 +496,6 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
         document.getElementById('fb-reading').textContent = word.reading;
         document.getElementById('fb-meaning').textContent = word.meaning;
 
-        // 🌟 퀴즈 피드백 모달 한자 크기 대폭 확대 적용
         const len = word.kanji.length;
         if (len >= 6) fbKanji.style.fontSize = '3.5em';
         else if (len >= 4) fbKanji.style.fontSize = '4.5em';
@@ -552,7 +548,6 @@ function endQuiz() {
     switchScreen('screen-quiz-result');
 }
 
-// 🌟 오답 노트 (Review) 관련 로직 개편
 function startIncorrectReview() { 
     reviewIndex = 0; 
     memorizedInReview.clear();
@@ -569,7 +564,6 @@ function loadReviewWord() {
     document.getElementById('rev-reading').textContent = word.reading;
     document.getElementById('rev-meaning').textContent = word.meaning;
     
-    // 🌟 오답노트 모달 내의 한자 폰트 사이즈 조정 (기존보다 작게)
     const len = word.kanji.length;
     if (len >= 6) k.style.fontSize = '2.5em';
     else if (len >= 4) k.style.fontSize = '3.5em';
@@ -577,11 +571,9 @@ function loadReviewWord() {
 
     applyRevHideStates(); 
 
-    // 좌우 버튼 보이기/숨기기
     document.getElementById('btn-rev-prev').style.visibility = (reviewIndex === 0) ? 'hidden' : 'visible';
     document.getElementById('btn-rev-next').style.visibility = (reviewIndex === incorrectQuestions.length - 1) ? 'hidden' : 'visible';
 
-    // 암기 완료 버튼 상태 시각화
     const memoBtn = document.getElementById('btn-rev-memo');
     if (memorizedInReview.has(reviewIndex)) {
         memoBtn.textContent = '완료됨';
@@ -596,28 +588,23 @@ function loadReviewWord() {
     }
 }
 
-// 🌟 이전/다음 이동 버튼 로직
 function navigateReview(dir) {
     if (dir === 'prev' && reviewIndex > 0) reviewIndex--;
     else if (dir === 'next' && reviewIndex < incorrectQuestions.length - 1) reviewIndex++;
     loadReviewWord();
 }
 
-// 🌟 암기 완료 버튼 클릭 시 로직
 function markCurrentAsMemorized() {
     memorizedInReview.add(reviewIndex);
-    loadReviewWord(); // 완료 색상으로 업데이트
+    loadReviewWord(); 
 
-    // 만약 오답 목록에 있는 모든 단어를 다 외웠다면
     if (memorizedInReview.size === incorrectQuestions.length) {
         setTimeout(() => {
             switchScreen('screen-review-complete');
-        }, 500); // 사용자에게 초록색으로 바뀐 걸 0.5초간 보여준 뒤 화면 이동
+        }, 500); 
     } else {
-        // 다 안 외웠다면 다음 '안 외운 단어'로 자동 스킵 이동
         setTimeout(() => {
             let nextIdx = reviewIndex + 1;
-            // 남아있는 안 외운 단어 인덱스를 찾음
             while (nextIdx < incorrectQuestions.length && memorizedInReview.has(nextIdx)) {
                 nextIdx++;
             }
@@ -625,7 +612,6 @@ function markCurrentAsMemorized() {
                 reviewIndex = nextIdx;
                 loadReviewWord();
             } else {
-                // 끝까지 갔는데 앞쪽에 안 외운 게 남아있다면 처음 안 외운 곳으로 되돌아감
                 let firstUnmemo = 0;
                 while (firstUnmemo < incorrectQuestions.length && memorizedInReview.has(firstUnmemo)) {
                     firstUnmemo++;
