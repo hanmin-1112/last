@@ -432,14 +432,56 @@ function loadQuizQuestion() {
         window.currentCorrectAnswers[aType] = correctVal;
 
         let opts = [correctVal];
-        let fallbackCounter = 0;
         
+        // --- 🌟 난이도를 높이는 유사 단어 추출 로직 시작 ---
+        let similarWords = [];
+        
+        // 1. 공통 한자가 포함된 단어 찾기
+        let kanjiChars = currentWord.kanji.split('');
+        let sameKanjiWords = pool.filter(w => 
+            w.kanji !== currentWord.kanji && 
+            kanjiChars.some(char => w.kanji.includes(char))
+        );
+        similarWords.push(...sameKanjiWords);
+
+        // 2. 히라가나 발음 첫 글자가 같은 단어 찾기
+        if (currentWord.reading) {
+            let firstKana = currentWord.reading.charAt(0);
+            let sameKanaWords = pool.filter(w => 
+                w.kanji !== currentWord.kanji && 
+                w.reading.charAt(0) === firstKana
+            );
+            similarWords.push(...sameKanaWords);
+        }
+
+        // 3. 한자나 히라가나의 글자 수가 같은 단어 찾기
+        let sameLengthWords = pool.filter(w => 
+            w.kanji !== currentWord.kanji && 
+            (w.kanji.length === currentWord.kanji.length || w.reading.length === currentWord.reading.length)
+        );
+        similarWords.push(...sameLengthWords);
+
+        // 추출된 유사 단어들을 랜덤하게 섞기
+        similarWords.sort(() => Math.random() - 0.5);
+
+        // 유사 단어들로 먼저 보기를 채움
+        for (let w of similarWords) {
+            if (opts.length >= 4) break;
+            let val = formatWord(w, [aType]);
+            if (!opts.includes(val)) opts.push(val);
+        }
+        // --- 🌟 유사 단어 추출 로직 끝 ---
+
+        // 4. 만약 위 조건으로도 보기가 4개가 안 채워졌다면 기존처럼 랜덤으로 마저 채움 (Fallback)
+        let fallbackCounter = 0;
         while(opts.length < 4 && fallbackCounter < 50) {
             fallbackCounter++;
             let rand = pool[Math.floor(Math.random() * pool.length)];
             let val = formatWord(rand, [aType]);
             if(!opts.includes(val)) opts.push(val);
         }
+        
+        // 최종 완성된 4개의 보기를 화면에 표시하기 전에 다시 한번 섞음
         opts.sort(() => Math.random() - 0.5);
         
         const groupDiv = document.createElement('div');
