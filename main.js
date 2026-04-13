@@ -48,7 +48,7 @@ const vocabulary = {
     ],
   n1: []
 };
-// ⚠️ 여기에 기존 단어 데이터 (const vocabulary = { ... })가 맨 위에 있어야 합니다!
+// 여기에 기존 단어 데이터 (const vocabulary = { ... })가 맨 위에 있어야 합니다!
 
 let oboetaWords = JSON.parse(localStorage.getItem('oboetaWords')) || [];
 let oboenakattaWords = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
@@ -698,7 +698,7 @@ function injectHomeContent() {
 
     const previewContainer = document.createElement('div');
     previewContainer.id = 'home-preview-content';
-    previewContainer.style.marginTop = '30px';
+    previewContainer.style.marginTop = '70px'; // 👈 간격을 넓히기 위해 30px에서 70px로 수정됨
     previewContainer.style.marginBottom = '20px';
     previewContainer.style.textAlign = 'left';
     previewContainer.style.padding = '25px';
