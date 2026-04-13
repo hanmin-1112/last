@@ -48,7 +48,7 @@ const vocabulary = {
     ],
   n1: []
 };
-// 여기에 기존 단어 데이터 (const vocabulary = { ... })가 맨 위에 있어야 합니다!
+// ⚠️ 여기에 기존 단어 데이터 (const vocabulary = { ... })가 맨 위에 있어야 합니다!
 
 let oboetaWords = JSON.parse(localStorage.getItem('oboetaWords')) || [];
 let oboenakattaWords = JSON.parse(localStorage.getItem('oboenakattaWords')) || [];
@@ -433,10 +433,7 @@ function loadQuizQuestion() {
 
         let opts = [correctVal];
         
-        // --- 🌟 난이도를 높이는 유사 단어 추출 로직 시작 ---
         let similarWords = [];
-        
-        // 1. 공통 한자가 포함된 단어 찾기
         let kanjiChars = currentWord.kanji.split('');
         let sameKanjiWords = pool.filter(w => 
             w.kanji !== currentWord.kanji && 
@@ -444,7 +441,6 @@ function loadQuizQuestion() {
         );
         similarWords.push(...sameKanjiWords);
 
-        // 2. 히라가나 발음 첫 글자가 같은 단어 찾기
         if (currentWord.reading) {
             let firstKana = currentWord.reading.charAt(0);
             let sameKanaWords = pool.filter(w => 
@@ -454,25 +450,20 @@ function loadQuizQuestion() {
             similarWords.push(...sameKanaWords);
         }
 
-        // 3. 한자나 히라가나의 글자 수가 같은 단어 찾기
         let sameLengthWords = pool.filter(w => 
             w.kanji !== currentWord.kanji && 
             (w.kanji.length === currentWord.kanji.length || w.reading.length === currentWord.reading.length)
         );
         similarWords.push(...sameLengthWords);
 
-        // 추출된 유사 단어들을 랜덤하게 섞기
         similarWords.sort(() => Math.random() - 0.5);
 
-        // 유사 단어들로 먼저 보기를 채움
         for (let w of similarWords) {
             if (opts.length >= 4) break;
             let val = formatWord(w, [aType]);
             if (!opts.includes(val)) opts.push(val);
         }
-        // --- 🌟 유사 단어 추출 로직 끝 ---
 
-        // 4. 만약 위 조건으로도 보기가 4개가 안 채워졌다면 기존처럼 랜덤으로 마저 채움 (Fallback)
         let fallbackCounter = 0;
         while(opts.length < 4 && fallbackCounter < 50) {
             fallbackCounter++;
@@ -481,7 +472,6 @@ function loadQuizQuestion() {
             if(!opts.includes(val)) opts.push(val);
         }
         
-        // 최종 완성된 4개의 보기를 화면에 표시하기 전에 다시 한번 섞음
         opts.sort(() => Math.random() - 0.5);
         
         const groupDiv = document.createElement('div');
@@ -698,8 +688,76 @@ function applyRevHideStates() {
       document.getElementById('rev-meaning').classList.toggle('hidden-content', revHideState.meaning);
 }
 
+// 🌟 애드센스 승인을 위한 홈 화면 동적 콘텐츠 생성 함수
+function injectHomeContent() {
+    const homeSection = document.getElementById('screen-home');
+    if (!homeSection || document.getElementById('home-preview-content')) return;
+
+    // 단어 데이터가 존재하는지 확인
+    if (typeof vocabulary === 'undefined') return;
+
+    const previewContainer = document.createElement('div');
+    previewContainer.id = 'home-preview-content';
+    previewContainer.style.marginTop = '30px';
+    previewContainer.style.marginBottom = '20px';
+    previewContainer.style.textAlign = 'left';
+    previewContainer.style.padding = '25px';
+    previewContainer.style.background = 'white';
+    previewContainer.style.borderRadius = '20px';
+    previewContainer.style.border = '2px solid var(--accent-blue)';
+    previewContainer.style.boxShadow = '0 0 15px rgba(0,0,0,0.05)';
+
+    previewContainer.innerHTML = `
+        <h3 style="color: var(--accent-blue); margin-bottom: 5px; font-size: 1.2em; font-weight: 900;">📖 오늘의 한자 맛보기</h3>
+        <p style="color: #666; font-size: 0.9em; margin-bottom: 20px;">매일 새로운 단어를 가볍게 훑어보세요. (새로고침 시 변경됩니다)</p>
+    `;
+
+    // 모든 레벨에서 단어 끌어오기
+    let allWords = [];
+    ['n5', 'n4', 'n3', 'n2', 'n1'].forEach(l => {
+        if (vocabulary[l]) allWords.push(...vocabulary[l]);
+    });
+    
+    // 무작위 6개 추출
+    if (allWords.length > 0) {
+        let randomWords = [...allWords].sort(() => 0.5 - Math.random()).slice(0, 6);
+        let list = document.createElement('div');
+        list.style.display = 'grid';
+        list.style.gridTemplateColumns = 'repeat(auto-fit, minmax(140px, 1fr))';
+        list.style.gap = '15px';
+
+        randomWords.forEach(w => {
+            let item = document.createElement('div');
+            item.style.background = '#f4f6fa';
+            item.style.padding = '15px 10px';
+            item.style.borderRadius = '12px';
+            item.style.textAlign = 'center';
+            item.innerHTML = `
+                <div style="font-size: 2.2em; font-weight: 800; color: var(--accent-blue); line-height: 1;">${w.kanji}</div>
+                <div style="font-size: 0.95em; font-weight: bold; margin-top: 10px; color: #333;">${w.reading}</div>
+                <div style="font-size: 0.85em; color: #666; margin-top: 3px;">${w.meaning}</div>
+            `;
+            list.appendChild(item);
+        });
+        previewContainer.appendChild(list);
+    }
+
+    // 광고 컨테이너 바로 위에 삽입
+    const adContainer = document.getElementById('custom-ad-container');
+    if (adContainer) {
+        homeSection.insertBefore(previewContainer, adContainer);
+    } else {
+        homeSection.appendChild(previewContainer);
+    }
+}
+
 window.onload = () => {
     setupClickToHide();
     const searchInput = document.getElementById('word-search');
     if (searchInput) searchInput.oninput = (e) => displayVocabulary(currentTab, e.target.value);
+    
+    // 🌟 홈 화면에 콘텐츠 주입 및 SEO 아코디언 메뉴 기본 펼침 적용
+    injectHomeContent();
+    const detailsEl = document.querySelector('.seo-footer details');
+    if(detailsEl) detailsEl.open = true;
 };
