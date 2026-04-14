@@ -22,7 +22,7 @@ body {
     min-height: 100vh;
     background-image: radial-gradient(#d1d1d1 0.5px, transparent 0.5px);
     background-size: 20px 20px;
-    overflow-x: hidden; /* 가로 스크롤 방지 안전장치 추가 */
+    overflow-x: hidden;
 }
 
 .app-container {
@@ -141,7 +141,7 @@ body {
 .clickable-box { cursor: pointer; user-select: none; transition: 0.2s; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .detail-box { border: 2px solid var(--accent-blue); background: transparent; border-radius: 15px; flex:1; display:flex; align-items:center; justify-content:center; font-weight: 700;}
 
-/* 한자 폰트 설정 (word-break keep-all을 통해 긴 단어 잘림 방지) */
+/* 한자 폰트 설정 */
 .kanji-huge { font-weight: 900; color: var(--accent-blue); transition: 0.2s; line-height: 1.1; word-break: keep-all; white-space: pre-wrap; }
 .hidden-content { opacity: 0 !important; pointer-events: none; }
 
@@ -149,7 +149,7 @@ body {
 .vocabulary-card .status-btn.oboeta-btn.active { box-shadow: 0 0 12px rgba(40, 167, 69, 0.7); }
 .vocabulary-card .status-btn.oboenakatta-btn.active { box-shadow: 0 0 12px rgba(220, 53, 69, 0.7); }
 
-/* 오답노트 하단 버튼 (모바일 한 줄 유지용 클래스) */
+/* 오답노트 하단 버튼 */
 .review-nav-buttons { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; }
 .rev-nav-btn { margin: 0 !important; width: auto; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
 .prev-next-btn { flex: 1; padding: 12px 10px !important; font-size: 1.1em !important; border-radius: 15px !important; border-color: #ccc !important; color: #666 !important; }
@@ -175,7 +175,7 @@ body {
     color: var(--accent-blue);
     font-size: 1.05em;
     outline: none;
-    list-style: none; /* 크롬 등에서 기본 화살표 제거 */
+    list-style: none;
 }
 
 .seo-footer summary::-webkit-details-marker { 
@@ -192,7 +192,7 @@ body {
     text-align: left;
 }
 
-/* 모바일 전용 미디어 쿼리 수정 */
+/* 모바일 전용 미디어 쿼리 */
 @media (max-width: 768px) {
     .modal-card { padding: 30px 15px; width: 95%; }
     .nav-row-minimal { justify-content: center; gap: 15px; font-size: 0.9em; }
@@ -205,56 +205,4 @@ body {
     .review-nav-buttons { gap: 5px; }
     .prev-next-btn { font-size: 0.9em !important; padding: 10px 5px !important; }
     .memo-btn { font-size: 1.1em !important; padding: 12px 5px !important; }
-}
-
-/* =========================================
-   광고 레이아웃 (PC 좌측 고정 / 모바일 하단 고정)
-   ========================================= */
-
-/* PC 환경: 메인화면 좌측에 세로로 고정 */
-@media (min-width: 769px) {
-    #fixed-ad-container {
-        position: fixed;
-        left: 10px;            /* 좌측 여백 살짝 줄임 (20px -> 10px) */
-        top: 50%;              /* 세로 중앙 정렬 */
-        transform: translateY(-50%);
-        width: 120px;          /* 광고 가로 너비 축소 (160px -> 120px) */
-        height: 600px;         /* 세로형 배너 표준 높이 */
-        z-index: 100;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
-
-    /* 🔥 핵심 수정: 왼쪽 여백만 주면 쏠리니까, 양쪽 똑같이 여백을 주어 정중앙 맞춤 */
-    body {
-        padding-left: 140px;  /* 좌측 광고 들어갈 공간 */
-        padding-right: 140px; /* 우측에도 똑같이 공간을 주어 앱을 완벽한 정중앙으로 밀어냄 */
-    }
-}
-
-/* 모바일 환경: 하단에 가로로 고정 */
-@media (max-width: 768px) {
-    #fixed-ad-container {
-        position: fixed;
-        left: 0;
-        bottom: 0;             /* 하단에 딱 붙임 */
-        top: auto;
-        transform: none;
-        width: 100%;
-        min-height: 50px;      /* 모바일 광고 높이 살짝 축소 (60px -> 50px) */
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-        z-index: 999;          
-        padding: 0;            /* 패딩 없애서 더 얇게 보이도록 수정 */
-        display: flex;
-        justify-content: center;
-    }
-
-    body {
-        padding-left: 0;
-        padding-right: 0;
-        padding-bottom: 70px !important; /* 줄어든 광고 크기에 맞춰 하단 여백도 살짝 줄임 */
-    }
 }
