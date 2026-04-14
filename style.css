@@ -154,16 +154,6 @@ body {
 .prev-next-btn { flex: 1; padding: 12px 10px !important; font-size: 1.1em !important; border-radius: 15px !important; border-color: #ccc !important; color: #666 !important; }
 .memo-btn { flex: 1.5; padding: 15px 15px !important; font-size: 1.3em !important; background: var(--red); color: white; border-color: var(--red); border-radius: 20px !important; box-shadow: 0 0 10px rgba(220,53,69,0.3); }
 
-/* 🌟 광고 관련 스타일 및 아코디언 메뉴 스타일 추가 */
-#custom-ad-container { 
-    width: 100%; 
-    max-width: 728px; 
-    margin: 30px auto; 
-    text-align: center;
-    background: transparent;
-    z-index: 1;
-}
-
 .seo-footer {
     margin-top: 40px;
     padding: 20px;
@@ -203,8 +193,6 @@ body {
 
 /* 모바일 전용 미디어 쿼리 수정 */
 @media (max-width: 768px) {
-    body { padding-bottom: 0; }
-    
     .modal-card { padding: 30px 15px; width: 95%; }
     .nav-row-minimal { justify-content: center; gap: 15px; font-size: 0.9em; }
     .close-btn { font-size: 2em; top: 10px; right: 15px; }
@@ -212,14 +200,59 @@ body {
     .home-logo-container { margin-top: 15vh; }
     .vocabulary-card .kanji { font-size: 3.5em; }
     .modern-panel { padding: 25px 15px; }
-    
-    #custom-ad-container {
-        margin: 20px auto;
-        width: 100%;
-        box-shadow: none;
-    }
 
     .review-nav-buttons { gap: 5px; }
     .prev-next-btn { font-size: 0.9em !important; padding: 10px 5px !important; }
     .memo-btn { font-size: 1.1em !important; padding: 12px 5px !important; }
+}
+
+/* =========================================
+   광고 레이아웃 (PC 좌측 고정 / 모바일 하단 고정)
+   ========================================= */
+
+/* PC 환경: 메인화면 좌측에 세로로 고정 */
+@media (min-width: 769px) {
+    #fixed-ad-container {
+        position: fixed;
+        left: 20px;            /* 좌측 여백 */
+        top: 50%;              /* 세로 중앙 정렬 */
+        transform: translateY(-50%);
+        width: 160px;          /* 세로형 스카이스크래퍼 배너 표준 너비 */
+        height: 600px;         /* 세로형 배너 표준 높이 */
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    /* 좌측 광고가 본문 내용이나 버튼을 가리지 않도록 전체 레이아웃 우측으로 밀어주기 */
+    body {
+        padding-left: 180px; 
+    }
+}
+
+/* 모바일 환경: 하단에 가로로 고정 */
+@media (max-width: 768px) {
+    #fixed-ad-container {
+        position: fixed;
+        left: 0;
+        bottom: 0;             /* 하단에 딱 붙임 */
+        top: auto;
+        transform: none;
+        width: 100%;
+        min-height: 60px;      /* 모바일 하단 띠 배너 높이 */
+        background: rgba(255, 255, 255, 0.95); /* 버튼들과 겹칠 때 가독성을 위해 살짝 배경 처리 */
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        z-index: 999;          /* 다른 UI보다 항상 위에 오도록 */
+        padding: 5px 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* 하단 광고가 스크롤 맨 아래에 있는 내용이나 닫기 버튼을 가리지 않도록 여백 확보 */
+    body {
+        padding-left: 0;
+        padding-bottom: 80px !important; 
+    }
 }
