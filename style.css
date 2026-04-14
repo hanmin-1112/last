@@ -4,360 +4,359 @@
 
 /* 1. CSS 변수 및 기본 초기화 (우측 쏠림 해결의 핵심) */
 :root {
-    --accent-blue: #007aff;
-    --red: #ff3b30;
-    --green: #34c759;
-    --bg-color: #f4f6f9;
-    --text-color: #333;
-  }
-  
-  *, *:before, *:after {
-    box-sizing: border-box; /* 패딩과 테두리가 너비를 초과하지 않도록 방지 */
-  }
-  
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* 가로 스크롤(우측 밀림 현상) 완벽 차단 */
-  }
-  
-  /* 2. 메인 앱 컨테이너 (화면 중앙 정렬) */
-  .app-container {
-    width: 100%;
-    max-width: 600px; /* PC에서도 모바일처럼 보이도록 최대 너비 제한 */
-    margin: 0 auto; /* 좌우 여백을 똑같이 나누어 정중앙에 배치 */
-    padding: 0 20px 40px; /* 좌우 안쪽 여백 균형 맞춤 */
-    position: relative;
-  }
-  
-  /* 광고 컨테이너 보완 (HTML 인라인 스타일 외에 안전장치) */
-  #fixed-ad-container {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto 15px; /* 중앙 정렬 및 하단 여백 */
-  }
-  
-  /* 3. 화면(Screen) 전환 애니메이션 */
-  .screen {
-    display: none;
-    animation: fadeIn 0.3s ease-in-out;
-  }
-  .screen.active-screen {
-    display: block;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* 4. 상단 네비게이션 및 헤더 */
-  .nav-row-minimal {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    background: var(--bg-color);
-    z-index: 100;
-  }
-  .nav-item {
-    font-weight: 700;
-    color: #aaa;
-    cursor: pointer;
-    padding: 5px 10px;
-    transition: color 0.2s;
-  }
-  .nav-item.active {
-    color: var(--accent-blue);
-    border-bottom: 2px solid var(--accent-blue);
-  }
-  .help-btn {
-    font-weight: bold;
-    color: #fff;
-    background: #ccc;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-  
-  .minimal-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    position: relative;
-  }
-  .back-btn {
-    background: none;
-    border: none;
-    color: var(--accent-blue);
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 10px 0;
-  }
-  .header-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
-  }
-  
-  /* 5. 홈 화면 (타이틀) */
-  .home-logo-container {
-    text-align: center;
-    margin-top: 50px;
-  }
-  .main-title {
-    font-size: 3rem;
-    font-weight: 900;
-    color: var(--accent-blue);
-    margin: 0;
-  }
-  .sub-logo-text {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #666;
-    letter-spacing: 2px;
-  }
-  
-  /* 6. 버튼 공통 스타일 */
-  .level-button {
-    background: #fff;
-    border: 2px solid #ddd;
-    color: #666;
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .level-button.active {
-    border-color: var(--accent-blue);
-    color: var(--accent-blue);
-    background: rgba(0, 122, 255, 0.1);
-  }
-  .menu-btn {
-    background: var(--accent-blue);
-    color: #fff;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 30px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,122,255,0.3);
-    transition: transform 0.1s;
-  }
-  .hover-effect:active {
-    transform: scale(0.95);
-  }
-  
-  .status-btn {
-    border: none;
-    border-radius: 15px;
-    font-weight: bold;
-    color: #fff;
-    cursor: pointer;
-  }
-  .oboeta-btn { background: var(--green); }
-  .oboenakatta-btn { background: var(--red); }
-  
-  .oboeta-tab { color: var(--green); border-color: var(--green); }
-  .oboeta-tab.active { background: rgba(52,199,89,0.1); }
-  .oboenakatta-tab { color: var(--red); border-color: var(--red); }
-  .oboenakatta-tab.active { background: rgba(255,59,48,0.1); }
-  
-  /* 7. 스크롤 탭 및 단어장 그리드 */
-  .scrollable-tabs {
-    display: flex;
-    overflow-x: auto;
-    gap: 10px;
-    padding-bottom: 5px;
-  }
-  .scrollable-tabs::-webkit-scrollbar { display: none; } /* 스크롤바 숨기기 */
-  
-  .vocab-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 10px;
-  }
-  
-  /* 8. 패널 및 레이아웃 (모던 UI) */
-  .modern-panel {
-    background: #fff;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  }
-  .text-center { text-align: center; }
-  
-  /* 9. 퀴즈 및 한자 디스플레이 */
-  .kanji-huge {
-    font-size: 5rem;
-    font-weight: 900;
-  }
-  .quiz-setup-list { text-align: left; }
-  .setup-label {
-    display: block;
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 10px;
-  }
-  
-  .type-btn-group {
-    display: flex;
-    background: #f0f0f0;
-    border-radius: 10px;
-    overflow: hidden;
-    flex: 1;
-  }
-  .type-btn {
-    flex: 1;
-    background: none;
-    border: none;
-    padding: 10px;
-    font-weight: bold;
-    color: #888;
-    cursor: pointer;
-  }
-  .type-btn.active {
-    background: #fff;
-    color: var(--accent-blue);
-    border-radius: 8px;
-    margin: 2px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  .slot-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  .remove-slot-btn, .add-slot-btn {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #666;
-  }
-  .add-slot-btn { width: 100%; padding: 10px; margin-top: 5px; }
-  
-  .count-input {
-    width: 80px;
-    padding: 10px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  .quiz-options-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  /* 퀴즈 선택지 버튼 스타일 */
-  .quiz-options-list button {
-    background: #fff;
-    border: 2px solid #eee;
-    padding: 15px;
-    border-radius: 15px;
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #444;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .quiz-options-list button:hover {
-    border-color: var(--accent-blue);
-    background: rgba(0, 122, 255, 0.05);
-  }
-  
-  /* 10. 모달 (팝업 창) & 클릭 박스(가리기 기능) */
-  .modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-  }
-  .modal.show {
-    display: flex; /* 자바스크립트에서 띄울 때 사용 */
-  }
-  .modal-card {
-    background: #fff;
-    border-radius: 20px;
-    width: 90%;
-    position: relative;
-  }
-  .close-btn {
-    position: absolute;
-    top: 15px; right: 20px;
-    font-size: 1.8rem;
-    cursor: pointer;
-    color: #aaa;
-  }
-  
-  .detail-box {
-    border: 2px solid #eee;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-  }
-  .clickable-box {
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  /* 클릭 시 내용 숨김 처리 */
-  .clickable-box.hidden-content {
-    background: #e0e0e0 !important;
-    color: transparent !important;
-    border-color: #ccc !important;
-  }
-  .clickable-box.hidden-content * {
-    opacity: 0;
-  }
-  
-  .inner-arrow {
-    position: absolute;
-    top: 45%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #ccc;
-    padding: 10px;
-  }
-  .inner-arrow:hover { color: var(--accent-blue); }
-  
-  /* 11. SEO 푸터 (아코디언) */
-  .seo-footer {
-    margin-top: 50px;
-    padding-top: 20px;
-    border-top: 1px solid #ddd;
-    font-size: 0.9rem;
-    color: #777;
-  }
-  summary { 
-    cursor: pointer; 
-    font-weight: bold; 
-    padding: 10px 0;
-  }
-  .details-content {
-    line-height: 1.6;
-    padding-top: 10px;
-  }
-  
+  --accent-blue: #007aff;
+  --red: #ff3b30;
+  --green: #34c759;
+  --bg-color: #f4f6f9;
+  --text-color: #333;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box; /* 패딩과 테두리가 너비를 초과하지 않도록 방지 */
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* 가로 스크롤(우측 밀림 현상) 완벽 차단 */
+}
+
+/* 2. 메인 앱 컨테이너 (화면 중앙 정렬) */
+.app-container {
+  width: 100%;
+  max-width: 600px; /* PC에서도 모바일처럼 보이도록 최대 너비 제한 */
+  margin: 0 auto; /* 좌우 여백을 똑같이 나누어 정중앙에 배치 */
+  padding: 0 20px 40px; /* 좌우 안쪽 여백 균형 맞춤 */
+  position: relative;
+}
+
+/* 광고 컨테이너 보완 (HTML 인라인 스타일 외에 안전장치) */
+#fixed-ad-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 15px; /* 중앙 정렬 및 하단 여백 */
+}
+
+/* 3. 화면(Screen) 전환 애니메이션 */
+.screen {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+.screen.active-screen {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 4. 상단 네비게이션 및 헤더 */
+.nav-row-minimal {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  background: var(--bg-color);
+  z-index: 100;
+}
+.nav-item {
+  font-weight: 700;
+  color: #aaa;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.2s;
+}
+.nav-item.active {
+  color: var(--accent-blue);
+  border-bottom: 2px solid var(--accent-blue);
+}
+.help-btn {
+  font-weight: bold;
+  color: #fff;
+  background: #ccc;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.minimal-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--accent-blue);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 10px 0;
+}
+.header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+}
+
+/* 5. 홈 화면 (타이틀) */
+.home-logo-container {
+  text-align: center;
+  margin-top: 50px;
+}
+.main-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--accent-blue);
+  margin: 0;
+}
+.sub-logo-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #666;
+  letter-spacing: 2px;
+}
+
+/* 6. 버튼 공통 스타일 */
+.level-button {
+  background: #fff;
+  border: 2px solid #ddd;
+  color: #666;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.level-button.active {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background: rgba(0, 122, 255, 0.1);
+}
+.menu-btn {
+  background: var(--accent-blue);
+  color: #fff;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,122,255,0.3);
+  transition: transform 0.1s;
+}
+.hover-effect:active {
+  transform: scale(0.95);
+}
+
+.status-btn {
+  border: none;
+  border-radius: 15px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+.oboeta-btn { background: var(--green); }
+.oboenakatta-btn { background: var(--red); }
+
+.oboeta-tab { color: var(--green); border-color: var(--green); }
+.oboeta-tab.active { background: rgba(52,199,89,0.1); }
+.oboenakatta-tab { color: var(--red); border-color: var(--red); }
+.oboenakatta-tab.active { background: rgba(255,59,48,0.1); }
+
+/* 7. 스크롤 탭 및 단어장 그리드 */
+.scrollable-tabs {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding-bottom: 5px;
+}
+.scrollable-tabs::-webkit-scrollbar { display: none; } /* 스크롤바 숨기기 */
+
+.vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+}
+
+/* 8. 패널 및 레이아웃 (모던 UI) */
+.modern-panel {
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+.text-center { text-align: center; }
+
+/* 9. 퀴즈 및 한자 디스플레이 */
+.kanji-huge {
+  font-size: 5rem;
+  font-weight: 900;
+}
+.quiz-setup-list { text-align: left; }
+.setup-label {
+  display: block;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.type-btn-group {
+  display: flex;
+  background: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  flex: 1;
+}
+.type-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  color: #888;
+  cursor: pointer;
+}
+.type-btn.active {
+  background: #fff;
+  color: var(--accent-blue);
+  border-radius: 8px;
+  margin: 2px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.slot-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.remove-slot-btn, .add-slot-btn {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #666;
+}
+.add-slot-btn { width: 100%; padding: 10px; margin-top: 5px; }
+
+.count-input {
+  width: 80px;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.quiz-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* 퀴즈 선택지 버튼 스타일 */
+.quiz-options-list button {
+  background: #fff;
+  border: 2px solid #eee;
+  padding: 15px;
+  border-radius: 15px;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quiz-options-list button:hover {
+  border-color: var(--accent-blue);
+  background: rgba(0, 122, 255, 0.05);
+}
+
+/* 10. 모달 (팝업 창) & 클릭 박스(가리기 기능) */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.modal.show {
+  display: flex; /* 자바스크립트에서 띄울 때 사용 */
+}
+.modal-card {
+  background: #fff;
+  border-radius: 20px;
+  width: 90%;
+  position: relative;
+}
+.close-btn {
+  position: absolute;
+  top: 15px; right: 20px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.detail-box {
+  border: 2px solid #eee;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.clickable-box {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+/* 클릭 시 내용 숨김 처리 */
+.clickable-box.hidden-content {
+  background: #e0e0e0 !important;
+  color: transparent !important;
+  border-color: #ccc !important;
+}
+.clickable-box.hidden-content * {
+  opacity: 0;
+}
+
+.inner-arrow {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ccc;
+  padding: 10px;
+}
+.inner-arrow:hover { color: var(--accent-blue); }
+
+/* 11. SEO 푸터 (아코디언) */
+.seo-footer {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  font-size: 0.9rem;
+  color: #777;
+}
+summary { 
+  cursor: pointer; 
+  font-weight: bold; 
+  padding: 10px 0;
+}
+.details-content {
+  line-height: 1.6;
+  padding-top: 10px;
+}
