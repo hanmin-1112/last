@@ -155,43 +155,6 @@ body {
 .prev-next-btn { flex: 1; padding: 12px 10px !important; font-size: 1.1em !important; border-radius: 15px !important; border-color: #ccc !important; color: #666 !important; }
 .memo-btn { flex: 1.5; padding: 15px 15px !important; font-size: 1.3em !important; background: var(--red); color: white; border-color: var(--red); border-radius: 20px !important; box-shadow: 0 0 10px rgba(220,53,69,0.3); }
 
-.seo-footer {
-    margin-top: 40px;
-    padding: 20px;
-}
-
-.seo-footer details {
-    background: white;
-    border: 2px solid #eee;
-    border-radius: 15px;
-    padding: 12px 20px;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-}
-
-.seo-footer summary {
-    font-weight: 700;
-    color: var(--accent-blue);
-    font-size: 1.05em;
-    outline: none;
-    list-style: none;
-}
-
-.seo-footer summary::-webkit-details-marker { 
-    display: none; 
-}
-
-.seo-footer .details-content {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px dashed #eee;
-    color: #666;
-    font-size: 0.9em;
-    line-height: 1.7;
-    text-align: left;
-}
-
 /* 모바일 전용 미디어 쿼리 */
 @media (max-width: 768px) {
     .modal-card { padding: 30px 15px; width: 95%; }

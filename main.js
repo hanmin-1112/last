@@ -702,7 +702,7 @@ function injectHomeContent() {
     });
 
     if (allWords.length > 0) {
-        let randomWords = [...allWords].sort(() => 0.5 - Math.random()).slice(0, 6);
+        let randomWords = [...allWords].sort(() => 0.5 - Math.random()).slice(0, 12);
         let list = document.createElement('div');
         list.style.display = 'grid';
         list.style.gridTemplateColumns = 'repeat(auto-fit, minmax(140px, 1fr))';
@@ -724,7 +724,6 @@ function injectHomeContent() {
         previewContainer.appendChild(list);
     }
     
-    // 수동 광고 삽입을 위해 체크하던 로직 제거
     homeSection.appendChild(previewContainer);
 }
 
@@ -737,6 +736,4 @@ window.onload = () => {
     }
     
     injectHomeContent();
-    const detailsEl = document.querySelector('.seo-footer details');
-    if (detailsEl) detailsEl.open = true;
 };
