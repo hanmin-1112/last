@@ -252,34 +252,36 @@
     </div>
 
     <div id="vocabulary-modal" class="modal">
-      <div class="modal-card" style="max-width: 400px; padding: 35px 25px;">
-        <div id="modal-word-number" class="modal-number" style="font-size: 0.9em;"></div>
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        
-        <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')" style="font-size: 1.5em; left: 5px;">&#10094;</button>
-        <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')" style="font-size: 1.5em; right: 5px;">&#10095;</button>
-
-        <div class="detail-box clickable-box" id="modal-kanji-box" style="margin-top: 30px; margin-bottom:15px; min-height: 140px;">
-            <div id="modal-kanji" class="kanji-huge" style="margin:0;"></div>
-        </div>
-        
-        <div class="detail-split" style="display:flex; gap:10px; margin-bottom:15px;">
-          <div class="detail-box clickable-box" id="modal-reading-box" style="padding: 15px 10px; font-size: 1.1em;">
-              <div id="modal-reading"></div>
+        <div class="modal-card" style="max-width: 400px; padding: 35px 25px;">
+          <div id="modal-word-number" class="modal-number" style="font-size: 0.9em;"></div>
+          
+          <button id="tts-btn" class="tts-btn hover-effect" onclick="playWordAudio()">🔊</button>
+          
+          <span class="close-btn" onclick="closeModal()">&times;</span>
+          
+          <button id="nav-prev" class="inner-arrow prev" onclick="navigateWord('prev')" style="font-size: 1.5em; left: 5px;">&#10094;</button>
+          <button id="nav-next" class="inner-arrow next" onclick="navigateWord('next')" style="font-size: 1.5em; right: 5px;">&#10095;</button>
+  
+          <div class="detail-box clickable-box" id="modal-kanji-box" style="margin-top: 30px; margin-bottom:15px; min-height: 140px;">
+              <div id="modal-kanji" class="kanji-huge" style="margin:0;"></div>
           </div>
-          <div class="detail-box clickable-box" id="modal-meaning-box" style="padding: 15px 10px; font-size: 1.1em;">
-              <div id="modal-meaning"></div>
+          
+          <div class="detail-split" style="display:flex; gap:10px; margin-bottom:15px;">
+            <div class="detail-box clickable-box" id="modal-reading-box" style="padding: 15px 10px; font-size: 1.1em;">
+                <div id="modal-reading"></div>
+            </div>
+            <div class="detail-box clickable-box" id="modal-meaning-box" style="padding: 15px 10px; font-size: 1.1em;">
+                <div id="modal-meaning"></div>
+            </div>
           </div>
+  
+          <div class="modal-action-btns" style="display:flex; gap:15px; justify-content:center; align-items: stretch;">
+              <button id="modal-oboeta-btn" class="status-btn oboeta-btn modal-action-btn hover-effect" style="padding: 12px 15px; font-size: 1.1em; flex: 1; display: flex; align-items: center; justify-content: center;">외웠음</button>
+              <button id="modal-oboenakatta-btn" class="status-btn oboenakatta-btn modal-action-btn hover-effect" style="padding: 12px 15px; font-size: 1.1em; line-height: 1.3; text-align: center; flex: 1; display: flex; align-items: center; justify-content: center;">아직<br>못 외웠음</button>
+           </div>
         </div>
-
-        <!-- 교체할 부분: 모달창 하단 버튼 그룹 -->
-        <div class="modal-action-btns" style="display:flex; gap:15px; justify-content:center; align-items: stretch;">
-            <button id="modal-oboeta-btn" class="status-btn oboeta-btn modal-action-btn hover-effect" style="padding: 12px 15px; font-size: 1.1em; flex: 1; display: flex; align-items: center; justify-content: center;">외웠음</button>
-            <button id="modal-oboenakatta-btn" class="status-btn oboenakatta-btn modal-action-btn hover-effect" style="padding: 12px 15px; font-size: 1.1em; line-height: 1.3; text-align: center; flex: 1; display: flex; align-items: center; justify-content: center;">아직<br>못 외웠음</button>
-         </div>
       </div>
-    </div>
-
+  
     <div id="help-modal" class="modal">
         <div class="modal-card text-center" style="max-width: 550px; padding: 40px 30px;">
             <span class="close-btn" onclick="closeHelp()">&times;</span>
