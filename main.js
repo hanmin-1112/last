@@ -110,7 +110,7 @@ function openHelp() {
         </li>
         
         <li style="margin-bottom:12px;">
-        <strong>覚えた / 覚えなかった:</strong><br>
+        <strong>외웠음 / 아직 못 외웠음:</strong><br>
         단어를 암기 여부에 따라 분류할 수 있습니다.
         </li>
         
@@ -164,15 +164,10 @@ function getWordsByLevel(tab) {
 
     let baseWords = [];
 
-    // 🔥 SRS 복습 탭 (수정됨: UID 기준으로 검사)
     if (tab === 'review') {
         let reviewList = getTodayReviewWords();
         baseWords = allWords.filter(w => reviewList.includes(`${w.kanji}|${w.reading}`));
-        return baseWords;
-    }
-
-    // 🔥 단어장 탭 (수정됨: UID 기준으로 검사하되, 기존 데이터 호환성을 위해 한자 검사 유지)
-    if (tab === 'oboeta') {
+    } else if (tab === 'oboeta') {
         baseWords = allWords.filter(w => oboetaWords.includes(`${w.kanji}|${w.reading}`) || oboetaWords.includes(w.kanji));
     } else if (tab === 'oboenakatta') {
         baseWords = allWords.filter(w => oboenakattaWords.includes(`${w.kanji}|${w.reading}`) || oboenakattaWords.includes(w.kanji));
@@ -184,7 +179,19 @@ function getWordsByLevel(tab) {
         baseWords = baseWords.filter(w => w.level === currentJlptFilter);
     }
 
-    return baseWords;
+    // 🔥 핵심 버그 픽스: 리스트에 동일한 단어가 2개 이상 들어가는 문제 해결
+    // 데이터베이스(vocabulary)에 중복된 단어가 있거나 여러 레벨에 걸쳐 있는 경우 렌더링 직전에 고유 ID로 필터링합니다.
+    let uniqueBaseWords = [];
+    let seen = new Set();
+    baseWords.forEach(w => {
+        let uid = `${w.kanji}|${w.reading}`;
+        if (!seen.has(uid)) {
+            seen.add(uid);
+            uniqueBaseWords.push(w);
+        }
+    });
+
+    return uniqueBaseWords;
 }
 
 function displayVocabulary(tab, searchTerm = '') {
@@ -212,7 +219,6 @@ function displayVocabulary(tab, searchTerm = '') {
 
     let words = getWordsByLevel(tab);
 
-    // 🔥 메인 단어장에서 覚えた/覚えなかった 제외 (수정됨: UID 기준 병행 처리)
     if (!['oboeta', 'oboenakatta'].includes(tab)) {
         words = words.filter(w => 
             !oboetaWords.includes(`${w.kanji}|${w.reading}`) && !oboetaWords.includes(w.kanji) && 
@@ -244,8 +250,8 @@ function displayVocabulary(tab, searchTerm = '') {
                 <div class="reading">${w.reading}</div>
                 <div class="meaning">${w.meaning}</div>
                 <div class="card-btn-group">
-                    <button class="status-btn oboeta-btn ${isOboeta}" onclick="toggleWordStatus(event, '${uid}', 'oboeta')">覚えた</button>
-                    <button class="status-btn oboenakatta-btn ${isOboenakatta}" onclick="toggleWordStatus(event, '${uid}', 'oboenakatta')">覚えなかった</button>
+                    <button class="status-btn oboeta-btn ${isOboeta}" onclick="toggleWordStatus(event, '${uid}', 'oboeta')">외웠음</button>
+                    <button class="status-btn oboenakatta-btn ${isOboenakatta}" onclick="toggleWordStatus(event, '${uid}', 'oboenakatta')">아직 못 외웠음</button>
                 </div>
             `;
             vocabDisplay.appendChild(card);
@@ -272,7 +278,7 @@ function executeClearAll() {
     displayVocabulary(currentTab);
 }
 
-// --- 단어 상태 토글 (수정됨: 고유 ID 사용 및 진정한 토글 로직 구현) ---
+// --- 단어 상태 토글 ---
 function toggleWordStatus(event, wordId, target) {
     if (event) event.stopPropagation();
 
@@ -282,17 +288,17 @@ function toggleWordStatus(event, wordId, target) {
         wasInTarget = oboetaWords.includes(wordId);
         oboetaWords = oboetaWords.filter(w => w !== wordId);
         oboenakattaWords = oboenakattaWords.filter(w => w !== wordId);
-        if (!wasInTarget) oboetaWords.push(wordId); // 없었을 때만 추가
+        if (!wasInTarget) oboetaWords.push(wordId); 
     }
     
     if (target === 'oboenakatta') {
         wasInTarget = oboenakattaWords.includes(wordId);
         oboenakattaWords = oboenakattaWords.filter(w => w !== wordId);
         oboetaWords = oboetaWords.filter(w => w !== wordId);
-        if (!wasInTarget) oboenakattaWords.push(wordId); // 없었을 때만 추가
+        if (!wasInTarget) oboenakattaWords.push(wordId); 
     }
     
-    // 중복 제거 (안전장치)
+    // 중복 제거
     oboetaWords = [...new Set(oboetaWords)];
     oboenakattaWords = [...new Set(oboenakattaWords)];
 
@@ -609,21 +615,6 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
     }
 }
 
-// (수정됨) 내부 리스트 토글 로직도 고유 ID 적용
-function internalToggleList(wordId, target) {
-    if (target === 'oboeta' && !oboetaWords.includes(wordId)) oboetaWords.push(wordId);
-    if (target === 'oboenakatta' && !oboenakattaWords.includes(wordId)) oboenakattaWords.push(wordId);
-
-    if (target === 'oboeta') oboenakattaWords = oboenakattaWords.filter(w => w !== wordId);
-    if (target === 'oboenakatta') oboetaWords = oboetaWords.filter(w => w !== wordId);
-
-    oboetaWords = [...new Set(oboetaWords)];
-    oboenakattaWords = [...new Set(oboenakattaWords)];
-
-    localStorage.setItem('oboetaWords', JSON.stringify(oboetaWords));
-    localStorage.setItem('oboenakattaWords', JSON.stringify(oboenakattaWords));
-}
-
 function proceedQuiz() {
     const feedbackModal = document.getElementById('quiz-feedback-modal');
     if (feedbackModal) feedbackModal.style.display = 'none';
@@ -808,7 +799,6 @@ function injectHomeContent() {
     homeSection.appendChild(previewContainer);
 }
 
-// 🔥 수정됨: 퀴즈 로직에서 접근할 수 있도록 전역 스코프로 분리
 function updateReviewUI() {
     const reviewWords = getTodayReviewWords();
     const count = reviewWords.length;
