@@ -964,29 +964,40 @@ window.onload = () => {
     if (searchInput) {
         searchInput.oninput = (e) => displayVocabulary(currentTab, e.target.value);
     }
-    // main.js 파일의 가장 맨 아랫부분에 아래 코드를 통째로 추가하세요!
-
-// --- 🔥 음성 재생(TTS) 기능 추가 ---
-function playWordAudio() {
-    // 브라우저가 음성 기능을 지원하는지 확인
+// --- 🔥 음성 재생(TTS) 기능 (오류 수정 및 안정성 강화 버전) ---
+// window.playWordAudio 형식으로 작성하여 HTML에서 무조건 호출할 수 있게 만듭니다.
+window.playWordAudio = function() {
+    // 1. 브라우저 지원 여부 확인
     if (!window.speechSynthesis) {
-        alert("현재 사용 중인 브라우저에서는 음성 듣기 기능을 지원하지 않습니다.");
+        alert("현재 사용 중인 브라우저(또는 기기)에서는 음성 듣기 기능을 지원하지 않습니다.");
         return;
     }
 
     const word = currentDisplayedWords[currentWordIndex];
-    if (!word) return;
+    if (!word || !word.kanji) return;
 
-    // 혹시 이미 다른 단어를 읽고 있다면 멈춤
+    // 2. 이미 읽고 있는 소리가 있다면 멈춤
     window.speechSynthesis.cancel();
 
-    // 단어 읽기 (한자를 기본으로 읽게 합니다)
-    const textToRead = word.kanji;
-    
-    const utterance = new SpeechSynthesisUtterance(textToRead);
-    utterance.lang = 'ja-JP'; // 일본어로 설정
-    utterance.rate = 0.85;    // 약간 천천히 읽기 (속도 조절 가능)
-    
+    // 3. 읽을 내용과 설정 준비
+    const utterance = new SpeechSynthesisUtterance(word.kanji);
+    utterance.lang = 'ja-JP'; // 일본어 강제 설정
+    utterance.rate = 0.85;    // 약간 천천히 읽기
+
+    // 4. 기기에 설치된 목소리 중 '일본어'를 명시적으로 찾아서 억지로 쥐어주는 로직 (무음 방지)
+    const voices = window.speechSynthesis.getVoices();
+    const japaneseVoice = voices.find(voice => voice.lang.includes('ja') || voice.lang.includes('JP'));
+    if (japaneseVoice) {
+        utterance.voice = japaneseVoice;
+    }
+
+    // 5. 플레이!
     window.speechSynthesis.speak(utterance);
+};
+
+// 모바일 브라우저 환경 등에서 음성 데이터가 늦게 로딩되는 것을 방지하기 위한 안전장치
+if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 }
+
 };
