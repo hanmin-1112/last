@@ -116,16 +116,13 @@ function openHelp() {
         
         <li style="margin-bottom:12px;">
         <strong>복습 탭:</strong><br>
-        퀴즈를 풀면서 자동으로 단어가 등록됩니다.<br><br>
-        ✔ 맞추면 → 복습 간격 증가<br>
-        ✔ 틀리면 → 빠르게 다시 복습<br><br>
-        👉 시간이 지나 “복습할 시점”이 되면<br>
-        👉 자동으로 복습 탭에 나타납니다.<br><br>
-        즉, 지금 다시 봐야 하는 단어만 모아서 보여주는 기능입니다.
+        퀴즈를 풀면서 자동으로 단어가 등록됩니다.<br>
+        👉 시간이 지나 “복습할 시점”이 되면 자동으로 나타납니다.
         </li>
         
         <li>
-        <strong>퀴즈:</strong> 다양한 문제 조합으로 테스트를 만들 수 있습니다.
+        <strong>숙련도 바(카드 하단):</strong><br>
+        🔴 빨강 (학습 초기) / 🟡 노랑 (기억 형성 중) / 🟢 초록 (완전 암기)
         </li>
         `;
     }
@@ -179,8 +176,6 @@ function getWordsByLevel(tab) {
         baseWords = baseWords.filter(w => w.level === currentJlptFilter);
     }
 
-    // 🔥 핵심 버그 픽스: 리스트에 동일한 단어가 2개 이상 들어가는 문제 해결
-    // 데이터베이스(vocabulary)에 중복된 단어가 있거나 여러 레벨에 걸쳐 있는 경우 렌더링 직전에 고유 ID로 필터링합니다.
     let uniqueBaseWords = [];
     let seen = new Set();
     baseWords.forEach(w => {
@@ -197,8 +192,11 @@ function getWordsByLevel(tab) {
 function displayVocabulary(tab, searchTerm = '') {
     currentTab = tab;
     const vocabDisplay = document.getElementById('vocabulary-display');
+    const reviewQuizBtn = document.getElementById('start-review-quiz-btn');
     if (!vocabDisplay) return;
+    
     vocabDisplay.innerHTML = '';
+    if (reviewQuizBtn) reviewQuizBtn.style.display = 'none';
 
     const subFilterNav = document.getElementById('sub-filter-selection');
     const clearBtn = document.getElementById('clear-list-btn');
@@ -219,7 +217,7 @@ function displayVocabulary(tab, searchTerm = '') {
 
     let words = getWordsByLevel(tab);
 
-    if (!['oboeta', 'oboenakatta'].includes(tab)) {
+    if (!['oboeta', 'oboenakatta', 'review'].includes(tab)) {
         words = words.filter(w => 
             !oboetaWords.includes(`${w.kanji}|${w.reading}`) && !oboetaWords.includes(w.kanji) && 
             !oboenakattaWords.includes(`${w.kanji}|${w.reading}`) && !oboenakattaWords.includes(w.kanji)
@@ -233,6 +231,14 @@ function displayVocabulary(tab, searchTerm = '') {
 
     currentDisplayedWords = words;
 
+    // 🔥 리뷰 퀴즈 시작 버튼 표시
+    if (tab === 'review' && words.length > 0 && !searchTerm) {
+        if (reviewQuizBtn) {
+            reviewQuizBtn.style.display = 'flex';
+            document.getElementById('review-quiz-count').textContent = words.length;
+        }
+    }
+
     if (words.length > 0) {
         words.forEach((w, i) => {
             const card = document.createElement('div');
@@ -244,6 +250,17 @@ function displayVocabulary(tab, searchTerm = '') {
             const isOboenakatta = (oboenakattaWords.includes(uid) || oboenakattaWords.includes(w.kanji)) ? 'active' : '';
             const kanjiClass = w.kanji.length >= 4 ? 'kanji kanji-small-long' : 'kanji';
 
+            // 🔥 암기 숙련도 계산
+            let masteryClass = 'mastery-none';
+            let intervalText = '새 단어';
+            if (srsData[uid]) {
+                const interval = srsData[uid].interval;
+                intervalText = `주기: ${interval}일`;
+                if (interval < 3) masteryClass = 'mastery-seed';
+                else if (interval < 14) masteryClass = 'mastery-growing';
+                else masteryClass = 'mastery-mature';
+            }
+
             card.innerHTML = `
                 <div class="card-number-small">${i + 1}</div>
                 <div class="${kanjiClass}">${w.kanji}</div>
@@ -253,12 +270,49 @@ function displayVocabulary(tab, searchTerm = '') {
                     <button class="status-btn oboeta-btn ${isOboeta}" onclick="toggleWordStatus(event, '${uid}', 'oboeta')">외웠음</button>
                     <button class="status-btn oboenakatta-btn ${isOboenakatta}" onclick="toggleWordStatus(event, '${uid}', 'oboenakatta')">아직 못 외웠음</button>
                 </div>
+                <div class="mastery-container" title="${intervalText}">
+                    <div class="mastery-bar ${masteryClass}"></div>
+                </div>
             `;
             vocabDisplay.appendChild(card);
         });
     } else {
-        vocabDisplay.innerHTML = `<p style="grid-column: 1/-1; color: #888; padding: 50px; text-align:center;">단어가 없습니다.</p>`;
+        // 🔥 Zero Inbox 적용
+        if (tab === 'review' && !searchTerm) {
+            vocabDisplay.innerHTML = `
+                <div class="zero-inbox">
+                    <div class="zero-inbox-icon">🎉</div>
+                    <h2 style="color:var(--green); font-weight:900; font-size:2em; margin-bottom:10px;">복습 완료!</h2>
+                    <p style="color:#666; font-size:1.1em; line-height: 1.5;">오늘 치 복습을 모두 마쳤습니다.<br>망각 곡선에 따라 내일 다시 단어를 준비해둘게요!</p>
+                </div>
+            `;
+        } else {
+            vocabDisplay.innerHTML = `<p style="grid-column: 1/-1; color: #888; padding: 50px; text-align:center;">단어가 없습니다.</p>`;
+        }
     }
+}
+
+// 🔥 오늘의 복습 즉시 퀴즈
+function startReviewQuiz() {
+    let words = getWordsByLevel('review');
+    if (words.length === 0) return alert("복습할 단어가 없습니다!");
+
+    // 기본 설정: 뜻과 히라가나를 보고 한자 고르기
+    quizConfig.level = 'review';
+    quizConfig.qTypes = ['meaning', 'reading'];
+    quizConfig.aTypes = ['kanji'];
+    quizConfig.count = words.length;
+
+    quizWords = [...words].sort(() => Math.random() - 0.5);
+
+    incorrectQuestions = [];
+    currentQuizIndex = 0;
+    score = 0;
+
+    switchScreen('screen-quiz-active');
+    const feedbackModal = document.getElementById('quiz-feedback-modal');
+    if (feedbackModal) feedbackModal.style.display = 'none';
+    loadQuizQuestion();
 }
 
 // --- 리스트 초기화 ---
@@ -298,7 +352,6 @@ function toggleWordStatus(event, wordId, target) {
         if (!wasInTarget) oboenakattaWords.push(wordId); 
     }
     
-    // 중복 제거
     oboetaWords = [...new Set(oboetaWords)];
     oboenakattaWords = [...new Set(oboenakattaWords)];
 

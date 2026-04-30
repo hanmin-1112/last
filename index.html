@@ -46,7 +46,7 @@
         <button class="level-button" onclick="changeMainTab('n3', this)">N3</button>
         <button class="level-button" onclick="changeMainTab('n2', this)">N2</button>
         <button class="level-button" onclick="changeMainTab('n1', this)">N1</button>    
-        <button class="level-button" id="review-tab-btn" onclick="changeMainTab('review', this)">
+        <button class="level-button" id="review-tab-btn" onclick="changeMainTab('review', this)" style="border-color: var(--accent-blue);">
             복습 <span id="review-count"></span>
           </button>
         <button class="level-button oboeta-tab" onclick="changeMainTab('oboeta', this)">외웠음</button>
@@ -68,6 +68,11 @@
         <button id="clear-list-btn" class="menu-btn hover-effect" style="display: none; padding: 15px 20px; font-size: 1.1em; max-width: 130px; margin: 0; border-radius: 20px; background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 10px rgba(220,53,69,0.3);">전체 해제</button>
       </div>
       
+      <!-- 🔥 복습 전용 퀴즈 버튼 (JS에서 조건부 노출) -->
+      <button id="start-review-quiz-btn" class="review-quiz-btn" onclick="startReviewQuiz()">
+        🔥 오늘의 복습 퀴즈 시작하기 (<span id="review-quiz-count">0</span>)
+      </button>
+
       <main id="vocabulary-display" class="vocab-grid"></main>
     </section>
 
@@ -90,6 +95,7 @@
                         
                         <div style="flex-basis: 100%; height: 0; margin: 0;"></div>
                         
+                        <button class="level-button" onclick="setQuizConfig('level', 'review', this)" style="border-color: var(--accent-blue);">복습</button>
                         <button class="level-button oboeta-tab" onclick="setQuizConfig('level', 'oboeta', this)">외웠음</button>
                         <button class="level-button oboenakatta-tab" onclick="setQuizConfig('level', 'oboenakatta', this)">아직 못 외웠음</button>
                     </div>
