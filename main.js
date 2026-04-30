@@ -964,4 +964,29 @@ window.onload = () => {
     if (searchInput) {
         searchInput.oninput = (e) => displayVocabulary(currentTab, e.target.value);
     }
+    // main.js 파일의 가장 맨 아랫부분에 아래 코드를 통째로 추가하세요!
+
+// --- 🔥 음성 재생(TTS) 기능 추가 ---
+function playWordAudio() {
+    // 브라우저가 음성 기능을 지원하는지 확인
+    if (!window.speechSynthesis) {
+        alert("현재 사용 중인 브라우저에서는 음성 듣기 기능을 지원하지 않습니다.");
+        return;
+    }
+
+    const word = currentDisplayedWords[currentWordIndex];
+    if (!word) return;
+
+    // 혹시 이미 다른 단어를 읽고 있다면 멈춤
+    window.speechSynthesis.cancel();
+
+    // 단어 읽기 (한자를 기본으로 읽게 합니다)
+    const textToRead = word.kanji;
+    
+    const utterance = new SpeechSynthesisUtterance(textToRead);
+    utterance.lang = 'ja-JP'; // 일본어로 설정
+    utterance.rate = 0.85;    // 약간 천천히 읽기 (속도 조절 가능)
+    
+    window.speechSynthesis.speak(utterance);
+}
 };
