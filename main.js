@@ -9,31 +9,49 @@ const vocabulary = {
 let srsData = JSON.parse(localStorage.getItem('srsData')) || {};
 
 // SRS 업데이트
+// SRS 업데이트 (하루에 여러 번 풀어도 폭풍 레벨업 방지)
 function updateSRS(wordId, isCorrect) {
+    let now = Date.now();
+
     if (!srsData[wordId]) {
         srsData[wordId] = {
             interval: 1,
             repetition: 0,
             ease: 2.5,
-            nextReview: Date.now()
+            // 처음 등록할 때는 과거(0)로 설정하여 첫 퀴즈 시 무조건 레벨업되도록 함
+            nextReview: 0 
         };
     }
 
     let card = srsData[wordId];
 
     if (isCorrect) {
-        card.repetition++;
-        if (card.repetition === 1) card.interval = 1;
-        else if (card.repetition === 2) card.interval = 3;
-        else card.interval = Math.round(card.interval * card.ease);
-        card.ease = Math.max(1.3, card.ease + 0.1);
+        // 🔥 핵심: 현재 시간이 '다음 복습 예정일'을 지났을 때만 레벨업!
+        // (즉, 오늘 이미 맞혀서 복습일이 내일로 미뤄진 상태라면 숙련도가 오르지 않음)
+        if (now >= card.nextReview) {
+            card.repetition++;
+            
+            if (card.repetition === 1) card.interval = 1;
+            else if (card.repetition === 2) card.interval = 3;
+            else card.interval = Math.round(card.interval * card.ease);
+            
+            card.ease = Math.max(1.3, card.ease + 0.1);
+            
+            // 레벨업을 했을 때만 다음 복습 시간을 미래로 밀어줍니다.
+            card.nextReview = now + card.interval * 24 * 60 * 60 * 1000;
+        }
+        // now < card.nextReview 인 경우(하루에 여러 번 정답): 아무 일도 일어나지 않음 현상 유지!
+        
     } else {
+        // 🚨 틀렸을 때는 언제 풀었든 상관없이 무조건 숙련도 초기화
         card.repetition = 0;
         card.interval = 1;
         card.ease = Math.max(1.3, card.ease - 0.2);
+        
+        // 틀렸으므로 다시 1일 뒤(정확히는 24시간 뒤)로 복습 시간 재설정
+        card.nextReview = now + card.interval * 24 * 60 * 60 * 1000;
     }
 
-    card.nextReview = Date.now() + card.interval * 24 * 60 * 60 * 1000;
     localStorage.setItem('srsData', JSON.stringify(srsData));
 }
 
@@ -616,6 +634,8 @@ function loadQuizQuestion() {
     });
 }
 
+// ▼ 여기서부터 복사해서 덮어씌우세요 ▼
+
 function handleMultiQuizAnswer(btn, aType, word, finalA) {
     const groupBtns = btn.parentElement.querySelectorAll('.quiz-option-btn');
     groupBtns.forEach(b => b.classList.remove('selected'));
@@ -664,9 +684,60 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
         fbReading.textContent = word.reading;
         fbMeaning.textContent = word.meaning;
         
+        // 🔥 단어장 즉시 추가 버튼 로직 구현
+        const uid = word.kanji + "|" + word.reading;
+        const btnOboeta = document.getElementById('btn-quiz-oboeta');
+        const btnOboenakatta = document.getElementById('btn-quiz-oboenakatta');
+
+        // 버튼 상태 초기화
+        btnOboeta.textContent = '외웠음 추가';
+        btnOboeta.disabled = false;
+        btnOboeta.style.opacity = '1';
+        btnOboenakatta.textContent = '못 외웠음 추가';
+        btnOboenakatta.disabled = false;
+        btnOboenakatta.style.opacity = '1';
+
+        if (isAllCorrect) {
+            btnOboeta.style.display = 'block';
+            btnOboenakatta.style.display = 'none';
+            
+            // 이미 '외웠음'에 있는지 확인
+            if (oboetaWords.includes(uid) || oboetaWords.includes(word.kanji)) {
+                btnOboeta.textContent = '이미 추가됨';
+                btnOboeta.disabled = true;
+                btnOboeta.style.opacity = '0.5';
+            } else {
+                btnOboeta.onclick = () => {
+                    toggleWordStatus(null, uid, 'oboeta');
+                    btnOboeta.textContent = '추가 완료!';
+                    btnOboeta.disabled = true;
+                    btnOboeta.style.opacity = '0.5';
+                };
+            }
+        } else {
+            btnOboeta.style.display = 'none';
+            btnOboenakatta.style.display = 'block';
+
+            // 이미 '못 외웠음'에 있는지 확인
+            if (oboenakattaWords.includes(uid) || oboenakattaWords.includes(word.kanji)) {
+                btnOboenakatta.textContent = '이미 추가됨';
+                btnOboenakatta.disabled = true;
+                btnOboenakatta.style.opacity = '0.5';
+            } else {
+                btnOboenakatta.onclick = () => {
+                    toggleWordStatus(null, uid, 'oboenakatta');
+                    btnOboenakatta.textContent = '추가 완료!';
+                    btnOboenakatta.disabled = true;
+                    btnOboenakatta.style.opacity = '0.5';
+                };
+            }
+        }
+        
         document.getElementById('quiz-feedback-modal').style.display = 'flex';
     }
 }
+
+// ▲ 여기까지 복사하세요 ▲
 
 function proceedQuiz() {
     const feedbackModal = document.getElementById('quiz-feedback-modal');

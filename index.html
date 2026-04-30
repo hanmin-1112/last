@@ -233,15 +233,20 @@
     <div id="quiz-feedback-modal" class="modal" style="z-index: 200;">
         <div class="modal-card text-center" style="max-width: 420px; padding: 40px 25px;">
             <p id="quiz-feedback-msg" style="font-size: 1.5em; margin-bottom: 20px; line-height: 1.4;"></p>
-            <div style="border: 2px solid var(--accent-blue); border-radius: 15px; padding: 30px 15px; margin-bottom: 25px; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.05);">
-                <div id="fb-kanji" class="kanji-huge" style="margin-bottom: 15px; color: var(--accent-blue);"></div>
-                <div id="fb-reading" style="font-size: 1.3em; font-weight: bold; margin-bottom: 8px;"></div>
-                <div id="fb-meaning" style="font-size: 1.2em; color: #666;"></div>
+            
+            <!-- 🔥 단어장 카드와 똑같은 디자인으로 큼직하게 변경 -->
+            <div class="vocabulary-card" style="margin-bottom: 25px; cursor: default; box-shadow: 0 0 15px rgba(0,0,0,0.1); transform: none;">
+                <div id="fb-kanji" class="kanji" style="font-size: 4.5em; margin-bottom: 10px; min-height: auto;"></div>
+                <div id="fb-reading" class="reading" style="font-size: 1.3em; margin-bottom: 5px;"></div>
+                <div id="fb-meaning" class="meaning" style="font-size: 1.2em;"></div>
             </div>
-            <div style="display:flex; gap:10px; justify-content:center; flex-wrap: wrap;">
-                <button id="btn-quiz-oboeta" class="status-btn oboeta-btn hover-effect" style="padding: 15px 20px; font-size: 1.1em; display:none;">외웠음 추가</button>
-                <button id="btn-quiz-oboenakatta" class="status-btn oboenakatta-btn hover-effect" style="padding: 15px 20px; font-size: 1.1em; display:none;">아직 못 외웠음 추가</button>
-                <button class="menu-btn hover-effect" style="padding: 15px 20px; font-size: 1.1em; margin: 0; max-width: 140px; border-radius: 15px;" onclick="proceedQuiz()">다음 문제 ❯</button>
+
+            <div style="display:flex; gap:10px; justify-content:center; align-items: stretch;">
+                <!-- 🔥 조건에 따라 하나만 표시될 단어장 추가 버튼 -->
+                <button id="btn-quiz-oboeta" class="status-btn oboeta-btn hover-effect" style="padding: 15px 15px; font-size: 1.05em; display:none; flex: 1; margin: 0;">외웠음 추가</button>
+                <button id="btn-quiz-oboenakatta" class="status-btn oboenakatta-btn hover-effect" style="padding: 15px 15px; font-size: 1.05em; display:none; flex: 1; margin: 0;">아직 못 외웠음 추가</button>
+                
+                <button class="menu-btn hover-effect" style="padding: 15px 15px; font-size: 1.1em; margin: 0; flex: 1; border-radius: 15px;" onclick="proceedQuiz()">다음 문제 ❯</button>
             </div>
         </div>
     </div>
