@@ -556,14 +556,23 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
 
         if (isAllCorrect) {
             score++;
-            updateSRS(word.kanji, true);   // 🔥 추가
-            feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">🎉 완벽하게 맞췄습니다!</span>`;
+            updateSRS(word.kanji + "|" + word.reading, true);
+            feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">정답</span>`;
         } else {
             incorrectQuestions.push(word);
-            updateSRS(word.kanji, false);  // 🔥 추가
-            feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">❌ 아쉽게도 오답입니다.</span>`;
+            updateSRS(word.kanji + "|" + word.reading, false);
+            feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">오답</span>`;
         }
-
+        
+        // 🔥 추가 (이게 핵심 버그 수정)
+        const fbKanji = document.getElementById('fb-kanji');
+        const fbReading = document.getElementById('fb-reading');
+        const fbMeaning = document.getElementById('fb-meaning');
+        
+        fbKanji.textContent = word.kanji;
+        fbReading.textContent = word.reading;
+        fbMeaning.textContent = word.meaning;
+        
         document.getElementById('quiz-feedback-modal').style.display = 'flex';
     }
 }
