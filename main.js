@@ -110,9 +110,28 @@ function openHelp() {
     if (helpTitle && helpContent) {
         helpTitle.textContent = "바이브 漢 사용법";
         helpContent.innerHTML = `
-            <li style="margin-bottom:12px;"><strong>단어장:</strong> 상단의 레벨 버튼을 가로로 스와이프하여 넘길 수 있습니다.</li>
-            <li style="margin-bottom:12px;"><strong>단어 카드:</strong> 카드의 여백을 누르셔도 모달 창이 열리도록 개선되었습니다.</li>
-            <li><strong>퀴즈 조합:</strong> 문제와 보기 타입의 [+ 추가] 버튼을 눌러 입체적인 테스트를 세팅해 보세요. 문항 수도 직접 입력 가능합니다.</li>
+        <li style="margin-bottom:12px;">
+        <strong>단어장:</strong> 레벨별 한자를 확인할 수 있습니다.
+        </li>
+        
+        <li style="margin-bottom:12px;">
+        <strong>覚えた / 覚えなかった:</strong><br>
+        단어를 암기 여부에 따라 분류할 수 있습니다.
+        </li>
+        
+        <li style="margin-bottom:12px;">
+        <strong>복습 탭:</strong><br>
+        퀴즈를 풀면서 자동으로 단어가 등록됩니다.<br><br>
+        ✔ 맞추면 → 복습 간격 증가<br>
+        ✔ 틀리면 → 빠르게 다시 복습<br><br>
+        👉 시간이 지나 “복습할 시점”이 되면<br>
+        👉 자동으로 복습 탭에 나타납니다.<br><br>
+        즉, 지금 다시 봐야 하는 단어만 모아서 보여주는 기능입니다.
+        </li>
+        
+        <li>
+        <strong>퀴즈:</strong> 다양한 문제 조합으로 테스트를 만들 수 있습니다.
+        </li>
         `;
     }
     const helpModal = document.getElementById('help-modal');
@@ -252,17 +271,21 @@ function executeClearAll() {
 function toggleWordStatus(event, kanji, target) {
     if (event) event.stopPropagation();
 
-    let isCurrentlyOboeta = oboetaWords.includes(kanji);
-    let isCurrentlyOboenakatta = oboenakattaWords.includes(kanji);
-
-    oboetaWords = oboetaWords.filter(w => w !== kanji);
-    oboenakattaWords = oboenakattaWords.filter(w => w !== kanji);
-
-    if (target === 'oboeta' && !isCurrentlyOboeta) {
+    if (target === 'oboeta') {
+        oboetaWords = oboetaWords.filter(w => w !== kanji);
+        oboenakattaWords = oboenakattaWords.filter(w => w !== kanji);
         oboetaWords.push(kanji);
-    } else if (target === 'oboenakatta' && !isCurrentlyOboenakatta) {
+    }
+    
+    if (target === 'oboenakatta') {
+        oboenakattaWords = oboenakattaWords.filter(w => w !== kanji);
+        oboetaWords = oboetaWords.filter(w => w !== kanji);
         oboenakattaWords.push(kanji);
     }
+    
+    // 중복 제거 (안전장치)
+    oboetaWords = [...new Set(oboetaWords)];
+    oboenakattaWords = [...new Set(oboenakattaWords)];
 
     oboetaWords = [...new Set(oboetaWords)];
     oboenakattaWords = [...new Set(oboenakattaWords)];
@@ -557,10 +580,12 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
         if (isAllCorrect) {
             score++;
             updateSRS(word.kanji + "|" + word.reading, true);
+            updateReviewUI();
             feedbackMsg.innerHTML = `<span style="color:var(--green); font-weight:900;">정답</span>`;
         } else {
             incorrectQuestions.push(word);
             updateSRS(word.kanji + "|" + word.reading, false);
+            updateReviewUI();
             feedbackMsg.innerHTML = `<span style="color:var(--red); font-weight:900;">오답</span>`;
         }
         
@@ -775,13 +800,46 @@ function injectHomeContent() {
     homeSection.appendChild(previewContainer);
 }
 
-// --- 초기화 실행 ---
 window.onload = () => {
     setupClickToHide();
+    injectHomeContent();
+    updateReviewUI(); // 🔥 추가
+
     const searchInput = document.getElementById('word-search');
     if (searchInput) {
         searchInput.oninput = (e) => displayVocabulary(currentTab, e.target.value);
     }
     
     injectHomeContent();
+    function updateReviewUI() {
+        const reviewWords = getTodayReviewWords();
+        const count = reviewWords.length;
+    
+        const countEl = document.getElementById('review-count');
+        const tabBtn = document.getElementById('review-tab-btn');
+    
+        if (!countEl || !tabBtn) return;
+    
+        if (count > 0) {
+            countEl.textContent = `(${count})`;
+            tabBtn.style.position = 'relative';
+    
+            if (!document.getElementById('review-dot')) {
+                const dot = document.createElement('span');
+                dot.id = 'review-dot';
+                dot.style.position = 'absolute';
+                dot.style.top = '5px';
+                dot.style.right = '5px';
+                dot.style.width = '8px';
+                dot.style.height = '8px';
+                dot.style.background = 'red';
+                dot.style.borderRadius = '50%';
+                tabBtn.appendChild(dot);
+            }
+        } else {
+            countEl.textContent = '';
+            const dot = document.getElementById('review-dot');
+            if (dot) dot.remove();
+        }
+    }
 };
