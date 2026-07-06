@@ -11038,5 +11038,615 @@
     "kanji": "周到",
     "reading": "しゅうとう",
     "meaning": "주도면밀함"
+  },
+  {
+    "kanji": "あくまでも",
+    "reading": "あくまでも",
+    "meaning": "어디까지나"
+  },
+  {
+    "kanji": "あらためて",
+    "reading": "あらためて",
+    "meaning": "다시, 새삼"
+  },
+  {
+    "kanji": "いわば",
+    "reading": "いわば",
+    "meaning": "말하자면"
+  },
+  {
+    "kanji": "かろうじて",
+    "reading": "かろうじて",
+    "meaning": "간신히"
+  },
+  {
+    "kanji": "さほど",
+    "reading": "さほど",
+    "meaning": "그다지"
+  },
+  {
+    "kanji": "せいぜい",
+    "reading": "せいぜい",
+    "meaning": "기껏해야, 힘껏"
+  },
+  {
+    "kanji": "せめて",
+    "reading": "せめて",
+    "meaning": "적어도"
+  },
+  {
+    "kanji": "たちまち",
+    "reading": "たちまち",
+    "meaning": "순식간에"
+  },
+  {
+    "kanji": "とっくに",
+    "reading": "とっくに",
+    "meaning": "이미 오래전에"
+  },
+  {
+    "kanji": "ともかく",
+    "reading": "ともかく",
+    "meaning": "어쨌든"
+  },
+  {
+    "kanji": "なおさら",
+    "reading": "なおさら",
+    "meaning": "더욱더"
+  },
+  {
+    "kanji": "何しろ",
+    "reading": "なにしろ",
+    "meaning": "어쨌든, 워낙"
+  },
+  {
+    "kanji": "やむを得ず",
+    "reading": "やむをえず",
+    "meaning": "어쩔 수 없이"
+  },
+  {
+    "kanji": "わずらわしい",
+    "reading": "わずらわしい",
+    "meaning": "번거롭다"
+  },
+  {
+    "kanji": "荒っぽい",
+    "reading": "あらっぽい",
+    "meaning": "거칠다"
+  },
+  {
+    "kanji": "勇ましい",
+    "reading": "いさましい",
+    "meaning": "용감하다"
+  },
+  {
+    "kanji": "図々しい",
+    "reading": "ずうずうしい",
+    "meaning": "뻔뻔스럽다"
+  },
+  {
+    "kanji": "過激",
+    "reading": "かげき",
+    "meaning": "과격함"
+  },
+  {
+    "kanji": "活発",
+    "reading": "かっぱつ",
+    "meaning": "활발함"
+  },
+  {
+    "kanji": "合理的",
+    "reading": "ごうりてき",
+    "meaning": "합리적"
+  },
+  {
+    "kanji": "消極的",
+    "reading": "しょうきょくてき",
+    "meaning": "소극적"
+  },
+  {
+    "kanji": "徹底的",
+    "reading": "てっていてき",
+    "meaning": "철저함"
+  },
+  {
+    "kanji": "比較的",
+    "reading": "ひかくてき",
+    "meaning": "비교적"
+  },
+  {
+    "kanji": "本格的",
+    "reading": "ほんかくてき",
+    "meaning": "본격적"
+  },
+  {
+    "kanji": "本質的",
+    "reading": "ほんしつてき",
+    "meaning": "본질적"
+  },
+  {
+    "kanji": "魅力的",
+    "reading": "みりょくてき",
+    "meaning": "매력적"
+  },
+  {
+    "kanji": "効果的",
+    "reading": "こうかてき",
+    "meaning": "효과적"
+  },
+  {
+    "kanji": "具体的",
+    "reading": "ぐたいてき",
+    "meaning": "구체적"
+  },
+  {
+    "kanji": "抽象的",
+    "reading": "ちゅうしょうてき",
+    "meaning": "추상적"
+  },
+  {
+    "kanji": "代表的",
+    "reading": "だいひょうてき",
+    "meaning": "대표적"
+  },
+  {
+    "kanji": "典型的",
+    "reading": "てんけいてき",
+    "meaning": "전형적"
+  },
+  {
+    "kanji": "論理的",
+    "reading": "ろんりてき",
+    "meaning": "논리적"
+  },
+  {
+    "kanji": "心理的",
+    "reading": "しんりてき",
+    "meaning": "심리적"
+  },
+  {
+    "kanji": "精神的",
+    "reading": "せいしんてき",
+    "meaning": "정신적"
+  },
+  {
+    "kanji": "肉体的",
+    "reading": "にくたいてき",
+    "meaning": "육체적"
+  },
+  {
+    "kanji": "個人的",
+    "reading": "こじんてき",
+    "meaning": "개인적"
+  },
+  {
+    "kanji": "社会的",
+    "reading": "しゃかいてき",
+    "meaning": "사회적"
+  },
+  {
+    "kanji": "国際的",
+    "reading": "こくさいてき",
+    "meaning": "국제적"
+  },
+  {
+    "kanji": "経済的",
+    "reading": "けいざいてき",
+    "meaning": "경제적"
+  },
+  {
+    "kanji": "政治的",
+    "reading": "せいじてき",
+    "meaning": "정치적"
+  },
+  {
+    "kanji": "文化的",
+    "reading": "ぶんかてき",
+    "meaning": "문화적"
+  },
+  {
+    "kanji": "現実的",
+    "reading": "げんじつてき",
+    "meaning": "현실적"
+  },
+  {
+    "kanji": "理想的",
+    "reading": "りそうてき",
+    "meaning": "이상적"
+  },
+  {
+    "kanji": "客観的",
+    "reading": "きゃっかんてき",
+    "meaning": "객관적"
+  },
+  {
+    "kanji": "主観的",
+    "reading": "しゅかんてき",
+    "meaning": "주관적"
+  },
+  {
+    "kanji": "全面的",
+    "reading": "ぜんめんてき",
+    "meaning": "전면적"
+  },
+  {
+    "kanji": "部分的",
+    "reading": "ぶぶんてき",
+    "meaning": "부분적"
+  },
+  {
+    "kanji": "一時的",
+    "reading": "いちじてき",
+    "meaning": "일시적"
+  },
+  {
+    "kanji": "長期的",
+    "reading": "ちょうきてき",
+    "meaning": "장기적"
+  },
+  {
+    "kanji": "短期的",
+    "reading": "たんきてき",
+    "meaning": "단기적"
+  },
+  {
+    "kanji": "基本的",
+    "reading": "きほんてき",
+    "meaning": "기본적"
+  },
+  {
+    "kanji": "相違点",
+    "reading": "そういてん",
+    "meaning": "차이점"
+  },
+  {
+    "kanji": "論点",
+    "reading": "ろんてん",
+    "meaning": "논점"
+  },
+  {
+    "kanji": "要点",
+    "reading": "ようてん",
+    "meaning": "요점"
+  },
+  {
+    "kanji": "利点",
+    "reading": "りてん",
+    "meaning": "이점"
+  },
+  {
+    "kanji": "長所",
+    "reading": "ちょうしょ",
+    "meaning": "장점"
+  },
+  {
+    "kanji": "短所",
+    "reading": "たんしょ",
+    "meaning": "단점"
+  },
+  {
+    "kanji": "方針",
+    "reading": "ほうしん",
+    "meaning": "방침"
+  },
+  {
+    "kanji": "方策",
+    "reading": "ほうさく",
+    "meaning": "방책"
+  },
+  {
+    "kanji": "手続き",
+    "reading": "てつづき",
+    "meaning": "절차, 수속"
+  },
+  {
+    "kanji": "申請",
+    "reading": "しんせい",
+    "meaning": "신청"
+  },
+  {
+    "kanji": "連絡先",
+    "reading": "れんらくさき",
+    "meaning": "연락처"
+  },
+  {
+    "kanji": "勤務先",
+    "reading": "きんむさき",
+    "meaning": "근무처"
+  },
+  {
+    "kanji": "転職",
+    "reading": "てんしょく",
+    "meaning": "이직"
+  },
+  {
+    "kanji": "失業",
+    "reading": "しつぎょう",
+    "meaning": "실업"
+  },
+  {
+    "kanji": "面接",
+    "reading": "めんせつ",
+    "meaning": "면접"
+  },
+  {
+    "kanji": "履歴書",
+    "reading": "りれきしょ",
+    "meaning": "이력서"
+  },
+  {
+    "kanji": "職場",
+    "reading": "しょくば",
+    "meaning": "직장"
+  },
+  {
+    "kanji": "相次いで",
+    "reading": "あいついで",
+    "meaning": "잇따라"
+  },
+  {
+    "kanji": "あらゆる",
+    "reading": "あらゆる",
+    "meaning": "모든"
+  },
+  {
+    "kanji": "今に",
+    "reading": "いまに",
+    "meaning": "머지않아"
+  },
+  {
+    "kanji": "一層",
+    "reading": "いっそう",
+    "meaning": "한층 더"
+  },
+  {
+    "kanji": "概して",
+    "reading": "がいして",
+    "meaning": "대체로"
+  },
+  {
+    "kanji": "ことに",
+    "reading": "ことに",
+    "meaning": "특히"
+  },
+  {
+    "kanji": "差し当たり",
+    "reading": "さしあたり",
+    "meaning": "당분간, 우선"
+  },
+  {
+    "kanji": "早速",
+    "reading": "さっそく",
+    "meaning": "즉시, 곧"
+  },
+  {
+    "kanji": "徐々に",
+    "reading": "じょじょに",
+    "meaning": "서서히"
+  },
+  {
+    "kanji": "すでに",
+    "reading": "すでに",
+    "meaning": "이미"
+  },
+  {
+    "kanji": "せっせと",
+    "reading": "せっせと",
+    "meaning": "부지런히"
+  },
+  {
+    "kanji": "絶えず",
+    "reading": "たえず",
+    "meaning": "끊임없이"
+  },
+  {
+    "kanji": "とりあえず",
+    "reading": "とりあえず",
+    "meaning": "일단"
+  },
+  {
+    "kanji": "なにとぞ",
+    "reading": "なにとぞ",
+    "meaning": "부디"
+  },
+  {
+    "kanji": "何となく",
+    "reading": "なんとなく",
+    "meaning": "왠지"
+  },
+  {
+    "kanji": "必死に",
+    "reading": "ひっしに",
+    "meaning": "필사적으로"
+  },
+  {
+    "kanji": "ひとりでに",
+    "reading": "ひとりでに",
+    "meaning": "저절로"
+  },
+  {
+    "kanji": "まさに",
+    "reading": "まさに",
+    "meaning": "바로, 틀림없이"
+  },
+  {
+    "kanji": "要するに",
+    "reading": "ようするに",
+    "meaning": "요컨대"
+  },
+  {
+    "kanji": "わりに",
+    "reading": "わりに",
+    "meaning": "비교적, ~치고는"
+  },
+  {
+    "kanji": "圧倒的",
+    "reading": "あっとうてき",
+    "meaning": "압도적"
+  },
+  {
+    "kanji": "意図的",
+    "reading": "いとてき",
+    "meaning": "의도적"
+  },
+  {
+    "kanji": "機械的",
+    "reading": "きかいてき",
+    "meaning": "기계적"
+  },
+  {
+    "kanji": "決定的",
+    "reading": "けっていてき",
+    "meaning": "결정적"
+  },
+  {
+    "kanji": "継続的",
+    "reading": "けいぞくてき",
+    "meaning": "계속적"
+  },
+  {
+    "kanji": "建設的",
+    "reading": "けんせつてき",
+    "meaning": "건설적"
+  },
+  {
+    "kanji": "消費者",
+    "reading": "しょうひしゃ",
+    "meaning": "소비자"
+  },
+  {
+    "kanji": "生産者",
+    "reading": "せいさんしゃ",
+    "meaning": "생산자"
+  },
+  {
+    "kanji": "担当者",
+    "reading": "たんとうしゃ",
+    "meaning": "담당자"
+  },
+  {
+    "kanji": "責任者",
+    "reading": "せきにんしゃ",
+    "meaning": "책임자"
+  },
+  {
+    "kanji": "関係者",
+    "reading": "かんけいしゃ",
+    "meaning": "관계자"
+  },
+  {
+    "kanji": "利用者",
+    "reading": "りようしゃ",
+    "meaning": "이용자"
+  },
+  {
+    "kanji": "経験者",
+    "reading": "けいけんしゃ",
+    "meaning": "경험자"
+  },
+  {
+    "kanji": "初心者",
+    "reading": "しょしんしゃ",
+    "meaning": "초보자"
+  },
+  {
+    "kanji": "専門家",
+    "reading": "せんもんか",
+    "meaning": "전문가"
+  },
+  {
+    "kanji": "評論家",
+    "reading": "ひょうろんか",
+    "meaning": "평론가"
+  },
+  {
+    "kanji": "政治家",
+    "reading": "せいじか",
+    "meaning": "정치가"
+  },
+  {
+    "kanji": "作曲家",
+    "reading": "さっきょくか",
+    "meaning": "작곡가"
+  },
+  {
+    "kanji": "演奏家",
+    "reading": "えんそうか",
+    "meaning": "연주가"
+  },
+  {
+    "kanji": "販売店",
+    "reading": "はんばいてん",
+    "meaning": "판매점"
+  },
+  {
+    "kanji": "専門店",
+    "reading": "せんもんてん",
+    "meaning": "전문점"
+  },
+  {
+    "kanji": "代理店",
+    "reading": "だいりてん",
+    "meaning": "대리점"
+  },
+  {
+    "kanji": "支店",
+    "reading": "してん",
+    "meaning": "지점"
+  },
+  {
+    "kanji": "本店",
+    "reading": "ほんてん",
+    "meaning": "본점"
+  },
+  {
+    "kanji": "売店",
+    "reading": "ばいてん",
+    "meaning": "매점"
+  },
+  {
+    "kanji": "屋台",
+    "reading": "やたい",
+    "meaning": "포장마차, 노점"
+  },
+  {
+    "kanji": "市場",
+    "reading": "いちば",
+    "meaning": "시장, 장터"
+  },
+  {
+    "kanji": "会計係",
+    "reading": "かいけいがかり",
+    "meaning": "회계 담당"
+  },
+  {
+    "kanji": "案内係",
+    "reading": "あんないがかり",
+    "meaning": "안내 담당"
+  },
+  {
+    "kanji": "受付係",
+    "reading": "うけつけがかり",
+    "meaning": "접수 담당"
+  },
+  {
+    "kanji": "当番",
+    "reading": "とうばん",
+    "meaning": "당번"
+  },
+  {
+    "kanji": "職員",
+    "reading": "しょくいん",
+    "meaning": "직원"
+  },
+  {
+    "kanji": "係員",
+    "reading": "かかりいん",
+    "meaning": "담당 직원"
+  },
+  {
+    "kanji": "研究員",
+    "reading": "けんきゅういん",
+    "meaning": "연구원"
   }
 ]

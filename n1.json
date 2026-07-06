@@ -8498,5 +8498,475 @@
     "kanji": "話術",
     "reading": "わじゅつ",
     "meaning": "화술"
+  },
+  {
+    "kanji": "あらかじめ",
+    "reading": "あらかじめ",
+    "meaning": "미리, 사전에"
+  },
+  {
+    "kanji": "いっそ",
+    "reading": "いっそ",
+    "meaning": "차라리"
+  },
+  {
+    "kanji": "おおむね",
+    "reading": "おおむね",
+    "meaning": "대체로"
+  },
+  {
+    "kanji": "おのずから",
+    "reading": "おのずから",
+    "meaning": "저절로"
+  },
+  {
+    "kanji": "さながら",
+    "reading": "さながら",
+    "meaning": "마치, 그대로"
+  },
+  {
+    "kanji": "すこぶる",
+    "reading": "すこぶる",
+    "meaning": "매우, 대단히"
+  },
+  {
+    "kanji": "すなわち",
+    "reading": "すなわち",
+    "meaning": "즉"
+  },
+  {
+    "kanji": "とりわけ",
+    "reading": "とりわけ",
+    "meaning": "특히"
+  },
+  {
+    "kanji": "ひたすら",
+    "reading": "ひたすら",
+    "meaning": "오로지"
+  },
+  {
+    "kanji": "まことに",
+    "reading": "まことに",
+    "meaning": "참으로"
+  },
+  {
+    "kanji": "がっくり",
+    "reading": "がっくり",
+    "meaning": "맥이 풀림"
+  },
+  {
+    "kanji": "しみじみ",
+    "reading": "しみじみ",
+    "meaning": "절실히, 깊이"
+  },
+  {
+    "kanji": "とっさに",
+    "reading": "とっさに",
+    "meaning": "순간적으로"
+  },
+  {
+    "kanji": "のろのろ",
+    "reading": "のろのろ",
+    "meaning": "느릿느릿"
+  },
+  {
+    "kanji": "ひょっとすると",
+    "reading": "ひょっとすると",
+    "meaning": "어쩌면"
+  },
+  {
+    "kanji": "まちまち",
+    "reading": "まちまち",
+    "meaning": "제각각"
+  },
+  {
+    "kanji": "もろに",
+    "reading": "もろに",
+    "meaning": "정면으로, 그대로"
+  },
+  {
+    "kanji": "一挙に",
+    "reading": "いっきょに",
+    "meaning": "단번에"
+  },
+  {
+    "kanji": "一心に",
+    "reading": "いっしんに",
+    "meaning": "한마음으로, 열심히"
+  },
+  {
+    "kanji": "一律に",
+    "reading": "いちりつに",
+    "meaning": "일률적으로"
+  },
+  {
+    "kanji": "厳密",
+    "reading": "げんみつ",
+    "meaning": "엄밀함"
+  },
+  {
+    "kanji": "明瞭",
+    "reading": "めいりょう",
+    "meaning": "명료함"
+  },
+  {
+    "kanji": "寛容",
+    "reading": "かんよう",
+    "meaning": "관용적임"
+  },
+  {
+    "kanji": "華奢",
+    "reading": "きゃしゃ",
+    "meaning": "가냘픔"
+  },
+  {
+    "kanji": "壮烈",
+    "reading": "そうれつ",
+    "meaning": "장렬함"
+  },
+  {
+    "kanji": "大胆",
+    "reading": "だいたん",
+    "meaning": "대담함"
+  },
+  {
+    "kanji": "多忙",
+    "reading": "たぼう",
+    "meaning": "매우 바쁨"
+  },
+  {
+    "kanji": "怠慢",
+    "reading": "たいまん",
+    "meaning": "태만함"
+  },
+  {
+    "kanji": "貧弱",
+    "reading": "ひんじゃく",
+    "meaning": "빈약함"
+  },
+  {
+    "kanji": "不順",
+    "reading": "ふじゅん",
+    "meaning": "순조롭지 않음"
+  },
+  {
+    "kanji": "不振",
+    "reading": "ふしん",
+    "meaning": "부진함"
+  },
+  {
+    "kanji": "無邪気",
+    "reading": "むじゃき",
+    "meaning": "천진난만함"
+  },
+  {
+    "kanji": "無造作",
+    "reading": "むぞうさ",
+    "meaning": "아무렇게나 함"
+  },
+  {
+    "kanji": "優勢",
+    "reading": "ゆうせい",
+    "meaning": "우세함"
+  },
+  {
+    "kanji": "劣勢",
+    "reading": "れっせい",
+    "meaning": "열세함"
+  },
+  {
+    "kanji": "曖昧模糊",
+    "reading": "あいまいもこ",
+    "meaning": "애매모호함"
+  },
+  {
+    "kanji": "一目瞭然",
+    "reading": "いちもくりょうぜん",
+    "meaning": "일목요연함"
+  },
+  {
+    "kanji": "切磋琢磨",
+    "reading": "せっさたくま",
+    "meaning": "절차탁마"
+  },
+  {
+    "kanji": "大同小異",
+    "reading": "だいどうしょうい",
+    "meaning": "대동소이"
+  },
+  {
+    "kanji": "不可欠",
+    "reading": "ふかけつ",
+    "meaning": "불가결함"
+  },
+  {
+    "kanji": "理路整然",
+    "reading": "りろせいぜん",
+    "meaning": "이치가 정연함"
+  },
+  {
+    "kanji": "論外",
+    "reading": "ろんがい",
+    "meaning": "논외"
+  },
+  {
+    "kanji": "根幹",
+    "reading": "こんかん",
+    "meaning": "근간"
+  },
+  {
+    "kanji": "主旨",
+    "reading": "しゅし",
+    "meaning": "주지, 주된 뜻"
+  },
+  {
+    "kanji": "真意",
+    "reading": "しんい",
+    "meaning": "진의"
+  },
+  {
+    "kanji": "同等",
+    "reading": "どうとう",
+    "meaning": "동등함"
+  },
+  {
+    "kanji": "紛失",
+    "reading": "ふんしつ",
+    "meaning": "분실"
+  },
+  {
+    "kanji": "建前",
+    "reading": "たてまえ",
+    "meaning": "명분, 겉으로 내세우는 입장"
+  },
+  {
+    "kanji": "目論見",
+    "reading": "もくろみ",
+    "meaning": "계획, 의도"
+  },
+  {
+    "kanji": "利害",
+    "reading": "りがい",
+    "meaning": "이해관계"
+  },
+  {
+    "kanji": "あっけなく",
+    "reading": "あっけなく",
+    "meaning": "허무하게, 싱겁게"
+  },
+  {
+    "kanji": "いずれにせよ",
+    "reading": "いずれにせよ",
+    "meaning": "어쨌든"
+  },
+  {
+    "kanji": "いとも",
+    "reading": "いとも",
+    "meaning": "매우, 아주"
+  },
+  {
+    "kanji": "おびただしい",
+    "reading": "おびただしい",
+    "meaning": "엄청나게 많다"
+  },
+  {
+    "kanji": "おもむろに",
+    "reading": "おもむろに",
+    "meaning": "천천히, 느릿하게"
+  },
+  {
+    "kanji": "かえすがえす",
+    "reading": "かえすがえす",
+    "meaning": "거듭거듭, 생각할수록"
+  },
+  {
+    "kanji": "かたくな",
+    "reading": "かたくな",
+    "meaning": "완고함"
+  },
+  {
+    "kanji": "かつ",
+    "reading": "かつ",
+    "meaning": "또한, 동시에"
+  },
+  {
+    "kanji": "ことさら",
+    "reading": "ことさら",
+    "meaning": "일부러, 유난히"
+  },
+  {
+    "kanji": "ずらり",
+    "reading": "ずらり",
+    "meaning": "죽 늘어선 모양"
+  },
+  {
+    "kanji": "総じて",
+    "reading": "そうじて",
+    "meaning": "대체로"
+  },
+  {
+    "kanji": "とりもなおさず",
+    "reading": "とりもなおさず",
+    "meaning": "곧, 다름 아닌"
+  },
+  {
+    "kanji": "なおかつ",
+    "reading": "なおかつ",
+    "meaning": "게다가, 또한"
+  },
+  {
+    "kanji": "何卒",
+    "reading": "なにとぞ",
+    "meaning": "부디"
+  },
+  {
+    "kanji": "並びに",
+    "reading": "ならびに",
+    "meaning": "및"
+  },
+  {
+    "kanji": "ひたむき",
+    "reading": "ひたむき",
+    "meaning": "한결같음"
+  },
+  {
+    "kanji": "ひとえに",
+    "reading": "ひとえに",
+    "meaning": "오로지, 전적으로"
+  },
+  {
+    "kanji": "ひょいと",
+    "reading": "ひょいと",
+    "meaning": "휙, 불쑥"
+  },
+  {
+    "kanji": "びっしり",
+    "reading": "びっしり",
+    "meaning": "빽빽이"
+  },
+  {
+    "kanji": "やむなく",
+    "reading": "やむなく",
+    "meaning": "어쩔 수 없이"
+  },
+  {
+    "kanji": "ゆとり",
+    "reading": "ゆとり",
+    "meaning": "여유"
+  },
+  {
+    "kanji": "わざわざ",
+    "reading": "わざわざ",
+    "meaning": "일부러"
+  },
+  {
+    "kanji": "あざとい",
+    "reading": "あざとい",
+    "meaning": "약삭빠르다"
+  },
+  {
+    "kanji": "あっけない",
+    "reading": "あっけない",
+    "meaning": "허무하다, 싱겁다"
+  },
+  {
+    "kanji": "おっかない",
+    "reading": "おっかない",
+    "meaning": "무섭다"
+  },
+  {
+    "kanji": "おっくう",
+    "reading": "おっくう",
+    "meaning": "귀찮음"
+  },
+  {
+    "kanji": "くどい",
+    "reading": "くどい",
+    "meaning": "장황하다, 느끼하다"
+  },
+  {
+    "kanji": "けたたましい",
+    "reading": "けたたましい",
+    "meaning": "시끄럽다, 요란하다"
+  },
+  {
+    "kanji": "たやすい",
+    "reading": "たやすい",
+    "meaning": "손쉽다"
+  },
+  {
+    "kanji": "つぶら",
+    "reading": "つぶら",
+    "meaning": "동글고 귀여움"
+  },
+  {
+    "kanji": "物寂しい",
+    "reading": "ものさびしい",
+    "meaning": "어딘지 쓸쓸하다"
+  },
+  {
+    "kanji": "物足りない",
+    "reading": "ものたりない",
+    "meaning": "어딘가 부족하다"
+  },
+  {
+    "kanji": "凛々しい",
+    "reading": "りりしい",
+    "meaning": "늠름하다"
+  },
+  {
+    "kanji": "弱々しい",
+    "reading": "よわよわしい",
+    "meaning": "연약하다"
+  },
+  {
+    "kanji": "わざとらしい",
+    "reading": "わざとらしい",
+    "meaning": "일부러 꾸민 듯하다"
+  },
+  {
+    "kanji": "生々しい",
+    "reading": "なまなましい",
+    "meaning": "생생하다, 노골적이다"
+  },
+  {
+    "kanji": "規則正しい",
+    "reading": "きそくただしい",
+    "meaning": "규칙적이다"
+  },
+  {
+    "kanji": "待ち遠しい",
+    "reading": "まちどおしい",
+    "meaning": "기다려진다"
+  },
+  {
+    "kanji": "控えめ",
+    "reading": "ひかえめ",
+    "meaning": "삼감, 적당히 낮춤"
+  },
+  {
+    "kanji": "手短",
+    "reading": "てみじか",
+    "meaning": "간단함"
+  },
+  {
+    "kanji": "痛切",
+    "reading": "つうせつ",
+    "meaning": "통절함, 절실함"
+  },
+  {
+    "kanji": "的確",
+    "reading": "てきかく",
+    "meaning": "정확함, 적확함"
+  },
+  {
+    "kanji": "敏感",
+    "reading": "びんかん",
+    "meaning": "민감함"
+  },
+  {
+    "kanji": "円満",
+    "reading": "えんまん",
+    "meaning": "원만함"
   }
 ]

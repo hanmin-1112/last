@@ -2428,5 +2428,430 @@
     "kanji": "大勢",
     "reading": "おおぜい",
     "meaning": "많은 사람"
+  },
+  {
+    "kanji": "できるだけ",
+    "reading": "できるだけ",
+    "meaning": "가능한 한"
+  },
+  {
+    "kanji": "なるべく",
+    "reading": "なるべく",
+    "meaning": "되도록"
+  },
+  {
+    "kanji": "きっと",
+    "reading": "きっと",
+    "meaning": "반드시, 틀림없이"
+  },
+  {
+    "kanji": "もし",
+    "reading": "もし",
+    "meaning": "만약"
+  },
+  {
+    "kanji": "しばらく",
+    "reading": "しばらく",
+    "meaning": "잠시, 한동안"
+  },
+  {
+    "kanji": "そろそろ",
+    "reading": "そろそろ",
+    "meaning": "슬슬"
+  },
+  {
+    "kanji": "どんどん",
+    "reading": "どんどん",
+    "meaning": "자꾸자꾸, 점점"
+  },
+  {
+    "kanji": "だんだん",
+    "reading": "だんだん",
+    "meaning": "점점"
+  },
+  {
+    "kanji": "はっきり",
+    "reading": "はっきり",
+    "meaning": "뚜렷이, 확실히"
+  },
+  {
+    "kanji": "びっくり",
+    "reading": "びっくり",
+    "meaning": "깜짝 놀람"
+  },
+  {
+    "kanji": "やっぱり",
+    "reading": "やっぱり",
+    "meaning": "역시"
+  },
+  {
+    "kanji": "別に",
+    "reading": "べつに",
+    "meaning": "별로, 따로"
+  },
+  {
+    "kanji": "急に",
+    "reading": "きゅうに",
+    "meaning": "갑자기"
+  },
+  {
+    "kanji": "参加する",
+    "reading": "さんかする",
+    "meaning": "참가하다"
+  },
+  {
+    "kanji": "賛成する",
+    "reading": "さんせいする",
+    "meaning": "찬성하다"
+  },
+  {
+    "kanji": "失礼",
+    "reading": "しつれい",
+    "meaning": "실례"
+  },
+  {
+    "kanji": "失礼する",
+    "reading": "しつれいする",
+    "meaning": "실례하다"
+  },
+  {
+    "kanji": "止まる",
+    "reading": "とまる",
+    "meaning": "멈추다"
+  },
+  {
+    "kanji": "増やす",
+    "reading": "ふやす",
+    "meaning": "늘리다"
+  },
+  {
+    "kanji": "減らす",
+    "reading": "へらす",
+    "meaning": "줄이다"
+  },
+  {
+    "kanji": "片付く",
+    "reading": "かたづく",
+    "meaning": "정리되다"
+  },
+  {
+    "kanji": "届く",
+    "reading": "とどく",
+    "meaning": "도착하다, 닿다"
+  },
+  {
+    "kanji": "汚す",
+    "reading": "よごす",
+    "meaning": "더럽히다"
+  },
+  {
+    "kanji": "乾かす",
+    "reading": "かわかす",
+    "meaning": "말리다"
+  },
+  {
+    "kanji": "冷やす",
+    "reading": "ひやす",
+    "meaning": "차게 하다"
+  },
+  {
+    "kanji": "温まる",
+    "reading": "あたたまる",
+    "meaning": "따뜻해지다"
+  },
+  {
+    "kanji": "温める",
+    "reading": "あたためる",
+    "meaning": "따뜻하게 하다"
+  },
+  {
+    "kanji": "細い",
+    "reading": "ほそい",
+    "meaning": "가늘다"
+  },
+  {
+    "kanji": "太い",
+    "reading": "ふとい",
+    "meaning": "굵다"
+  },
+  {
+    "kanji": "厚い",
+    "reading": "あつい",
+    "meaning": "두껍다"
+  },
+  {
+    "kanji": "薄い",
+    "reading": "うすい",
+    "meaning": "얇다, 싱겁다"
+  },
+  {
+    "kanji": "大切",
+    "reading": "たいせつ",
+    "meaning": "소중함, 중요함"
+  },
+  {
+    "kanji": "普通",
+    "reading": "ふつう",
+    "meaning": "보통"
+  },
+  {
+    "kanji": "信号",
+    "reading": "しんごう",
+    "meaning": "신호"
+  },
+  {
+    "kanji": "橋",
+    "reading": "はし",
+    "meaning": "다리"
+  },
+  {
+    "kanji": "おかげで",
+    "reading": "おかげで",
+    "meaning": "덕분에"
+  },
+  {
+    "kanji": "おまけ",
+    "reading": "おまけ",
+    "meaning": "덤"
+  },
+  {
+    "kanji": "ぐらぐら",
+    "reading": "ぐらぐら",
+    "meaning": "흔들흔들"
+  },
+  {
+    "kanji": "にこにこ",
+    "reading": "にこにこ",
+    "meaning": "싱글벙글"
+  },
+  {
+    "kanji": "ぴったり",
+    "reading": "ぴったり",
+    "meaning": "딱 맞게"
+  },
+  {
+    "kanji": "めちゃくちゃ",
+    "reading": "めちゃくちゃ",
+    "meaning": "엉망진창, 매우"
+  },
+  {
+    "kanji": "もったいない",
+    "reading": "もったいない",
+    "meaning": "아깝다"
+  },
+  {
+    "kanji": "相変わらず",
+    "reading": "あいかわらず",
+    "meaning": "변함없이"
+  },
+  {
+    "kanji": "明らか",
+    "reading": "あきらか",
+    "meaning": "분명함"
+  },
+  {
+    "kanji": "一応",
+    "reading": "いちおう",
+    "meaning": "일단"
+  },
+  {
+    "kanji": "一杯",
+    "reading": "いっぱい",
+    "meaning": "가득, 한 잔"
+  },
+  {
+    "kanji": "いっぱい",
+    "reading": "いっぱい",
+    "meaning": "가득, 많이"
+  },
+  {
+    "kanji": "今にも",
+    "reading": "いまにも",
+    "meaning": "금방이라도"
+  },
+  {
+    "kanji": "お互い",
+    "reading": "おたがい",
+    "meaning": "서로"
+  },
+  {
+    "kanji": "代わりに",
+    "reading": "かわりに",
+    "meaning": "대신에"
+  },
+  {
+    "kanji": "実は",
+    "reading": "じつは",
+    "meaning": "실은"
+  },
+  {
+    "kanji": "少々",
+    "reading": "しょうしょう",
+    "meaning": "조금, 잠시"
+  },
+  {
+    "kanji": "直ちに",
+    "reading": "ただちに",
+    "meaning": "즉시"
+  },
+  {
+    "kanji": "確かに",
+    "reading": "たしかに",
+    "meaning": "확실히"
+  },
+  {
+    "kanji": "なるほど",
+    "reading": "なるほど",
+    "meaning": "과연"
+  },
+  {
+    "kanji": "別々",
+    "reading": "べつべつ",
+    "meaning": "따로따로"
+  },
+  {
+    "kanji": "本当に",
+    "reading": "ほんとうに",
+    "meaning": "정말로"
+  },
+  {
+    "kanji": "間もなく",
+    "reading": "まもなく",
+    "meaning": "머지않아"
+  },
+  {
+    "kanji": "もちろん",
+    "reading": "もちろん",
+    "meaning": "물론"
+  },
+  {
+    "kanji": "もしも",
+    "reading": "もしも",
+    "meaning": "만약에"
+  },
+  {
+    "kanji": "約",
+    "reading": "やく",
+    "meaning": "약, 대략"
+  },
+  {
+    "kanji": "ようやく",
+    "reading": "ようやく",
+    "meaning": "겨우, 드디어"
+  },
+  {
+    "kanji": "幸い",
+    "reading": "さいわい",
+    "meaning": "다행"
+  },
+  {
+    "kanji": "残念ながら",
+    "reading": "ざんねんながら",
+    "meaning": "유감스럽게도"
+  },
+  {
+    "kanji": "随分",
+    "reading": "ずいぶん",
+    "meaning": "상당히"
+  },
+  {
+    "kanji": "直接",
+    "reading": "ちょくせつ",
+    "meaning": "직접"
+  },
+  {
+    "kanji": "間接",
+    "reading": "かんせつ",
+    "meaning": "간접"
+  },
+  {
+    "kanji": "別々に",
+    "reading": "べつべつに",
+    "meaning": "따로따로"
+  },
+  {
+    "kanji": "遅刻する",
+    "reading": "ちこくする",
+    "meaning": "지각하다"
+  },
+  {
+    "kanji": "欠席する",
+    "reading": "けっせきする",
+    "meaning": "결석하다"
+  },
+  {
+    "kanji": "出席する",
+    "reading": "しゅっせきする",
+    "meaning": "출석하다"
+  },
+  {
+    "kanji": "連れて行く",
+    "reading": "つれていく",
+    "meaning": "데려가다"
+  },
+  {
+    "kanji": "連れて来る",
+    "reading": "つれてくる",
+    "meaning": "데려오다"
+  },
+  {
+    "kanji": "知らせ",
+    "reading": "しらせ",
+    "meaning": "소식, 통지"
+  },
+  {
+    "kanji": "探し物",
+    "reading": "さがしもの",
+    "meaning": "찾는 물건"
+  },
+  {
+    "kanji": "落とし物",
+    "reading": "おとしもの",
+    "meaning": "분실물"
+  },
+  {
+    "kanji": "贈る",
+    "reading": "おくる",
+    "meaning": "선물하다"
+  },
+  {
+    "kanji": "見送る",
+    "reading": "みおくる",
+    "meaning": "배웅하다, 보류하다"
+  },
+  {
+    "kanji": "間に合わせる",
+    "reading": "まにあわせる",
+    "meaning": "시간에 맞추다"
+  },
+  {
+    "kanji": "役立つ",
+    "reading": "やくだつ",
+    "meaning": "도움이 되다"
+  },
+  {
+    "kanji": "似合う",
+    "reading": "にあう",
+    "meaning": "어울리다"
+  },
+  {
+    "kanji": "似ている",
+    "reading": "にている",
+    "meaning": "닮아 있다"
+  },
+  {
+    "kanji": "慣らす",
+    "reading": "ならす",
+    "meaning": "익숙하게 하다"
+  },
+  {
+    "kanji": "通じる",
+    "reading": "つうじる",
+    "meaning": "통하다"
+  },
+  {
+    "kanji": "通す",
+    "reading": "とおす",
+    "meaning": "통과시키다"
   }
 ]
