@@ -63,9 +63,26 @@
         <button class="level-button" onclick="changeSubFilter('n1', this)">N1</button>
       </nav>
 
+      <nav id="type-filter-selection" class="scrollable-tabs vocab-tool-row">
+        <span class="filter-label">품사:</span>
+        <button class="level-button active" onclick="changeTypeFilter('all', this)">전체</button>
+        <button class="level-button" onclick="changeTypeFilter('noun', this)">명사</button>
+        <button class="level-button" onclick="changeTypeFilter('verb', this)">동사</button>
+        <button class="level-button" onclick="changeTypeFilter('adjective', this)">형용사</button>
+        <button class="level-button" onclick="changeTypeFilter('adverb', this)">부사</button>
+        <button class="level-button" onclick="changeTypeFilter('expression', this)">표현</button>
+      </nav>
+
       <div class="search-container" style="display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
         <input type="text" id="word-search" placeholder="Search Kanji..." style="flex:1; border: 2px solid var(--accent-blue); padding:15px; border-radius:30px; max-width: 600px; font-size:1.1em;">
         <button id="clear-list-btn" class="menu-btn hover-effect" style="display: none; padding: 15px 20px; font-size: 1.1em; max-width: 130px; margin: 0; border-radius: 20px; background: var(--red); color: white; border-color: var(--red); box-shadow: 0 0 10px rgba(220,53,69,0.3);">전체 해제</button>
+      </div>
+
+      <div class="vocab-actions">
+        <button class="utility-btn hover-effect" onclick="startRandomWord()">랜덤 단어</button>
+        <button class="utility-btn hover-effect" onclick="exportStudyData()">백업</button>
+        <button class="utility-btn hover-effect" onclick="triggerImportStudyData()">복원</button>
+        <input type="file" id="study-data-import" accept="application/json,.json" style="display:none;">
       </div>
       
       <!-- 🔥 복습 전용 퀴즈 버튼 (JS에서 조건부 노출) -->

@@ -88,6 +88,7 @@ let oboenakattaWords = [...new Set(JSON.parse(localStorage.getItem('oboenakattaW
 let currentScreen = 'screen-home';
 let currentTab = 'n5';
 let currentJlptFilter = 'all';
+let currentTypeFilter = 'all';
 let currentDisplayedWords = [];
 let currentWordIndex = 0;
 
@@ -184,6 +185,42 @@ function changeSubFilter(filter, btn) {
     displayVocabulary(currentTab, searchVal);
 }
 
+function changeTypeFilter(filter, btn) {
+    document.querySelectorAll('#type-filter-selection .level-button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTypeFilter = filter;
+    const searchVal = document.getElementById('word-search') ? document.getElementById('word-search').value : '';
+    displayVocabulary(currentTab, searchVal);
+}
+
+function getWordType(word) {
+    const surface = word.kanji || '';
+    const reading = word.reading || '';
+    const meaning = word.meaning || '';
+
+    if (surface.includes(' ') || reading.includes(' ') || surface.includes('する') || reading.endsWith('する')) return 'verb';
+    if (/[うくぐすつぬぶむる]$/.test(surface) && /다$/.test(meaning)) return 'verb';
+    if (surface.endsWith('い') || surface.endsWith('ない') || surface.endsWith('たい')) return 'adjective';
+    if (surface.endsWith('的') || surface.endsWith('か') || surface.endsWith('やか') || /함|적임|스럽다|롭다$/.test(meaning)) return 'adjective';
+    if (surface.endsWith('に') || reading.endsWith('に') || /히$|하게$|적으로$|없이$|듯이$/.test(meaning)) return 'adverb';
+    if (surface.length >= 5 || /표현|관용|사자성어|~/.test(meaning)) return 'expression';
+    return 'noun';
+}
+
+function getWordTypeLabel(type) {
+    return { noun: '명사', verb: '동사', adjective: '형용사', adverb: '부사', expression: '표현' }[type] || '명사';
+}
+
+function getReviewScheduleText(wordId) {
+    const card = srsData[wordId];
+    if (!card) return '복습 미등록';
+    const diff = card.nextReview - Date.now();
+    if (diff <= 0) return '오늘 복습';
+    const days = Math.ceil(diff / (24 * 60 * 60 * 1000));
+    if (days === 1) return '내일 복습';
+    return days + '일 후 복습';
+}
+
 function getWordsByLevel(tab) {
     let allWords = [];
     ['n5', 'n4', 'n3', 'n2', 'n1'].forEach(lvl => {
@@ -257,6 +294,10 @@ function displayVocabulary(tab, searchTerm = '') {
         );
     }
 
+    if (currentTypeFilter !== 'all') {
+        words = words.filter(w => getWordType(w) === currentTypeFilter);
+    }
+
     if (searchTerm) {
         const t = searchTerm.toLowerCase();
         words = words.filter(w => w.kanji.includes(t) || w.meaning.includes(t) || w.reading.includes(t));
@@ -293,12 +334,18 @@ function displayVocabulary(tab, searchTerm = '') {
                 else if (interval < 14) masteryClass = 'mastery-growing';
                 else masteryClass = 'mastery-mature';
             }
+            const typeLabel = getWordTypeLabel(getWordType(w));
+            const reviewText = getReviewScheduleText(uid);
 
             card.innerHTML = `
                 <div class="card-number-small">${i + 1}</div>
                 <div class="${kanjiClass}">${w.kanji}</div>
                 <div class="reading">${w.reading}</div>
                 <div class="meaning">${w.meaning}</div>
+                <div class="card-meta-row">
+                    <span class="type-chip">${typeLabel}</span>
+                    <span class="review-date-label">${reviewText}</span>
+                </div>
                 <div class="card-btn-group">
                     <button class="status-btn oboeta-btn ${isOboeta}" onclick="toggleWordStatus(event, '${uid}', 'oboeta')">암기</button>
                     <button class="status-btn oboenakatta-btn ${isOboenakatta}" onclick="toggleWordStatus(event, '${uid}', 'oboenakatta')">부족</button>
@@ -351,6 +398,68 @@ function startReviewQuiz() {
     const feedbackModal = document.getElementById('quiz-feedback-modal');
     if (feedbackModal) feedbackModal.style.display = 'none';
     loadQuizQuestion();
+}
+
+function startRandomWord() {
+    const searchVal = document.getElementById('word-search') ? document.getElementById('word-search').value : '';
+    displayVocabulary(currentTab, searchVal);
+    if (currentDisplayedWords.length === 0) {
+        alert('랜덤으로 볼 단어가 없습니다.');
+        return;
+    }
+    const index = Math.floor(Math.random() * currentDisplayedWords.length);
+    showModal(index);
+}
+
+function exportStudyData() {
+    const payload = {
+        app: 'vibe-kanji',
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        srsData,
+        oboetaWords,
+        oboenakattaWords
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const date = new Date().toISOString().slice(0, 10);
+    link.href = url;
+    link.download = 'vibe-kanji-backup-' + date + '.json';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+}
+
+function triggerImportStudyData() {
+    const input = document.getElementById('study-data-import');
+    if (input) input.click();
+}
+
+function importStudyDataFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+        try {
+            const parsed = JSON.parse(reader.result);
+            if (!parsed || typeof parsed !== 'object') throw new Error('Invalid backup');
+            srsData = parsed.srsData && typeof parsed.srsData === 'object' ? parsed.srsData : {};
+            oboetaWords = [...new Set(Array.isArray(parsed.oboetaWords) ? parsed.oboetaWords : [])];
+            oboenakattaWords = [...new Set(Array.isArray(parsed.oboenakattaWords) ? parsed.oboenakattaWords : [])];
+            localStorage.setItem('srsData', JSON.stringify(srsData));
+            localStorage.setItem('oboetaWords', JSON.stringify(oboetaWords));
+            localStorage.setItem('oboenakattaWords', JSON.stringify(oboenakattaWords));
+            updateReviewUI();
+            const searchVal = document.getElementById('word-search') ? document.getElementById('word-search').value : '';
+            displayVocabulary(currentTab, searchVal);
+            alert('학습 데이터 복원이 완료되었습니다.');
+        } catch (error) {
+            console.error(error);
+            alert('백업 파일을 읽지 못했습니다.');
+        }
+    };
+    reader.readAsText(file);
 }
 
 // --- 리스트 초기화 ---
@@ -990,6 +1099,14 @@ window.onload = async () => {
     const searchInput = document.getElementById('word-search');
     if (searchInput) {
         searchInput.oninput = (e) => displayVocabulary(currentTab, e.target.value);
+    }
+
+    const importInput = document.getElementById('study-data-import');
+    if (importInput) {
+        importInput.onchange = (e) => {
+            importStudyDataFile(e.target.files[0]);
+            e.target.value = '';
+        };
     }
 // --- 🔥 음성 재생(TTS) 기능 (오류 수정 및 안정성 강화 버전) ---
 window.playWordAudio = function(wordToPlay) {
