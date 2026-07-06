@@ -143,7 +143,7 @@ function openHelp() {
         </li>
         
         <li style="margin-bottom:12px;">
-        <strong>외웠음 / 아직 못 외웠음:</strong><br>
+        <strong>암기 / 부족:</strong><br>
         단어를 암기 여부에 따라 분류할 수 있습니다.
         </li>
         
@@ -300,8 +300,8 @@ function displayVocabulary(tab, searchTerm = '') {
                 <div class="reading">${w.reading}</div>
                 <div class="meaning">${w.meaning}</div>
                 <div class="card-btn-group">
-                    <button class="status-btn oboeta-btn ${isOboeta}" onclick="toggleWordStatus(event, '${uid}', 'oboeta')">외웠음</button>
-                    <button class="status-btn oboenakatta-btn ${isOboenakatta}" onclick="toggleWordStatus(event, '${uid}', 'oboenakatta')">아직 못 외웠음</button>
+                    <button class="status-btn oboeta-btn ${isOboeta}" onclick="toggleWordStatus(event, '${uid}', 'oboeta')">암기</button>
+                    <button class="status-btn oboenakatta-btn ${isOboenakatta}" onclick="toggleWordStatus(event, '${uid}', 'oboenakatta')">부족</button>
                 </div>
                 <div class="mastery-container" title="${intervalText}">
                     <div class="mastery-bar ${masteryClass}"></div>
@@ -314,9 +314,14 @@ function displayVocabulary(tab, searchTerm = '') {
         if (tab === 'review' && !searchTerm) {
             vocabDisplay.innerHTML = `
                 <div class="zero-inbox">
-                    <div class="zero-inbox-icon">🎉</div>
-                    <h2 style="color:var(--green); font-weight:900; font-size:2em; margin-bottom:10px;">복습 완료!</h2>
-                    <p style="color:#666; font-size:1.1em; line-height: 1.5;">오늘 치 복습을 모두 마쳤습니다.<br>망각 곡선에 따라 내일 다시 단어를 준비해둘게요!</p>
+                    <div class="zero-inbox-icon" aria-hidden="true">
+                        <svg viewBox="0 0 80 80" role="img" focusable="false">
+                            <circle class="complete-icon-ring" cx="40" cy="40" r="30"></circle>
+                            <path class="complete-icon-check" d="M27 41.5 L36 50.5 L54 30"></path>
+                        </svg>
+                    </div>
+                    <h2 style="color:var(--green); font-weight:900; font-size:2em; margin-bottom:10px;">오늘의 복습 완료!</h2>
+                    <p style="color:#666; font-size:1.1em; line-height: 1.5;">내일 다시 확인해주세요!</p>
                 </div>
             `;
         } else {
@@ -705,10 +710,10 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
         const btnOboenakatta = document.getElementById('btn-quiz-oboenakatta');
 
         // 버튼 상태 초기화
-        btnOboeta.textContent = '외웠음 추가';
+        btnOboeta.textContent = '암기 추가';
         btnOboeta.disabled = false;
         btnOboeta.style.opacity = '1';
-        btnOboenakatta.textContent = '못 외웠음 추가';
+        btnOboenakatta.textContent = '부족 추가';
         btnOboenakatta.disabled = false;
         btnOboenakatta.style.opacity = '1';
 
@@ -716,7 +721,7 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
             btnOboeta.style.display = 'block';
             btnOboenakatta.style.display = 'none';
             
-            // 이미 '외웠음'에 있는지 확인
+            // 이미 '암기'에 있는지 확인
             if (oboetaWords.includes(uid) || oboetaWords.includes(word.kanji)) {
                 btnOboeta.textContent = '이미 추가됨';
                 btnOboeta.disabled = true;
@@ -733,7 +738,7 @@ function handleMultiQuizAnswer(btn, aType, word, finalA) {
             btnOboeta.style.display = 'none';
             btnOboenakatta.style.display = 'block';
 
-            // 이미 '못 외웠음'에 있는지 확인
+            // 이미 '부족'에 있는지 확인
             if (oboenakattaWords.includes(uid) || oboenakattaWords.includes(word.kanji)) {
                 btnOboenakatta.textContent = '이미 추가됨';
                 btnOboenakatta.disabled = true;

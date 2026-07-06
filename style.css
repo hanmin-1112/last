@@ -414,10 +414,39 @@ button {
 }
 
 .zero-inbox-icon {
-    display: inline-block;
-    margin-bottom: 16px;
-    font-size: 3.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    margin-bottom: 18px;
+    border-radius: 50%;
+    background: rgba(52, 199, 89, 0.1);
+    color: var(--green);
     animation: none;
+}
+
+.zero-inbox-icon svg {
+    width: 48px;
+    height: 48px;
+    overflow: visible;
+}
+
+.complete-icon-ring,
+.complete-icon-check {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.complete-icon-ring {
+    stroke-width: 3.5;
+    opacity: 0.24;
+}
+
+.complete-icon-check {
+    stroke-width: 4.5;
 }
 
 .mastery-container {
