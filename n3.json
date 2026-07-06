@@ -1,0 +1,2362 @@
+[
+  {
+    "kanji": "愛情",
+    "reading": "あいじょう",
+    "meaning": "애정"
+  },
+  {
+    "kanji": "合図",
+    "reading": "あいず",
+    "meaning": "신호"
+  },
+  {
+    "kanji": "相手",
+    "reading": "あいて",
+    "meaning": "상대"
+  },
+  {
+    "kanji": "悪魔",
+    "reading": "あくま",
+    "meaning": "악마"
+  },
+  {
+    "kanji": "汗",
+    "reading": "あせ",
+    "meaning": "땀"
+  },
+  {
+    "kanji": "当たり前",
+    "reading": "あたりまえ",
+    "meaning": "당연함"
+  },
+  {
+    "kanji": "胃",
+    "reading": "い",
+    "meaning": "위(장기)"
+  },
+  {
+    "kanji": "委員",
+    "reading": "いいん",
+    "meaning": "위원"
+  },
+  {
+    "kanji": "息",
+    "reading": "いき",
+    "meaning": "숨, 호흡"
+  },
+  {
+    "kanji": "居間",
+    "reading": "いま",
+    "meaning": "거실"
+  },
+  {
+    "kanji": "宇宙",
+    "reading": "うちゅう",
+    "meaning": "우주"
+  },
+  {
+    "kanji": "噂",
+    "reading": "うわさ",
+    "meaning": "소문"
+  },
+  {
+    "kanji": "栄養",
+    "reading": "えいよう",
+    "meaning": "영양"
+  },
+  {
+    "kanji": "笑顔",
+    "reading": "えがお",
+    "meaning": "웃는 얼굴"
+  },
+  {
+    "kanji": "王様",
+    "reading": "おうさま",
+    "meaning": "임금님"
+  },
+  {
+    "kanji": "温度",
+    "reading": "おんど",
+    "meaning": "온도"
+  },
+  {
+    "kanji": "蚊",
+    "reading": "か",
+    "meaning": "모기"
+  },
+  {
+    "kanji": "解決",
+    "reading": "かいけつ",
+    "meaning": "해결"
+  },
+  {
+    "kanji": "記憶",
+    "reading": "きおく",
+    "meaning": "기억"
+  },
+  {
+    "kanji": "記事",
+    "reading": "きじ",
+    "meaning": "기사"
+  },
+  {
+    "kanji": "期待",
+    "reading": "きたい",
+    "meaning": "기대"
+  },
+  {
+    "kanji": "休日",
+    "reading": "きゅうじつ",
+    "meaning": "휴일"
+  },
+  {
+    "kanji": "共通",
+    "reading": "きょうつう",
+    "meaning": "공통"
+  },
+  {
+    "kanji": "記録",
+    "reading": "きろく",
+    "meaning": "기록"
+  },
+  {
+    "kanji": "偶然",
+    "reading": "ぐうぜん",
+    "meaning": "우연"
+  },
+  {
+    "kanji": "苦労",
+    "reading": "くろう",
+    "meaning": "고생"
+  },
+  {
+    "kanji": "経営",
+    "reading": "けいえい",
+    "meaning": "경영"
+  },
+  {
+    "kanji": "劇",
+    "reading": "げき",
+    "meaning": "연극"
+  },
+  {
+    "kanji": "結論",
+    "reading": "けつろん",
+    "meaning": "결론"
+  },
+  {
+    "kanji": "氷",
+    "reading": "こおり",
+    "meaning": "얼음"
+  },
+  {
+    "kanji": "呼吸",
+    "reading": "こきゅう",
+    "meaning": "호흡"
+  },
+  {
+    "kanji": "砂漠",
+    "reading": "さばく",
+    "meaning": "사막"
+  },
+  {
+    "kanji": "資源",
+    "reading": "しげん",
+    "meaning": "자원"
+  },
+  {
+    "kanji": "支出",
+    "reading": "ししゅつ",
+    "meaning": "지출"
+  },
+  {
+    "kanji": "事情",
+    "reading": "じじょう",
+    "meaning": "사정, 형편"
+  },
+  {
+    "kanji": "状態",
+    "reading": "じょうたい",
+    "meaning": "상태"
+  },
+  {
+    "kanji": "睡眠",
+    "reading": "すいみん",
+    "meaning": "수면"
+  },
+  {
+    "kanji": "成功",
+    "reading": "せいこう",
+    "meaning": "성공"
+  },
+  {
+    "kanji": "責任",
+    "reading": "せきにん",
+    "meaning": "책임"
+  },
+  {
+    "kanji": "想像",
+    "reading": "そうぞう",
+    "meaning": "상상"
+  },
+  {
+    "kanji": "態度",
+    "reading": "たいど",
+    "meaning": "태도"
+  },
+  {
+    "kanji": "知識",
+    "reading": "ちしき",
+    "meaning": "지식"
+  },
+  {
+    "kanji": "努力",
+    "reading": "どりょく",
+    "meaning": "노력"
+  },
+  {
+    "kanji": "表情",
+    "reading": "ひょうじょう",
+    "meaning": "표정"
+  },
+  {
+    "kanji": "夫婦",
+    "reading": "ふうふ",
+    "meaning": "부부"
+  },
+  {
+    "kanji": "満足",
+    "reading": "まんぞく",
+    "meaning": "만족"
+  },
+  {
+    "kanji": "役割",
+    "reading": "やくわり",
+    "meaning": "역할"
+  },
+  {
+    "kanji": "流行",
+    "reading": "りゅうこう",
+    "meaning": "유행"
+  },
+  {
+    "kanji": "恋愛",
+    "reading": "れんあい",
+    "meaning": "연애"
+  },
+  {
+    "kanji": "永遠",
+    "reading": "えいえん",
+    "meaning": "영원"
+  },
+  {
+    "kanji": "延期",
+    "reading": "えんき",
+    "meaning": "연기(미룸)"
+  },
+  {
+    "kanji": "汚染",
+    "reading": "おせん",
+    "meaning": "오염"
+  },
+  {
+    "kanji": "温暖",
+    "reading": "おんだん",
+    "meaning": "온난"
+  },
+  {
+    "kanji": "改善",
+    "reading": "かいぜん",
+    "meaning": "개선"
+  },
+  {
+    "kanji": "快適",
+    "reading": "かいてき",
+    "meaning": "쾌적"
+  },
+  {
+    "kanji": "完了",
+    "reading": "かんりょう",
+    "meaning": "완료"
+  },
+  {
+    "kanji": "管理",
+    "reading": "かんり",
+    "meaning": "관리"
+  },
+  {
+    "kanji": "基礎",
+    "reading": "きそ",
+    "meaning": "기초"
+  },
+  {
+    "kanji": "疑問",
+    "reading": "ぎもん",
+    "meaning": "의문"
+  },
+  {
+    "kanji": "緊張",
+    "reading": "きんちょう",
+    "meaning": "긴장"
+  },
+  {
+    "kanji": "具体",
+    "reading": "ぐたい",
+    "meaning": "구체"
+  },
+  {
+    "kanji": "群れ",
+    "reading": "むれ",
+    "meaning": "무리, 떼"
+  },
+  {
+    "kanji": "敬語",
+    "reading": "けいご",
+    "meaning": "경어"
+  },
+  {
+    "kanji": "契約",
+    "reading": "けいやく",
+    "meaning": "계약"
+  },
+  {
+    "kanji": "検査",
+    "reading": "けんさ",
+    "meaning": "검사"
+  },
+  {
+    "kanji": "限界",
+    "reading": "げんかい",
+    "meaning": "한계"
+  },
+  {
+    "kanji": "幸運",
+    "reading": "こううん",
+    "meaning": "행운"
+  },
+  {
+    "kanji": "効果",
+    "reading": "こうか",
+    "meaning": "효과"
+  },
+  {
+    "kanji": "広告",
+    "reading": "こうこく",
+    "meaning": "광고"
+  },
+  {
+    "kanji": "混雑",
+    "reading": "こんざつ",
+    "meaning": "혼잡"
+  },
+  {
+    "kanji": "最小",
+    "reading": "さいしょう",
+    "meaning": "최소"
+  },
+  {
+    "kanji": "才能",
+    "reading": "さいのう",
+    "meaning": "재능"
+  },
+  {
+    "kanji": "差別",
+    "reading": "さべつ",
+    "meaning": "차별"
+  },
+  {
+    "kanji": "参加",
+    "reading": "さんか",
+    "meaning": "참가"
+  },
+  {
+    "kanji": "刺激",
+    "reading": "しげき",
+    "meaning": "자극"
+  },
+  {
+    "kanji": "姿勢",
+    "reading": "しせい",
+    "meaning": "자세"
+  },
+  {
+    "kanji": "湿気",
+    "reading": "しっけ",
+    "meaning": "습기"
+  },
+  {
+    "kanji": "寿命",
+    "reading": "じゅみょう",
+    "meaning": "수명"
+  },
+  {
+    "kanji": "就職",
+    "reading": "しうしょく",
+    "meaning": "취직"
+  },
+  {
+    "kanji": "修正",
+    "reading": "しゅうせい",
+    "meaning": "수정"
+  },
+  {
+    "kanji": "渋滞",
+    "reading": "じゅうたい",
+    "meaning": "정체(막힘)"
+  },
+  {
+    "kanji": "種類",
+    "reading": "しゅるい",
+    "meaning": "종류"
+  },
+  {
+    "kanji": "状況",
+    "reading": "じょうきょう",
+    "meaning": "상황"
+  },
+  {
+    "kanji": "信用",
+    "reading": "しんよう",
+    "meaning": "신용"
+  },
+  {
+    "kanji": "推薦",
+    "reading": "すいせん",
+    "meaning": "추천"
+  },
+  {
+    "kanji": "制限",
+    "reading": "せいげん",
+    "meaning": "제한"
+  },
+  {
+    "kanji": "接続",
+    "reading": "せつぞく",
+    "meaning": "접속"
+  },
+  {
+    "kanji": "装置",
+    "reading": "そうち",
+    "meaning": "장치"
+  },
+  {
+    "kanji": "尊敬",
+    "reading": "そんけい",
+    "meaning": "존경"
+  },
+  {
+    "kanji": "対象",
+    "reading": "たいしょう",
+    "meaning": "대상"
+  },
+  {
+    "kanji": "逮捕",
+    "reading": "たいほ",
+    "meaning": "체포"
+  },
+  {
+    "kanji": "妥協",
+    "reading": "だきょう",
+    "meaning": "타협"
+  },
+  {
+    "kanji": "単純",
+    "reading": "たんじゅん",
+    "meaning": "단순"
+  },
+  {
+    "kanji": "知恵",
+    "reading": "ちえ",
+    "meaning": "지혜"
+  },
+  {
+    "kanji": "注目",
+    "reading": "ちゅうもく",
+    "meaning": "주목"
+  },
+  {
+    "kanji": "調査",
+    "reading": "ちょうさ",
+    "meaning": "조사"
+  },
+  {
+    "kanji": "納得",
+    "reading": "なっとく",
+    "meaning": "납득"
+  },
+  {
+    "kanji": "悩み",
+    "reading": "なやみ",
+    "meaning": "고민"
+  },
+  {
+    "kanji": "似顔絵",
+    "reading": "にがおえ",
+    "meaning": "초상화"
+  },
+  {
+    "kanji": "日常",
+    "reading": "にちじょう",
+    "meaning": "일상"
+  },
+  {
+    "kanji": "農業",
+    "reading": "のうぎょう",
+    "meaning": "농업"
+  },
+  {
+    "kanji": "爆発",
+    "reading": "ばくはつ",
+    "meaning": "폭발"
+  },
+  {
+    "kanji": "罰金",
+    "reading": "ばっきん",
+    "meaning": "벌금"
+  },
+  {
+    "kanji": "比較",
+    "reading": "ひかく",
+    "meaning": "비교"
+  },
+  {
+    "kanji": "批判",
+    "reading": "ひはん",
+    "meaning": "비판"
+  },
+  {
+    "kanji": "疲労",
+    "reading": "ひろう",
+    "meaning": "피로"
+  },
+  {
+    "kanji": "武器",
+    "reading": "ぶき",
+    "meaning": "무기"
+  },
+  {
+    "kanji": "物価",
+    "reading": "ぶっか",
+    "meaning": "물가"
+  },
+  {
+    "kanji": "変更",
+    "reading": "へんこう",
+    "meaning": "변경"
+  },
+  {
+    "kanji": "保険",
+    "reading": "ほけん",
+    "meaning": "보험"
+  },
+  {
+    "kanji": "摩擦",
+    "reading": "まさつ",
+    "meaning": "마찰"
+  },
+  {
+    "kanji": "魅力",
+    "reading": "みりょく",
+    "meaning": "매력"
+  },
+  {
+    "kanji": "矛盾",
+    "reading": "むじゅん",
+    "meaning": "모순"
+  },
+  {
+    "kanji": "免許",
+    "reading": "めんきょ",
+    "meaning": "면허"
+  },
+  {
+    "kanji": "輸出",
+    "reading": "ゆしゅつ",
+    "meaning": "수출"
+  },
+  {
+    "kanji": "輸入",
+    "reading": "ゆにゅう",
+    "meaning": "수입"
+  },
+  {
+    "kanji": "予算",
+    "reading": "よさん",
+    "meaning": "예산"
+  },
+  {
+    "kanji": "予測",
+    "reading": "よそく",
+    "meaning": "예측"
+  },
+  {
+    "kanji": "利益",
+    "reading": "りえき",
+    "meaning": "이익"
+  },
+  {
+    "kanji": "離婚",
+    "reading": "りこん",
+    "meaning": "이혼"
+  },
+  {
+    "kanji": "留守番",
+    "reading": "るすばん",
+    "meaning": "집보기"
+  },
+  {
+    "kanji": "例外",
+    "reading": "れいがい",
+    "meaning": "예외"
+  },
+  {
+    "kanji": "連続",
+    "reading": "れんぞく",
+    "meaning": "연속"
+  },
+  {
+    "kanji": "愛する",
+    "reading": "あいする",
+    "meaning": "사랑하다"
+  },
+  {
+    "kanji": "預ける",
+    "reading": "あずける",
+    "meaning": "맡기다"
+  },
+  {
+    "kanji": "与える",
+    "reading": "あたえる",
+    "meaning": "주다"
+  },
+  {
+    "kanji": "扱う",
+    "reading": "あつかう",
+    "meaning": "다루다"
+  },
+  {
+    "kanji": "余る",
+    "reading": "あまる",
+    "meaning": "남다"
+  },
+  {
+    "kanji": "祝う",
+    "reading": "いわう",
+    "meaning": "축하하다"
+  },
+  {
+    "kanji": "疑う",
+    "reading": "うたがう",
+    "meaning": "의심하다"
+  },
+  {
+    "kanji": "打ち合わせる",
+    "reading": "うちあわせる",
+    "meaning": "협의하다"
+  },
+  {
+    "kanji": "埋める",
+    "reading": "うめる",
+    "meaning": "묻다, 메우다"
+  },
+  {
+    "kanji": "追う",
+    "reading": "おう",
+    "meaning": "쫓다"
+  },
+  {
+    "kanji": "終える",
+    "reading": "おえる",
+    "meaning": "끝내다"
+  },
+  {
+    "kanji": "及ぼす",
+    "reading": "およぼす",
+    "meaning": "미치게 하다"
+  },
+  {
+    "kanji": "折る",
+    "reading": "おる",
+    "meaning": "꺾다, 접다"
+  },
+  {
+    "kanji": "隠す",
+    "reading": "かくす",
+    "meaning": "숨기다"
+  },
+  {
+    "kanji": "囲む",
+    "reading": "かこむ",
+    "meaning": "둘러싸다"
+  },
+  {
+    "kanji": "稼ぐ",
+    "reading": "かせぐ",
+    "meaning": "돈을 벌다"
+  },
+  {
+    "kanji": "語る",
+    "reading": "かたる",
+    "meaning": "말하다, 이야기하다"
+  },
+  {
+    "kanji": "悲しむ",
+    "reading": "かなしむ",
+    "meaning": "슬퍼하다"
+  },
+  {
+    "kanji": "枯れる",
+    "reading": "かれる",
+    "meaning": "마르다, 시들다"
+  },
+  {
+    "kanji": "効く",
+    "reading": "きく",
+    "meaning": "효과가 있다"
+  },
+  {
+    "kanji": "削る",
+    "reading": "けずる",
+    "meaning": "깎다"
+  },
+  {
+    "kanji": "蹴る",
+    "reading": "ける",
+    "meaning": "차다"
+  },
+  {
+    "kanji": "越える",
+    "reading": "こえる",
+    "meaning": "넘다"
+  },
+  {
+    "kanji": "凍る",
+    "reading": "こおる",
+    "meaning": "얼다"
+  },
+  {
+    "kanji": "転ぶ",
+    "reading": "ころぶ",
+    "meaning": "구르다, 넘어지다"
+  },
+  {
+    "kanji": "殺す",
+    "reading": "ころす",
+    "meaning": "죽이다"
+  },
+  {
+    "kanji": "探る",
+    "reading": "さぐる",
+    "meaning": "뒤지다, 더듬다"
+  },
+  {
+    "kanji": "叫ぶ",
+    "reading": "さけぶ",
+    "meaning": "외치다"
+  },
+  {
+    "kanji": "沈む",
+    "reading": "しずむ",
+    "meaning": "가라앉다"
+  },
+  {
+    "kanji": "従う",
+    "reading": "したがう",
+    "meaning": "따르다"
+  },
+  {
+    "kanji": "支払う",
+    "reading": "しはらう",
+    "meaning": "지불하다"
+  },
+  {
+    "kanji": "救う",
+    "reading": "すくう",
+    "meaning": "구하다"
+  },
+  {
+    "kanji": "過ごす",
+    "reading": "すごす",
+    "meaning": "보내다, 지내다"
+  },
+  {
+    "kanji": "育つ",
+    "reading": "そだつ",
+    "meaning": "자라다"
+  },
+  {
+    "kanji": "倒す",
+    "reading": "たおす",
+    "meaning": "쓰러뜨리다"
+  },
+  {
+    "kanji": "抱く",
+    "reading": "だく",
+    "meaning": "안다, 품다"
+  },
+  {
+    "kanji": "確かめる",
+    "reading": "たしかめる",
+    "meaning": "확인하다"
+  },
+  {
+    "kanji": "助ける",
+    "reading": "たすける",
+    "meaning": "돕다"
+  },
+  {
+    "kanji": "戦う",
+    "reading": "たたかう",
+    "meaning": "싸우다"
+  },
+  {
+    "kanji": "頼む",
+    "reading": "たのむ",
+    "meaning": "부탁하다"
+  },
+  {
+    "kanji": "試す",
+    "reading": "ためす",
+    "meaning": "시험하다"
+  },
+  {
+    "kanji": "繋ぐ",
+    "reading": "つなぐ",
+    "meaning": "연결하다"
+  },
+  {
+    "kanji": "飛ばす",
+    "reading": "とばす",
+    "meaning": "날리다"
+  },
+  {
+    "kanji": "眺める",
+    "reading": "ながめる",
+    "meaning": "바라보다"
+  },
+  {
+    "kanji": "残す",
+    "reading": "のこす",
+    "meaning": "남기다"
+  },
+  {
+    "kanji": "省く",
+    "reading": "はぶく",
+    "meaning": "생략하다"
+  },
+  {
+    "kanji": "流行る",
+    "reading": "はやる",
+    "meaning": "유행하다"
+  },
+  {
+    "kanji": "減る",
+    "reading": "へる",
+    "meaning": "줄다"
+  },
+  {
+    "kanji": "吠える",
+    "reading": "ほえる",
+    "meaning": "짖다"
+  },
+  {
+    "kanji": "掘る",
+    "reading": "ほる",
+    "meaning": "파다"
+  },
+  {
+    "kanji": "曲げる",
+    "reading": "まげる",
+    "meaning": "구부리다"
+  },
+  {
+    "kanji": "混ざる",
+    "reading": "まざる",
+    "meaning": "섞이다"
+  },
+  {
+    "kanji": "守る",
+    "reading": "まもる",
+    "meaning": "지키다"
+  },
+  {
+    "kanji": "迷う",
+    "reading": "まよう",
+    "meaning": "헤매다, 망설이다"
+  },
+  {
+    "kanji": "戻す",
+    "reading": "もどす",
+    "meaning": "되돌리다"
+  },
+  {
+    "kanji": "燃える",
+    "reading": "もえる",
+    "meaning": "타다(불이)"
+  },
+  {
+    "kanji": "雇う",
+    "reading": "やとう",
+    "meaning": "고용하다"
+  },
+  {
+    "kanji": "破る",
+    "reading": "やぶる",
+    "meaning": "찢다, 깨다"
+  },
+  {
+    "kanji": "辞める",
+    "reading": "やめる",
+    "meaning": "그만두다(직장)"
+  },
+  {
+    "kanji": "許す",
+    "reading": "ゆるす",
+    "meaning": "용서하다, 허락하다"
+  },
+  {
+    "kanji": "貧しい",
+    "reading": "まずしい",
+    "meaning": "가난하다"
+  },
+  {
+    "kanji": "眩しい",
+    "reading": "まぶしい",
+    "meaning": "눈부시다"
+  },
+  {
+    "kanji": "青葉",
+    "reading": "あおば",
+    "meaning": "푸른 잎"
+  },
+  {
+    "kanji": "明かり",
+    "reading": "あかり",
+    "meaning": "불빛"
+  },
+  {
+    "kanji": "空き",
+    "reading": "あき",
+    "meaning": "빈자리"
+  },
+  {
+    "kanji": "悪口",
+    "reading": "わるぐち",
+    "meaning": "욕설"
+  },
+  {
+    "kanji": "足跡",
+    "reading": "あしあと",
+    "meaning": "발자국"
+  },
+  {
+    "kanji": "味わう",
+    "reading": "あじわう",
+    "meaning": "맛보다"
+  },
+  {
+    "kanji": "宛名",
+    "reading": "あてな",
+    "meaning": "수신인"
+  },
+  {
+    "kanji": "暴れる",
+    "reading": "あばれる",
+    "meaning": "날뛰다"
+  },
+  {
+    "kanji": "脂",
+    "reading": "あぶら",
+    "meaning": "기름"
+  },
+  {
+    "kanji": "怪しい",
+    "reading": "あやしい",
+    "meaning": "수상하다"
+  },
+  {
+    "kanji": "誤り",
+    "reading": "あやまり",
+    "meaning": "오류"
+  },
+  {
+    "kanji": "粗い",
+    "reading": "あらい",
+    "meaning": "거칠다"
+  },
+  {
+    "kanji": "嵐",
+    "reading": "あらし",
+    "meaning": "폭풍"
+  },
+  {
+    "kanji": "新た",
+    "reading": "あらた",
+    "meaning": "새로움"
+  },
+  {
+    "kanji": "表す",
+    "reading": "あらわす",
+    "meaning": "나타내다"
+  },
+  {
+    "kanji": "現れ",
+    "reading": "あらわれ",
+    "meaning": "나타남"
+  },
+  {
+    "kanji": "慌ただしい",
+    "reading": "あわただしい",
+    "meaning": "분주하다"
+  },
+  {
+    "kanji": "哀れ",
+    "reading": "あわれ",
+    "meaning": "불쌍함"
+  },
+  {
+    "kanji": "案外",
+    "reading": "あんがい",
+    "meaning": "의외로"
+  },
+  {
+    "kanji": "暗記",
+    "reading": "あんき",
+    "meaning": "암기"
+  },
+  {
+    "kanji": "安定",
+    "reading": "あんてい",
+    "meaning": "안정"
+  },
+  {
+    "kanji": "一致",
+    "reading": "いっち",
+    "meaning": "일치"
+  },
+  {
+    "kanji": "一般",
+    "reading": "いっぱん",
+    "meaning": "일반"
+  },
+  {
+    "kanji": "一方",
+    "reading": "いっぽう",
+    "meaning": "한편"
+  },
+  {
+    "kanji": "命",
+    "reading": "いのち",
+    "meaning": "생명"
+  },
+  {
+    "kanji": "違反",
+    "reading": "いはん",
+    "meaning": "위반"
+  },
+  {
+    "kanji": "衣服",
+    "reading": "いふく",
+    "meaning": "의복"
+  },
+  {
+    "kanji": "引退",
+    "reading": "いんたい",
+    "meaning": "은퇴"
+  },
+  {
+    "kanji": "引用",
+    "reading": "いんよう",
+    "meaning": "인용"
+  },
+  {
+    "kanji": "浮く",
+    "reading": "うく",
+    "meaning": "뜨다"
+  },
+  {
+    "kanji": "承る",
+    "reading": "うけたまわる",
+    "meaning": "듣다, 받다"
+  },
+  {
+    "kanji": "失う",
+    "reading": "うしなう",
+    "meaning": "잃다"
+  },
+  {
+    "kanji": "疑い",
+    "reading": "うたがい",
+    "meaning": "의심"
+  },
+  {
+    "kanji": "内側",
+    "reading": "うちがわ",
+    "meaning": "안쪽"
+  },
+  {
+    "kanji": "訴える",
+    "reading": "うったえる",
+    "meaning": "호소하다"
+  },
+  {
+    "kanji": "奪う",
+    "reading": "うばう",
+    "meaning": "빼앗다"
+  },
+  {
+    "kanji": "生まれ",
+    "reading": "うまれ",
+    "meaning": "태생"
+  },
+  {
+    "kanji": "梅",
+    "reading": "うめ",
+    "meaning": "매화"
+  },
+  {
+    "kanji": "裏切る",
+    "reading": "うらぎる",
+    "meaning": "배신하다"
+  },
+  {
+    "kanji": "売上",
+    "reading": "うりあげ",
+    "meaning": "매출"
+  },
+  {
+    "kanji": "売り切れ",
+    "reading": "うりきれ",
+    "meaning": "매진"
+  },
+  {
+    "kanji": "運河",
+    "reading": "うんが",
+    "meaning": "운하"
+  },
+  {
+    "kanji": "衛星",
+    "reading": "えいせい",
+    "meaning": "위성"
+  },
+  {
+    "kanji": "映像",
+    "reading": "えいぞう",
+    "meaning": "영상"
+  },
+  {
+    "kanji": "英雄",
+    "reading": "えいゆう",
+    "meaning": "영웅"
+  },
+  {
+    "kanji": "液体",
+    "reading": "えきたい",
+    "meaning": "액체"
+  },
+  {
+    "kanji": "演技",
+    "reading": "えんぎ",
+    "meaning": "연기"
+  },
+  {
+    "kanji": "援助",
+    "reading": "えんじょ",
+    "meaning": "원조"
+  },
+  {
+    "kanji": "演説",
+    "reading": "えんぜつ",
+    "meaning": "연설"
+  },
+  {
+    "kanji": "追いかける",
+    "reading": "おいかける",
+    "meaning": "뒤쫓다"
+  },
+  {
+    "kanji": "追いつく",
+    "reading": "おいつく",
+    "meaning": "따라잡다"
+  },
+  {
+    "kanji": "応援",
+    "reading": "おうえん",
+    "meaning": "응원"
+  },
+  {
+    "kanji": "往復",
+    "reading": "おうふく",
+    "meaning": "왕복"
+  },
+  {
+    "kanji": "応用",
+    "reading": "おうよう",
+    "meaning": "응용"
+  },
+  {
+    "kanji": "大型",
+    "reading": "おおがた",
+    "meaning": "대형"
+  },
+  {
+    "kanji": "大通り",
+    "reading": "おおどおり",
+    "meaning": "큰길"
+  },
+  {
+    "kanji": "拝む",
+    "reading": "おがむ",
+    "meaning": "절하다"
+  },
+  {
+    "kanji": "補う",
+    "reading": "おぎなう",
+    "meaning": "보충하다"
+  },
+  {
+    "kanji": "奥",
+    "reading": "おく",
+    "meaning": "안쪽"
+  },
+  {
+    "kanji": "穏やか",
+    "reading": "おだやか",
+    "meaning": "온화함"
+  },
+  {
+    "kanji": "衰える",
+    "reading": "おとろえる",
+    "meaning": "쇠퇴하다"
+  },
+  {
+    "kanji": "溺れる",
+    "reading": "おぼれる",
+    "meaning": "빠지다"
+  },
+  {
+    "kanji": "思い込む",
+    "reading": "おもいこむ",
+    "meaning": "믿어버리다"
+  },
+  {
+    "kanji": "思いつく",
+    "reading": "おもいつく",
+    "meaning": "생각나다"
+  },
+  {
+    "kanji": "重たい",
+    "reading": "おもたい",
+    "meaning": "무겁다"
+  },
+  {
+    "kanji": "卸す",
+    "reading": "おろす",
+    "meaning": "도매하다"
+  },
+  {
+    "kanji": "恩恵",
+    "reading": "おんけい",
+    "meaning": "은혜"
+  },
+  {
+    "kanji": "音声",
+    "reading": "おんせい",
+    "meaning": "음성"
+  },
+  {
+    "kanji": "会員",
+    "reading": "かいいん",
+    "meaning": "회원"
+  },
+  {
+    "kanji": "開会",
+    "reading": "かいかい",
+    "meaning": "개회"
+  },
+  {
+    "kanji": "会計",
+    "reading": "かいけい",
+    "meaning": "회계"
+  },
+  {
+    "kanji": "会合",
+    "reading": "かいごう",
+    "meaning": "모임"
+  },
+  {
+    "kanji": "解散",
+    "reading": "かいさん",
+    "meaning": "해산"
+  },
+  {
+    "kanji": "開始",
+    "reading": "かいし",
+    "meaning": "시작"
+  },
+  {
+    "kanji": "解釈",
+    "reading": "かいしゃく",
+    "meaning": "해석"
+  },
+  {
+    "kanji": "外出",
+    "reading": "がいしゅつ",
+    "meaning": "외출"
+  },
+  {
+    "kanji": "解除",
+    "reading": "かいじょ",
+    "meaning": "해제"
+  },
+  {
+    "kanji": "回数",
+    "reading": "かいすう",
+    "meaning": "횟수"
+  },
+  {
+    "kanji": "回復",
+    "reading": "かいふく",
+    "meaning": "회복"
+  },
+  {
+    "kanji": "解放",
+    "reading": "かいほう",
+    "meaning": "해방"
+  },
+  {
+    "kanji": "香り",
+    "reading": "かおり",
+    "meaning": "향기"
+  },
+  {
+    "kanji": "価格",
+    "reading": "かかく",
+    "meaning": "가격"
+  },
+  {
+    "kanji": "抱える",
+    "reading": "かかえる",
+    "meaning": "안다"
+  },
+  {
+    "kanji": "係",
+    "reading": "かかり",
+    "meaning": "담당"
+  },
+  {
+    "kanji": "限る",
+    "reading": "かぎる",
+    "meaning": "제한하다"
+  },
+  {
+    "kanji": "学習",
+    "reading": "がくしゅう",
+    "meaning": "학습"
+  },
+  {
+    "kanji": "拡大",
+    "reading": "かくだい",
+    "meaning": "확대"
+  },
+  {
+    "kanji": "確認",
+    "reading": "かくにん",
+    "meaning": "확인"
+  },
+  {
+    "kanji": "影",
+    "reading": "かげ",
+    "meaning": "그림자"
+  },
+  {
+    "kanji": "加減",
+    "reading": "かげん",
+    "meaning": "정도"
+  },
+  {
+    "kanji": "過去",
+    "reading": "かこ",
+    "meaning": "과거"
+  },
+  {
+    "kanji": "火災",
+    "reading": "かさい",
+    "meaning": "화재"
+  },
+  {
+    "kanji": "賢い",
+    "reading": "かしこい",
+    "meaning": "현명하다"
+  },
+  {
+    "kanji": "稼ぎ",
+    "reading": "かせぎ",
+    "meaning": "벌이"
+  },
+  {
+    "kanji": "数える",
+    "reading": "かぞえる",
+    "meaning": "세다"
+  },
+  {
+    "kanji": "型",
+    "reading": "かた",
+    "meaning": "틀"
+  },
+  {
+    "kanji": "偏る",
+    "reading": "かたよる",
+    "meaning": "치우치다"
+  },
+  {
+    "kanji": "楽器",
+    "reading": "がっき",
+    "meaning": "악기"
+  },
+  {
+    "kanji": "勝手",
+    "reading": "かって",
+    "meaning": "제멋대로"
+  },
+  {
+    "kanji": "活動",
+    "reading": "かつどう",
+    "meaning": "활동"
+  },
+  {
+    "kanji": "可能",
+    "reading": "かのう",
+    "meaning": "가능"
+  },
+  {
+    "kanji": "株",
+    "reading": "かぶ",
+    "meaning": "주식"
+  },
+  {
+    "kanji": "我慢",
+    "reading": "がまん",
+    "meaning": "인내"
+  },
+  {
+    "kanji": "画面",
+    "reading": "がめん",
+    "meaning": "화면"
+  },
+  {
+    "kanji": "皮",
+    "reading": "かわ",
+    "meaning": "껍질"
+  },
+  {
+    "kanji": "環境",
+    "reading": "かんきょう",
+    "meaning": "환경"
+  },
+  {
+    "kanji": "歓迎",
+    "reading": "かんげい",
+    "meaning": "환영"
+  },
+  {
+    "kanji": "感激",
+    "reading": "かんげき",
+    "meaning": "감격"
+  },
+  {
+    "kanji": "観光",
+    "reading": "かんこう",
+    "meaning": "관광"
+  },
+  {
+    "kanji": "観察",
+    "reading": "かんさつ",
+    "meaning": "관찰"
+  },
+  {
+    "kanji": "感謝",
+    "reading": "かんしゃ",
+    "meaning": "감사"
+  },
+  {
+    "kanji": "勘定",
+    "reading": "かんじょう",
+    "meaning": "계산"
+  },
+  {
+    "kanji": "感情",
+    "reading": "かんじょう",
+    "meaning": "감정"
+  },
+  {
+    "kanji": "関心",
+    "reading": "かんしん",
+    "meaning": "관심"
+  },
+  {
+    "kanji": "感心",
+    "reading": "かんしん",
+    "meaning": "감탄"
+  },
+  {
+    "kanji": "完成",
+    "reading": "かんせい",
+    "meaning": "완성"
+  },
+  {
+    "kanji": "完全",
+    "reading": "かんぜん",
+    "meaning": "완전"
+  },
+  {
+    "kanji": "感動",
+    "reading": "かんどう",
+    "meaning": "감동"
+  },
+  {
+    "kanji": "監督",
+    "reading": "かんとく",
+    "meaning": "감독"
+  },
+  {
+    "kanji": "看板",
+    "reading": "かんばん",
+    "meaning": "간판"
+  },
+  {
+    "kanji": "看病",
+    "reading": "かんびょう",
+    "meaning": "간병"
+  },
+  {
+    "kanji": "関連",
+    "reading": "かんれん",
+    "meaning": "관련"
+  },
+  {
+    "kanji": "議員",
+    "reading": "ぎいん",
+    "meaning": "의원"
+  },
+  {
+    "kanji": "期間",
+    "reading": "きかん",
+    "meaning": "기간"
+  },
+  {
+    "kanji": "企業",
+    "reading": "きぎょう",
+    "meaning": "기업"
+  },
+  {
+    "kanji": "気候",
+    "reading": "きこう",
+    "meaning": "기후"
+  },
+  {
+    "kanji": "記号",
+    "reading": "きごう",
+    "meaning": "기호"
+  },
+  {
+    "kanji": "刻む",
+    "reading": "きざむ",
+    "meaning": "새기다"
+  },
+  {
+    "kanji": "儀式",
+    "reading": "ぎしき",
+    "meaning": "의식"
+  },
+  {
+    "kanji": "基準",
+    "reading": "きじゅん",
+    "meaning": "기준"
+  },
+  {
+    "kanji": "起床",
+    "reading": "きしょう",
+    "meaning": "기상"
+  },
+  {
+    "kanji": "貴重",
+    "reading": "きちょう",
+    "meaning": "귀중"
+  },
+  {
+    "kanji": "記入",
+    "reading": "きにゅう",
+    "meaning": "기입"
+  },
+  {
+    "kanji": "記念",
+    "reading": "きねん",
+    "meaning": "기념"
+  },
+  {
+    "kanji": "機能",
+    "reading": "きのう",
+    "meaning": "기능"
+  },
+  {
+    "kanji": "気の毒",
+    "reading": "きのどく",
+    "meaning": "가엾음"
+  },
+  {
+    "kanji": "寄付",
+    "reading": "きふ",
+    "meaning": "기부"
+  },
+  {
+    "kanji": "希望",
+    "reading": "きぼう",
+    "meaning": "희망"
+  },
+  {
+    "kanji": "基本",
+    "reading": "きほん",
+    "meaning": "기본"
+  },
+  {
+    "kanji": "奇妙",
+    "reading": "きみょう",
+    "meaning": "기묘"
+  },
+  {
+    "kanji": "義務",
+    "reading": "ぎむ",
+    "meaning": "의무"
+  },
+  {
+    "kanji": "休憩",
+    "reading": "きゅうけい",
+    "meaning": "휴식"
+  },
+  {
+    "kanji": "急激",
+    "reading": "きゅうげき",
+    "meaning": "급격"
+  },
+  {
+    "kanji": "吸収",
+    "reading": "きゅうしゅう",
+    "meaning": "흡수"
+  },
+  {
+    "kanji": "救助",
+    "reading": "きゅうじょ",
+    "meaning": "구조"
+  },
+  {
+    "kanji": "急速",
+    "reading": "きゅうそく",
+    "meaning": "급속"
+  },
+  {
+    "kanji": "給与",
+    "reading": "きゅうよ",
+    "meaning": "급여"
+  },
+  {
+    "kanji": "清い",
+    "reading": "きよい",
+    "meaning": "맑다"
+  },
+  {
+    "kanji": "器用",
+    "reading": "きよう",
+    "meaning": "재주"
+  },
+  {
+    "kanji": "距離",
+    "reading": "きょり",
+    "meaning": "거리"
+  },
+  {
+    "kanji": "金額",
+    "reading": "きんがく",
+    "meaning": "금액"
+  },
+  {
+    "kanji": "禁止",
+    "reading": "きんし",
+    "meaning": "금지"
+  },
+  {
+    "kanji": "近代",
+    "reading": "きんだい",
+    "meaning": "근대"
+  },
+  {
+    "kanji": "筋肉",
+    "reading": "きんにく",
+    "meaning": "근육"
+  },
+  {
+    "kanji": "金融",
+    "reading": "きんゆう",
+    "meaning": "금융"
+  },
+  {
+    "kanji": "空想",
+    "reading": "くうそう",
+    "meaning": "공상"
+  },
+  {
+    "kanji": "釘",
+    "reading": "くぎ",
+    "meaning": "못"
+  },
+  {
+    "kanji": "区切り",
+    "reading": "くぎり",
+    "meaning": "단락"
+  },
+  {
+    "kanji": "工夫",
+    "reading": "くふう",
+    "meaning": "궁리"
+  },
+  {
+    "kanji": "区分",
+    "reading": "くぶん",
+    "meaning": "구분"
+  },
+  {
+    "kanji": "暮らす",
+    "reading": "くらす",
+    "meaning": "살다"
+  },
+  {
+    "kanji": "繰り返す",
+    "reading": "くりかえす",
+    "meaning": "반복하다"
+  },
+  {
+    "kanji": "狂う",
+    "reading": "くるう",
+    "meaning": "미치다"
+  },
+  {
+    "kanji": "訓練",
+    "reading": "くんれん",
+    "meaning": "훈련"
+  },
+  {
+    "kanji": "血液",
+    "reading": "けつえき",
+    "meaning": "혈액"
+  },
+  {
+    "kanji": "決心",
+    "reading": "けっしん",
+    "meaning": "결심"
+  },
+  {
+    "kanji": "決定",
+    "reading": "けってい",
+    "meaning": "결정"
+  },
+  {
+    "kanji": "欠点",
+    "reading": "けってん",
+    "meaning": "결점"
+  },
+  {
+    "kanji": "現在",
+    "reading": "げんざい",
+    "meaning": "현재"
+  },
+  {
+    "kanji": "建設",
+    "reading": "けんせつ",
+    "meaning": "건설"
+  },
+  {
+    "kanji": "現代",
+    "reading": "げんだい",
+    "meaning": "현대"
+  },
+  {
+    "kanji": "検討",
+    "reading": "けんとう",
+    "meaning": "검토"
+  },
+  {
+    "kanji": "現場",
+    "reading": "げんば",
+    "meaning": "현장"
+  },
+  {
+    "kanji": "憲法",
+    "reading": "けんぽう",
+    "meaning": "헌법"
+  },
+  {
+    "kanji": "権利",
+    "reading": "けんり",
+    "meaning": "권리"
+  },
+  {
+    "kanji": "講演",
+    "reading": "こうえん",
+    "meaning": "강연"
+  },
+  {
+    "kanji": "交換",
+    "reading": "こうかん",
+    "meaning": "교환"
+  },
+  {
+    "kanji": "合計",
+    "reading": "ごうけい",
+    "meaning": "합계"
+  },
+  {
+    "kanji": "攻撃",
+    "reading": "こうげき",
+    "meaning": "공격"
+  },
+  {
+    "kanji": "貢献",
+    "reading": "こうけん",
+    "meaning": "공헌"
+  },
+  {
+    "kanji": "構成",
+    "reading": "こうせい",
+    "meaning": "구성"
+  },
+  {
+    "kanji": "高速",
+    "reading": "こうそく",
+    "meaning": "고속"
+  },
+  {
+    "kanji": "行動",
+    "reading": "こうどう",
+    "meaning": "행동"
+  },
+  {
+    "kanji": "候補",
+    "reading": "こうほ",
+    "meaning": "후보"
+  },
+  {
+    "kanji": "考慮",
+    "reading": "こうりょ",
+    "meaning": "고려"
+  },
+  {
+    "kanji": "誤解",
+    "reading": "ごかい",
+    "meaning": "오해"
+  },
+  {
+    "kanji": "故郷",
+    "reading": "こきょう",
+    "meaning": "고향"
+  },
+  {
+    "kanji": "国籍",
+    "reading": "こくせき",
+    "meaning": "국적"
+  },
+  {
+    "kanji": "個人",
+    "reading": "こじん",
+    "meaning": "개인"
+  },
+  {
+    "kanji": "断る",
+    "reading": "ことわる",
+    "meaning": "거절하다"
+  },
+  {
+    "kanji": "困難",
+    "reading": "こんなん",
+    "meaning": "곤란"
+  },
+  {
+    "kanji": "婚約",
+    "reading": "こんやく",
+    "meaning": "약혼"
+  },
+  {
+    "kanji": "混乱",
+    "reading": "こんらん",
+    "meaning": "혼란"
+  },
+  {
+    "kanji": "際",
+    "reading": "さい",
+    "meaning": "즈음"
+  },
+  {
+    "kanji": "財産",
+    "reading": "ざいさん",
+    "meaning": "재산"
+  },
+  {
+    "kanji": "裁判",
+    "reading": "さいばん",
+    "meaning": "재판"
+  },
+  {
+    "kanji": "材料",
+    "reading": "ざいりょう",
+    "meaning": "재료"
+  },
+  {
+    "kanji": "避ける",
+    "reading": "さける",
+    "meaning": "피하다"
+  },
+  {
+    "kanji": "支える",
+    "reading": "ささえる",
+    "meaning": "지탱하다"
+  },
+  {
+    "kanji": "指す",
+    "reading": "さす",
+    "meaning": "가리키다"
+  },
+  {
+    "kanji": "作法",
+    "reading": "さほう",
+    "meaning": "예법"
+  },
+  {
+    "kanji": "左右",
+    "reading": "さゆう",
+    "meaning": "좌우"
+  },
+  {
+    "kanji": "参考",
+    "reading": "さんこう",
+    "meaning": "참고"
+  },
+  {
+    "kanji": "酸素",
+    "reading": "さんそ",
+    "meaning": "산소"
+  },
+  {
+    "kanji": "支配",
+    "reading": "しはい",
+    "meaning": "지배"
+  },
+  {
+    "kanji": "資本",
+    "reading": "しほん",
+    "meaning": "자본"
+  },
+  {
+    "kanji": "示す",
+    "reading": "しめす",
+    "meaning": "보이다"
+  },
+  {
+    "kanji": "占める",
+    "reading": "しめる",
+    "meaning": "차지하다"
+  },
+  {
+    "kanji": "周囲",
+    "reading": "しゅうい",
+    "meaning": "주위"
+  },
+  {
+    "kanji": "収穫",
+    "reading": "しゅうかく",
+    "meaning": "수확"
+  },
+  {
+    "kanji": "宗教",
+    "reading": "しゅうきょう",
+    "meaning": "종교"
+  },
+  {
+    "kanji": "重視",
+    "reading": "じゅうし",
+    "meaning": "중시"
+  },
+  {
+    "kanji": "重大",
+    "reading": "じゅうだい",
+    "meaning": "중대"
+  },
+  {
+    "kanji": "住宅",
+    "reading": "じゅうたく",
+    "meaning": "주택"
+  },
+  {
+    "kanji": "集団",
+    "reading": "しゅうだん",
+    "meaning": "집단"
+  },
+  {
+    "kanji": "集中",
+    "reading": "しゅうちゅう",
+    "meaning": "집중"
+  },
+  {
+    "kanji": "収入",
+    "reading": "しゅうにゅう",
+    "meaning": "수입"
+  },
+  {
+    "kanji": "住民",
+    "reading": "じゅうみん",
+    "meaning": "주민"
+  },
+  {
+    "kanji": "修理",
+    "reading": "しゅうり",
+    "meaning": "수리"
+  },
+  {
+    "kanji": "主義",
+    "reading": "しゅぎ",
+    "meaning": "주의"
+  },
+  {
+    "kanji": "宿泊",
+    "reading": "しゅくはく",
+    "meaning": "숙박"
+  },
+  {
+    "kanji": "首相",
+    "reading": "しゅしょう",
+    "meaning": "수상"
+  },
+  {
+    "kanji": "手段",
+    "reading": "しゅだん",
+    "meaning": "수단"
+  },
+  {
+    "kanji": "主張",
+    "reading": "しゅちょう",
+    "meaning": "주장"
+  },
+  {
+    "kanji": "出版",
+    "reading": "しゅっぱん",
+    "meaning": "출판"
+  },
+  {
+    "kanji": "瞬間",
+    "reading": "しゅんかん",
+    "meaning": "순간"
+  },
+  {
+    "kanji": "順調",
+    "reading": "じゅんちょう",
+    "meaning": "순조"
+  },
+  {
+    "kanji": "消費",
+    "reading": "しょうひ",
+    "meaning": "소비"
+  },
+  {
+    "kanji": "消防",
+    "reading": "しょうぼう",
+    "meaning": "소방"
+  },
+  {
+    "kanji": "証明",
+    "reading": "しょうめい",
+    "meaning": "증명"
+  },
+  {
+    "kanji": "女王",
+    "reading": "じょおう",
+    "meaning": "여왕"
+  },
+  {
+    "kanji": "職",
+    "reading": "しょく",
+    "meaning": "직"
+  },
+  {
+    "kanji": "書斎",
+    "reading": "しょさい",
+    "meaning": "서재"
+  },
+  {
+    "kanji": "署名",
+    "reading": "しょめい",
+    "meaning": "서명"
+  },
+  {
+    "kanji": "処理",
+    "reading": "しょり",
+    "meaning": "처리"
+  },
+  {
+    "kanji": "書類",
+    "reading": "しょるい",
+    "meaning": "서류"
+  },
+  {
+    "kanji": "神経",
+    "reading": "しんけい",
+    "meaning": "신경"
+  },
+  {
+    "kanji": "信仰",
+    "reading": "しんこう",
+    "meaning": "신앙"
+  },
+  {
+    "kanji": "深刻",
+    "reading": "しんこく",
+    "meaning": "심각"
+  },
+  {
+    "kanji": "診察",
+    "reading": "しんさつ",
+    "meaning": "진찰"
+  },
+  {
+    "kanji": "人種",
+    "reading": "じんしゅ",
+    "meaning": "인종"
+  },
+  {
+    "kanji": "身長",
+    "reading": "しんちょう",
+    "meaning": "신장"
+  },
+  {
+    "kanji": "慎重",
+    "reading": "しんちょう",
+    "meaning": "신중"
+  },
+  {
+    "kanji": "審判",
+    "reading": "しんぱん",
+    "meaning": "심판"
+  },
+  {
+    "kanji": "進歩",
+    "reading": "しんぽ",
+    "meaning": "진보"
+  },
+  {
+    "kanji": "信頼",
+    "reading": "しんらい",
+    "meaning": "신뢰"
+  },
+  {
+    "kanji": "心理",
+    "reading": "しんり",
+    "meaning": "심리"
+  },
+  {
+    "kanji": "人類",
+    "reading": "じんるい",
+    "meaning": "인류"
+  },
+  {
+    "kanji": "水準",
+    "reading": "すいじゅん",
+    "meaning": "수준"
+  },
+  {
+    "kanji": "数字",
+    "reading": "すうじ",
+    "meaning": "숫자"
+  },
+  {
+    "kanji": "姿",
+    "reading": "すがた",
+    "meaning": "모습"
+  },
+  {
+    "kanji": "勧める",
+    "reading": "すすめる",
+    "meaning": "권하다"
+  },
+  {
+    "kanji": "頭痛",
+    "reading": "ずつう",
+    "meaning": "두통"
+  },
+  {
+    "kanji": "鋭い",
+    "reading": "するどい",
+    "meaning": "날카롭다"
+  },
+  {
+    "kanji": "請求",
+    "reading": "せいきゅう",
+    "meaning": "청구"
+  },
+  {
+    "kanji": "清潔",
+    "reading": "せいけつ",
+    "meaning": "청결"
+  },
+  {
+    "kanji": "正式",
+    "reading": "せいしき",
+    "meaning": "정식"
+  },
+  {
+    "kanji": "精神",
+    "reading": "せいしん",
+    "meaning": "정신"
+  },
+  {
+    "kanji": "成人",
+    "reading": "せいじん",
+    "meaning": "성인"
+  },
+  {
+    "kanji": "成績",
+    "reading": "せいせき",
+    "meaning": "성적"
+  },
+  {
+    "kanji": "製造",
+    "reading": "せいぞう",
+    "meaning": "제조"
+  },
+  {
+    "kanji": "贅沢",
+    "reading": "ぜいたく",
+    "meaning": "사치"
+  },
+  {
+    "kanji": "整理",
+    "reading": "せいり",
+    "meaning": "정리"
+  },
+  {
+    "kanji": "石油",
+    "reading": "せきゆ",
+    "meaning": "석유"
+  },
+  {
+    "kanji": "世間",
+    "reading": "せけん",
+    "meaning": "세상"
+  },
+  {
+    "kanji": "積極的",
+    "reading": "せっきょくてき",
+    "meaning": "적극적"
+  },
+  {
+    "kanji": "設計",
+    "reading": "せっけい",
+    "meaning": "설계"
+  },
+  {
+    "kanji": "絶対",
+    "reading": "ぜったい",
+    "meaning": "절대"
+  },
+  {
+    "kanji": "絶望",
+    "reading": "ぜつぼう",
+    "meaning": "절망"
+  },
+  {
+    "kanji": "全員",
+    "reading": "ぜんいん",
+    "meaning": "전원"
+  },
+  {
+    "kanji": "専攻",
+    "reading": "せんこう",
+    "meaning": "전공"
+  },
+  {
+    "kanji": "前進",
+    "reading": "ぜんしん",
+    "meaning": "전진"
+  },
+  {
+    "kanji": "増加",
+    "reading": "ぞうか",
+    "meaning": "증가"
+  },
+  {
+    "kanji": "操作",
+    "reading": "そうさ",
+    "meaning": "조작"
+  },
+  {
+    "kanji": "相続",
+    "reading": "そうぞく",
+    "meaning": "상속"
+  },
+  {
+    "kanji": "相当",
+    "reading": "そうとう",
+    "meaning": "상당"
+  },
+  {
+    "kanji": "組織",
+    "reading": "そしき",
+    "meaning": "조직"
+  },
+  {
+    "kanji": "備える",
+    "reading": "そなえる",
+    "meaning": "대비하다"
+  },
+  {
+    "kanji": "損害",
+    "reading": "そんがい",
+    "meaning": "손해"
+  },
+  {
+    "kanji": "尊重",
+    "reading": "そんちょう",
+    "meaning": "존중"
+  },
+  {
+    "kanji": "普及",
+    "reading": "ふきゅう",
+    "meaning": "보급"
+  },
+  {
+    "kanji": "常に",
+    "reading": "つねに",
+    "meaning": "항상"
+  },
+  {
+    "kanji": "次第",
+    "reading": "しだい",
+    "meaning": "~에 따라, 순서"
+  },
+  {
+    "kanji": "蓄える",
+    "reading": "たくわえる",
+    "meaning": "저장하다, (수염을) 기르다"
+  },
+  {
+    "kanji": "逆",
+    "reading": "ぎゃく",
+    "meaning": "거꾸로, 반대"
+  },
+  {
+    "kanji": "担当",
+    "reading": "たんとう",
+    "meaning": "담당"
+  },
+  {
+    "kanji": "結局",
+    "reading": "けっきょく",
+    "meaning": "결국"
+  }
+]
