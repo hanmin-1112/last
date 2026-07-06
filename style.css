@@ -1292,3 +1292,63 @@ button {
         padding: 4px 7px;
     }
 }
+
+
+.confirm-card {
+    max-width: 380px !important;
+    padding: 34px 26px !important;
+}
+
+.confirm-title {
+    margin: 0 0 8px;
+    color: #1d1d1f;
+    font-size: 1.28rem;
+    font-weight: 760;
+    line-height: 1.35;
+}
+
+.confirm-copy {
+    margin: 0 0 24px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.55;
+}
+
+.confirm-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.confirm-btn {
+    min-height: 46px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    font-size: 0.98rem;
+    font-weight: 720;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.confirm-btn-secondary {
+    background: #f5f5f7;
+    color: #1d1d1f;
+}
+
+.confirm-btn-primary {
+    background: #1d1d1f;
+    border-color: #1d1d1f;
+    color: #fff;
+}
+
+@media (hover: hover) {
+    .confirm-btn-secondary:hover {
+        background: #ececf1;
+    }
+
+    .confirm-btn-primary:hover {
+        background: #000;
+        border-color: #000;
+    }
+}
